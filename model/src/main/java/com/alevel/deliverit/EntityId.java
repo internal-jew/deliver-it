@@ -1,7 +1,8 @@
 package com.alevel.deliverit;
 
 /**
- * Hello world!
+ *
+ * @param <T>
  */
 public abstract class EntityId<T> {
     private final T value;

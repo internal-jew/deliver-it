@@ -1,8 +1,8 @@
 package com.alevel.deliverit;
 
-public class TrackNumber extends EntityId{
+public class TrackNumber extends EntityId<TrackNumberId>{
 
-    protected TrackNumber(Object value) {
+    protected TrackNumber(TrackNumberId value) {
         super(value);
     }
 }

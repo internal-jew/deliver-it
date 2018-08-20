@@ -1,5 +1,10 @@
 package com.alevel.deliverit;
 
+/**
+ *
+ * @param <I>
+ */
+
 public abstract class Entity<I extends EntityId> {
     private final I id;
 
@@ -7,7 +12,7 @@ public abstract class Entity<I extends EntityId> {
         this.id = id;
     }
 
-    public String getSimpleName() {
-        return this.getClass().getSimpleName();
+    public String getName() {
+        return getClass().getSimpleName();
     }
 }

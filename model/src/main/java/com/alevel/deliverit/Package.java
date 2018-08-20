@@ -1,9 +1,10 @@
 package com.alevel.deliverit;
 
-public class Package {
+public class Package extends Entity<WeightId>{
     private final Weight weight;
 
-    public Package(Weight weight) {
+    protected Package(WeightId id, Weight weight) {
+        super(id);
         this.weight = weight;
     }
 }
