@@ -1,8 +1,8 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.entity;
 
 /**
- *
- * @param <I>
+ * Базовый класс определяющий поведение классов сущностей,
+ * учавствующих в процессе трекинга
  */
 
 public abstract class Entity<I extends EntityId> {

@@ -1,8 +1,8 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.entity;
 
 /**
+ * Базовый класс определяющий поведение классов хранилих информации о сущностях.
  *
- * @param <T>
  */
 public abstract class EntityId<T> {
     private final T value;
