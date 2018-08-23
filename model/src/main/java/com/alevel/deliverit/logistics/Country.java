@@ -1,6 +1,7 @@
 package com.alevel.deliverit.logistics;
-/*
-Класс хранящий в себе данные о стране
+
+/**
+ * Класс хранящий в себе данные о стране
  */
 public class Country {
     private final String country;

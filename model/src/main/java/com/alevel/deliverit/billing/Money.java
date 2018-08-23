@@ -1,8 +1,7 @@
 package com.alevel.deliverit.billing;
 
-/*
+/**
  *
- *@author Vadym Mitin
  */
 
 import java.util.Currency;

@@ -1,6 +1,8 @@
 package com.alevel.deliverit.logistics;
 
-
+/**
+ *
+ */
 public class PostalAddress {
     private final Country country;
     private final String address;

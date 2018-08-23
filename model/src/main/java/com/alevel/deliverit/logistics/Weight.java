@@ -1,5 +1,8 @@
 package com.alevel.deliverit.logistics;
 
+/**
+ *
+ */
 public class Weight {
     private final WeightUnit unit;
     private final double value;

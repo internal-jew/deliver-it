@@ -3,6 +3,9 @@ package com.alevel.deliverit.customers;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 
+/**
+ *
+ */
 public class SenderProfile {
     private final Name name;
     private final PostalAddress address;
