@@ -1,4 +1,4 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.logistics.fsm;
 
 /**
  * Hello world!
