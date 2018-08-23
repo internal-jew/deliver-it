@@ -1,7 +1,7 @@
 package com.alevel.deliverit.logistics;
 
 /**
- *
+ * @author Vadym Mitin
  */
 public class PostalAddress {
     private final Country country;

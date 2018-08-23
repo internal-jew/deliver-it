@@ -1,11 +1,10 @@
 package com.alevel.deliverit.billing;
 
-/**
- *
- */
-
 import java.util.Currency;
 
+/**
+ * @author Vadym Mitin
+ */
 public class Money {
     private final int value;
     private final Currency currency;

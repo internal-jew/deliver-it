@@ -4,7 +4,7 @@ import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 
 /**
- *
+ * @author Vadym Mitin
  */
 public class SenderProfile {
     private final Name name;

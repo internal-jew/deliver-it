@@ -5,7 +5,7 @@ import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.entity.Entity;
 
 /**
- *
+ * @author Vadym Mitin
  */
 public class Parcel extends Entity<ParcelId> {
     private final Weight weight;

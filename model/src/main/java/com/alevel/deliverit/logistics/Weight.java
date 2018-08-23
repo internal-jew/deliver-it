@@ -1,7 +1,7 @@
 package com.alevel.deliverit.logistics;
 
 /**
- *
+ * @author Vadym Mitin
  */
 public class Weight {
     private final WeightUnit unit;
@@ -15,9 +15,9 @@ public class Weight {
         return value;
     }
 
-    protected Weight(double weight, WeightUnit unit){
-            this.value = weight;
-            this.unit = unit;
+    protected Weight(double weight, WeightUnit unit) {
+        this.value = weight;
+        this.unit = unit;
     }
 
     private static boolean isWeight(double weight) {

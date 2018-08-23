@@ -3,8 +3,9 @@ package com.alevel.deliverit.entity;
 /**
  * Базовый класс определяющий поведение классов сущностей,
  * учавствующих в процессе трекинга
+ *
+ * @author Vadym Mitin
  */
-
 public abstract class Entity<I extends EntityId> {
     private final I id;
 
