@@ -13,5 +13,3 @@ public enum State {
     LOST,
     DEPARTED
 }
-
-

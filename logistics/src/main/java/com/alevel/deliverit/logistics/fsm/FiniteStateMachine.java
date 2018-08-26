@@ -15,40 +15,34 @@ import static com.alevel.deliverit.logistics.fsm.State.*;
 
 
 public class FiniteStateMachine {
-    private static State currentState = START;
+    private State currentState;
     private final ImmutableMap<State, Set<State>> routeMap;
     private final CommandFactory commandFactory;
 
-    public FiniteStateMachine(CommandFactory commandFactory, Map<State, Set<State>> routeMap) {
+    public FiniteStateMachine(CommandFactory commandFactory, Map<State, Set<State>> routeMap, State startState) {
         this.commandFactory = commandFactory;
         this.routeMap = ImmutableMap.copyOf(routeMap);
+        this.currentState = startState;
     }
 
-    public void start(Context context) throws CommandIsNotExists {
+    public void start(Context context) {
         while (!isTerminalState()) {
             ImmutableSet<State> transitionStates = (ImmutableSet<State>) routeMap.get(currentState);
             for (State state : transitionStates) {
                 Optional<Command> command = commandFactory.getCommand(state, context);
                 if (command.isPresent()) {
                     CommandExecutor.execute(command.get(), context);
-                    switchCurrentState(state);
-                } else {
-                    throw new CommandIsNotExists();
+                    switchState(state);
                 }
             }
-//            System.out.println("!!! CURRENT STATE :" + currentState.toString() + " !!!!!!");
         }
     }
 
-    private void switchCurrentState(State state) {
+    private void switchState(State state) {
         currentState = state;
     }
 
-    private static boolean isTerminalState() {
-        if ((currentState == TERMINAL) || (currentState == DEPARTED) || (currentState == LOST)) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean isTerminalState() {
+        return (currentState == TERMINAL) || (currentState == DEPARTED) || (currentState == LOST);
     }
 }
