@@ -19,14 +19,12 @@ class ParcelReceptionTest {
     @Test
     @DisplayName("Receiving a package from the sender")
     void accept() {
-        PostalAddress destination = Given.givenPostalAddress();
         Parcel parcel = Given.givenParcel();
         Sender sender = Given.givenSender();
 
         final ParcelReception packageReception = ParcelReception
                 .builder()
                 .setParcel(parcel)
-                .setDestination(destination)
                 .setSender(sender)
                 .build();
 

@@ -17,7 +17,6 @@ import static com.google.common.base.Preconditions.*;
 public class ParcelReception {
     private Parcel parcel;
     private Sender sender;
-    private PostalAddress destination;
 
     private EstimatedPriceCalculator estimatedPriceCalculator;
     private DeliveryTime deliveryTime;
@@ -33,8 +32,8 @@ public class ParcelReception {
      * @return {@link ParcelReceipt package receipt}
      */
     public ParcelReceipt accept() {
-        Money price = estimatedPriceCalculator.calculate(parcel, sender, destination);
-        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender, destination);
+        Money price = estimatedPriceCalculator.calculate(parcel, sender);
+        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender);
         TrackNumber trackNumber = trackNumbers.issue(parcel);
 
         return ParcelReceipt
@@ -46,10 +45,9 @@ public class ParcelReception {
                 .build();
     }
 
-    private ParcelReception(Parcel parcel, Sender sender, PostalAddress destination) {
+    private ParcelReception(Parcel parcel, Sender sender) {
         this.parcel = parcel;
         this.sender = sender;
-        this.destination = destination;
     }
 
     @VisibleForTesting
@@ -70,7 +68,6 @@ public class ParcelReception {
     public static class Builder {
         private Parcel parcel;
         private Sender sender;
-        private PostalAddress destination;
 
         private Builder() {
         }
@@ -85,17 +82,11 @@ public class ParcelReception {
             return this;
         }
 
-        public Builder setDestination(PostalAddress destination) {
-            this.destination = destination;
-            return this;
-        }
-
         public ParcelReception build() {
             checkNotNull(parcel);
             checkNotNull(sender);
-            checkNotNull(destination);
 
-            return new ParcelReception(parcel, sender, destination);
+            return new ParcelReception(parcel, sender);
         }
     }
 
