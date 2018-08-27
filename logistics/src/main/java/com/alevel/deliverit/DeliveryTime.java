@@ -5,6 +5,9 @@ import com.alevel.deliverit.customers.Sender;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.PostalAddress;
 
+/**
+ * @author Sergey Bogovesov
+ */
 public class DeliveryTime {
 
     public EstimatedDeliveryTime estimate(Parcel parcel, Sender sender, PostalAddress destination) {

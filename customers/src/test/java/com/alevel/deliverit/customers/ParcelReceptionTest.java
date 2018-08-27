@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-@DisplayName("PackageReception should")
-class PackageReceptionTest {
+@DisplayName("ParcelReception should")
+class ParcelReceptionTest {
 
     @Test
     @DisplayName("Receiving a package from the sender")
@@ -20,7 +20,7 @@ class PackageReceptionTest {
         Parcel parcel = Given.givenParcel();
         Sender sender = Given.givenSender();
 
-        final PackageReception packageReception = PackageReception
+        final ParcelReception packageReception = ParcelReception
                 .builder()
                 .setParcel(parcel)
                 .setDestination(destination)
@@ -31,9 +31,9 @@ class PackageReceptionTest {
         packageReception.setEstimatedPriceCalculator(getEstimatedPriceCalculator());
         packageReception.setTrackNumbers(getTrackNumbers());
 
-        PackageReceipt packageReceipt = packageReception.accept();
+        ParcelReceipt parcelReceipt = packageReception.accept();
 
-        assertEquals(packageReceipt.getParcel(), parcel);
+        assertEquals(parcelReceipt.getParcel(), parcel);
         //TODO https://github.com/internal-jew/deliver-it/issues/14
     }
 

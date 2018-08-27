@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.*;
  *
  * @author Sergey Bogovesov
  */
-public class PackageReception {
+public class ParcelReception {
     private Parcel parcel;
     private Sender sender;
     private PostalAddress destination;
@@ -30,14 +30,14 @@ public class PackageReception {
     /**
      * Implements the scenarios of package reception from a sender.
      *
-     * @return {@link PackageReceipt package receipt}
+     * @return {@link ParcelReceipt package receipt}
      */
-    public PackageReceipt accept() {
+    public ParcelReceipt accept() {
         Money price = estimatedPriceCalculator.calculate(parcel, sender, destination);
         EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender, destination);
         TrackNumber trackNumber = trackNumbers.issue(parcel);
 
-        return PackageReceipt
+        return ParcelReceipt
                 .builder()
                 .setParcel(parcel)
                 .setDeliveryTime(estimatedDeliveryTime)
@@ -46,7 +46,7 @@ public class PackageReception {
                 .build();
     }
 
-    private PackageReception(Parcel parcel, Sender sender, PostalAddress destination) {
+    private ParcelReception(Parcel parcel, Sender sender, PostalAddress destination) {
         this.parcel = parcel;
         this.sender = sender;
         this.destination = destination;
@@ -90,12 +90,12 @@ public class PackageReception {
             return this;
         }
 
-        public PackageReception build() {
+        public ParcelReception build() {
             checkNotNull(parcel);
             checkNotNull(sender);
             checkNotNull(destination);
 
-            return new PackageReception(parcel, sender, destination);
+            return new ParcelReception(parcel, sender, destination);
         }
     }
 

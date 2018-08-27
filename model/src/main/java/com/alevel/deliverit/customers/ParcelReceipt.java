@@ -6,13 +6,16 @@ import com.alevel.deliverit.logistics.TrackNumber;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class PackageReceipt {
+/**
+ * @author Sergey Bogovesov
+ */
+public class ParcelReceipt {
     private Money price;
     private Parcel parcel;
     private EstimatedDeliveryTime deliveryTime;
     private TrackNumber trackNumber;
 
-    public PackageReceipt(Parcel parcel, Money price, EstimatedDeliveryTime deliveryTime, TrackNumber trackNumber) {
+    public ParcelReceipt(Parcel parcel, Money price, EstimatedDeliveryTime deliveryTime, TrackNumber trackNumber) {
         this.price = price;
         this.parcel = parcel;
         this.deliveryTime = deliveryTime;
@@ -65,13 +68,13 @@ public class PackageReceipt {
             return this;
         }
 
-        public PackageReceipt build() {
+        public ParcelReceipt build() {
             checkNotNull(parcel);
             checkNotNull(price);
             checkNotNull(deliveryTime);
             checkNotNull(trackNumber);
 
-            return new PackageReceipt(parcel, price, deliveryTime, trackNumber);
+            return new ParcelReceipt(parcel, price, deliveryTime, trackNumber);
         }
     }
 }
