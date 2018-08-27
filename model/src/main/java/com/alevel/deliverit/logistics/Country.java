@@ -7,11 +7,10 @@ package com.alevel.deliverit.logistics;
  */
 public class Country {
     private final String country;
-    private final String countryCode;
+    private String countryCode;
 
-    public Country(String country, String countryCode) {
+    public Country(String country ) {
         this.country = country;
-        this.countryCode = countryCode;
     }
 
     public String getCountry() {
