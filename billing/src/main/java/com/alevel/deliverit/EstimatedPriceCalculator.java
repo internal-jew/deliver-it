@@ -6,8 +6,10 @@ import com.alevel.deliverit.customers.Sender;
 import com.alevel.deliverit.logistics.PostalAddress;
 
 public class EstimatedPriceCalculator {
+
     public Money calculate(Parcel parcel, Sender sender, PostalAddress destination) {
-        System.out.println("Money is null");
+        // TODO https://github.com/internal-jew/deliver-it/issues/11
+        System.out.println("`EstimatePriceCalculator.calculate` is not yet implemented");
         return null;
     }
 }

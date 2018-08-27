@@ -5,7 +5,7 @@ import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
 
-public class GivenJava {
+public class Given {
 
     public static Country givenCountry() {
         return new Country("Ukraine", "UA");
@@ -42,6 +42,4 @@ public class GivenJava {
     public static Sender givenSender() {
         return new Sender(givenSenderId(), givenSenderProfile());
     }
-
-
 }

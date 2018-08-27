@@ -6,7 +6,8 @@ import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.TrackNumber;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
+
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Implements of package reception from a sender.
@@ -90,9 +91,9 @@ public class PackageReception {
         }
 
         public PackageReception build() {
-            Preconditions.checkNotNull(parcel);
-            Preconditions.checkNotNull(sender);
-            Preconditions.checkNotNull(destination);
+            checkNotNull(parcel);
+            checkNotNull(sender);
+            checkNotNull(destination);
 
             return new PackageReception(parcel, sender, destination);
         }

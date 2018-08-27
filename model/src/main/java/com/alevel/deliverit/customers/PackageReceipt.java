@@ -3,7 +3,8 @@ package com.alevel.deliverit.customers;
 import com.alevel.deliverit.billing.Money;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.TrackNumber;
-import com.google.common.base.Preconditions;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class PackageReceipt {
     private Money price;
@@ -65,10 +66,10 @@ public class PackageReceipt {
         }
 
         public PackageReceipt build() {
-            Preconditions.checkNotNull(parcel);
-            Preconditions.checkNotNull(price);
-            Preconditions.checkNotNull(deliveryTime);
-            Preconditions.checkNotNull(trackNumber);
+            checkNotNull(parcel);
+            checkNotNull(price);
+            checkNotNull(deliveryTime);
+            checkNotNull(trackNumber);
 
             return new PackageReceipt(parcel, price, deliveryTime, trackNumber);
         }

@@ -4,11 +4,10 @@ import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
 import com.alevel.deliverit.TrackNumbers;
 import com.alevel.deliverit.logistics.PostalAddress;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 @DisplayName("PackageReception should")
@@ -17,9 +16,9 @@ class PackageReceptionTest {
     @Test
     @DisplayName("Receiving a package from the sender")
     void accept() {
-        PostalAddress destination = GivenJava.givenPostalAddress();
-        Parcel parcel = GivenJava.givenParcel();
-        Sender sender = GivenJava.givenSender();
+        PostalAddress destination = Given.givenPostalAddress();
+        Parcel parcel = Given.givenParcel();
+        Sender sender = Given.givenSender();
 
         final PackageReception packageReception = PackageReception
                 .builder()
@@ -34,8 +33,8 @@ class PackageReceptionTest {
 
         PackageReceipt packageReceipt = packageReception.accept();
 
-        Assertions.assertEquals(packageReceipt.getParcel(), parcel);
-        //TODO write a few tests for check the price, track number, delivery time
+        assertEquals(packageReceipt.getParcel(), parcel);
+        //TODO https://github.com/internal-jew/deliver-it/issues/14
     }
 
     public DeliveryTime getDeliveryTime(){
@@ -49,5 +48,4 @@ class PackageReceptionTest {
     public TrackNumbers getTrackNumbers(){
         return mock(TrackNumbers.class);
     }
-
 }
