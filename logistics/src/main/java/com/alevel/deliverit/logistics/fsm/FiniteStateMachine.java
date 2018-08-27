@@ -6,7 +6,6 @@ package com.alevel.deliverit.logistics.fsm;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +26,7 @@ public class FiniteStateMachine {
 
     public void start(Context context) {
         while (!isTerminalState()) {
-            ImmutableSet<State> transitionStates = (ImmutableSet<State>) routeMap.get(currentState);
+            Set<State> transitionStates = routeMap.get(currentState);
             for (State state : transitionStates) {
                 Optional<Command> command = commandFactory.getCommand(state, context);
                 if (command.isPresent()) {
