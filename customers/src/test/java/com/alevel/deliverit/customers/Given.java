@@ -5,6 +5,9 @@ import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
 
+/**
+ * @author Sergey Bogovesov
+ */
 public class Given {
 
     public static Country givenCountry() {
