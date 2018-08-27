@@ -1,81 +1,101 @@
 package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.*;
-import com.alevel.deliverit.Package;
+import com.alevel.deliverit.billing.Money;
+import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
+import com.alevel.deliverit.logistics.PostalAddress;
+import com.alevel.deliverit.logistics.TrackNumber;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 
 /**
- * Implements of package reception from a sender
+ * Implements of package reception from a sender.
  *
- * @author Bogovesov Sergey
+ * @author Sergey Bogovesov
  */
 public class PackageReception {
-    private Package aPackage;
+    private Parcel parcel;
     private Sender sender;
-    private PostalAddress postalAddress;
+    private PostalAddress destination;
+
+    private EstimatedPriceCalculator estimatedPriceCalculator;
+    private DeliveryTime deliveryTime;
+    private TrackNumbers trackNumbers;
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
     /**
-     * Implements the scenarios of package reception from a sender
+     * Implements the scenarios of package reception from a sender.
      *
-     * @return Value object PackageReceipt which contains all information about the package
+     * @return {@link PackageReceipt package receipt}
      */
     public PackageReceipt accept() {
-        Money price = Billing.calcEstimatePrice(aPackage, postalAddress);
-        EstimatedDeliveryTime deliveryTime = Logistics.calcEstimatedDeliveryTime(postalAddress);
-        TrackNumber trackNumber = Logistics.buildTrackNumber(aPackage);
+        Money price = estimatedPriceCalculator.calculate(parcel, sender, destination);
+        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender, destination);
+        TrackNumber trackNumber = trackNumbers.issue(parcel);
 
         return PackageReceipt
                 .builder()
-                .setPackage(aPackage)
-                .setDeliveryTime(deliveryTime)
+                .setParcel(parcel)
+                .setDeliveryTime(estimatedDeliveryTime)
                 .setPrice(price)
                 .setTrackNumber(trackNumber)
                 .build();
     }
 
-    private PackageReception() {
-    }
-
-    private PackageReception(Package aPackage, Sender sender, PostalAddress postalAddress) {
-        this.aPackage = aPackage;
+    private PackageReception(Parcel parcel, Sender sender, PostalAddress destination) {
+        this.parcel = parcel;
         this.sender = sender;
-        this.postalAddress = postalAddress;
+        this.destination = destination;
     }
 
-    public static Builder builder() {
-        return new PackageReception().new Builder();
+    @VisibleForTesting
+    public void setEstimatedPriceCalculator(EstimatedPriceCalculator estimatedPriceCalculator) {
+        this.estimatedPriceCalculator = estimatedPriceCalculator;
     }
 
-    public class Builder {
+    @VisibleForTesting
+    public void setDeliveryTime(DeliveryTime deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    @VisibleForTesting
+    public void setTrackNumbers(TrackNumbers trackNumbers) {
+        this.trackNumbers = trackNumbers;
+    }
+
+    public static class Builder {
+        private Parcel parcel;
+        private Sender sender;
+        private PostalAddress destination;
 
         private Builder() {
         }
 
-        public Builder setPackage(Package aPackage) {
-            PackageReception.this.aPackage = aPackage;
+        public Builder setParcel(Parcel parcel) {
+            this.parcel = parcel;
             return this;
         }
 
         public Builder setSender(Sender sender) {
-            PackageReception.this.sender = sender;
+            this.sender = sender;
             return this;
         }
 
-        public Builder setPostalAddress(PostalAddress postalAddress) {
-            PackageReception.this.postalAddress = postalAddress;
+        public Builder setDestination(PostalAddress destination) {
+            this.destination = destination;
             return this;
         }
 
         public PackageReception build() {
-            if (aPackage == null) {
-                throw new IllegalArgumentException("Package cant be null!");
-            }
-            if (sender == null) {
-                throw new IllegalArgumentException("Sender cant be null!");
-            }
-            if (postalAddress == null) {
-                throw new IllegalArgumentException("Postal address cant be null!");
-            }
-            return new PackageReception(aPackage, sender, postalAddress);
+            Preconditions.checkNotNull(parcel);
+            Preconditions.checkNotNull(sender);
+            Preconditions.checkNotNull(destination);
+
+            return new PackageReception(parcel, sender, destination);
         }
     }
+
 }

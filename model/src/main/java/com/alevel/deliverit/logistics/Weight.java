@@ -15,7 +15,7 @@ public class Weight {
         return value;
     }
 
-    protected Weight(double weight, WeightUnit unit) {
+    public Weight(double weight, WeightUnit unit) {
         this.value = weight;
         this.unit = unit;
     }
