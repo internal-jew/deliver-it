@@ -1,9 +1,9 @@
 package com.alevel.deliverit;
 
 public class ModuleAPI {
-    private final BuisenesLogickService buisenesLogickService;
+    private final BusinessLogicService businessLogicService;
 
-    public ModuleAPI(BuisenesLogickService buisenesLogickService) {
-        this.buisenesLogickService = buisenesLogickService;
+    public ModuleAPI(BusinessLogicService businessLogicService) {
+        this.businessLogicService = businessLogicService;
     }
 }
