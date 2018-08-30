@@ -1,10 +1,11 @@
 package com.alevel.deliverit.logistics;
 
-import java.security.InvalidParameterException;
-import java.util.Objects;
-import java.util.stream.Stream;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
+ * Класс реализующий международный стандарт заполнения почтового адреса
+ * http://www.bitboost.com/ref/international-address-formats.html#Formats
+ * 
  * @author Vadym Mitin
  */
 public class PostalAddress {
@@ -18,15 +19,18 @@ public class PostalAddress {
     private final Country country;
 
     private PostalAddress(Builder builder) {
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
-        this.houseNumber = builder.houseNumber;
-        this.street = builder.street;
-        this.apartmentNumber = builder.apartmentNumber;
-        this.city = builder.city;
-        this.postalCode = builder.postalCode;
+        this.firstName = builder.firstName.toUpperCase();
+        this.lastName = builder.lastName.toUpperCase();
+        this.houseNumber = builder.houseNumber.toUpperCase();
+        this.street = builder.street.toUpperCase();
+        this.apartmentNumber = builder.apartmentNumber.toUpperCase();
+        this.city = builder.city.toUpperCase();
+        this.postalCode = builder.postalCode.toUpperCase();
         this.country = builder.country;
+    }
 
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Country getCountry() {
@@ -134,10 +138,16 @@ public class PostalAddress {
         }
 
         public PostalAddress build() {
-            if (Stream.of(firstName, lastName, houseNumber, street, apartmentNumber, city, postalCode, country)
-                    .allMatch(Objects::nonNull)) {
-                return new PostalAddress(this);
-            }else throw new InvalidParameterException("some parameters lost");
+            checkNotNull(firstName);
+            checkNotNull(lastName);
+            checkNotNull(houseNumber);
+            checkNotNull(street);
+            checkNotNull(apartmentNumber);
+            checkNotNull(city);
+            checkNotNull(postalCode);
+            checkNotNull(country);
+
+            return new PostalAddress(this);
         }
     }
 }

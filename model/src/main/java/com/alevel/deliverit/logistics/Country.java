@@ -1,7 +1,7 @@
 package com.alevel.deliverit.logistics;
 
 /**
- * Класс хранящий в себе данные о стране
+ * Класс обертка, хранящий в себе данные о стране.
  *
  * @author Vadym Mitin
  */
@@ -10,7 +10,12 @@ public class Country {
     private String countryCode;
 
     public Country(String country ) {
-        this.country = country;
+        this.country = country.toUpperCase();
+    }
+
+    public Country(String country, String countryCode) {
+        this.country = country.toUpperCase();
+        this.countryCode = countryCode.toUpperCase();
     }
 
     public String getCountry() {
