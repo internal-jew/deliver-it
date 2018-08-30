@@ -20,6 +20,7 @@
       <module name="billing" target="1.8" />
       <module name="configuration" target="1.8" />
       <module name="customers" target="1.8" />
+      <module name="deliver-it" target="1.8" />
       <module name="destruction" target="1.8" />
       <module name="logistics" target="1.8" />
       <module name="model" target="1.8" />
