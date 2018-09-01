@@ -11,7 +11,7 @@ public class Parcel extends Entity<ParcelId> {
     private final Weight weight;
     private final PostalAddress deliveryAddress;
 
-    protected Parcel(ParcelId id, Weight weight, PostalAddress deliveryAddress) {
+    public Parcel(ParcelId id, Weight weight, PostalAddress deliveryAddress) {
         super(id);
         this.weight = weight;
         this.deliveryAddress = deliveryAddress;
