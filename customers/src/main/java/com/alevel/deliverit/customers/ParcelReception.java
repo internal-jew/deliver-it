@@ -1,13 +1,14 @@
 package com.alevel.deliverit.customers;
 
-import com.alevel.deliverit.*;
+import com.alevel.deliverit.DeliveryTime;
+import com.alevel.deliverit.EstimatedPriceCalculator;
+import com.alevel.deliverit.TrackNumbers;
 import com.alevel.deliverit.billing.Money;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
-import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.TrackNumber;
 import com.google.common.annotations.VisibleForTesting;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implements of package reception from a sender.

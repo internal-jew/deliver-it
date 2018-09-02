@@ -1,12 +1,12 @@
 package com.alevel.deliverit.postal.network;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Sergey Bogovesov
  */
 public class PostalNetwork {
+
     private Set<PostalUnit> postalUnits = new HashSet<>();
     private Set<Connection> connections = new HashSet<>();
 
@@ -16,6 +16,32 @@ public class PostalNetwork {
 
     public void addConnection(Connection connection) {
         connections.add(connection);
+        addConnectionToPostalUnit(connection);
+    }
+
+    private void addConnectionToPostalUnit(Connection connection) {
+        addPostalUnit(connection.getStartUnit());
+        addPostalUnit(connection.getEndUnit());
+
+        postalUnits.forEach(postalUnit -> {
+            if (connection.getStartUnit().equals(postalUnit)) {
+                postalUnit.addOutputConnection(connection);
+            } else if (connection.getEndUnit().equals(postalUnit)) {
+                postalUnit.addInputConnection(connection);
+            }
+        });
+    }
+
+    public boolean containsPostalUnit(PostalUnit postalUnit) {
+        return postalUnits.contains(postalUnit);
+    }
+
+    public Set<PostalUnit> getPostalUnits() {
+        return postalUnits;
+    }
+
+    public Set<Connection> getConnections() {
+        return connections;
     }
 
     public static PostalNetwork instance() {
