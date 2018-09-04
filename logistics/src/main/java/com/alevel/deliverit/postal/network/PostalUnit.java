@@ -84,8 +84,8 @@ public class PostalUnit {
     public String toString() {
 
         return "PostalUnit{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                /*"id='" + id + '\'' +*/
+                "  name='" + name + '\'' +
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';

@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import static com.alevel.deliverit.postal.network.Given.*;
+import static com.alevel.deliverit.postal.network.RouteMap.instance;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PostalNetworkTest {
 
     @Test
-    @DisplayName("Build a map of post units")
+    @DisplayName("Build a map of post units and calc distance")
     void buildNetworkMap() {
         PostalUnit postalUnit1 = givenPostalUnit("1");
         PostalUnit postalUnit2 = givenPostalUnit("2");
@@ -36,40 +37,45 @@ class PostalNetworkTest {
         postalNetwork.addPostalUnit(postalUnit3);
         postalNetwork.addPostalUnit(postalUnit3);
 
-        postalNetwork.addConnection(givenConnection(postalUnit1, postalUnit2));
-        postalNetwork.addConnection(givenConnection(postalUnit1, postalUnit3));
+        postalNetwork.addConnection(givenConnection(postalUnit1, postalUnit2, 5));
+        postalNetwork.addConnection(givenConnection(postalUnit1, postalUnit3, 2));
 
-        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit3));
-        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit4));
-        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit6));
-        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit8));
+        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit3, 4));
+        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit4, 2));
+        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit6, 1));
+        postalNetwork.addConnection(givenConnection(postalUnit2, postalUnit8, 3));
 
-        postalNetwork.addConnection(givenConnection(postalUnit3, postalUnit5));
-        postalNetwork.addConnection(givenConnection(postalUnit3, postalUnit7));
+        postalNetwork.addConnection(givenConnection(postalUnit3, postalUnit5, 7));
+        postalNetwork.addConnection(givenConnection(postalUnit3, postalUnit7, 8));
 
-        postalNetwork.addConnection(givenConnection(postalUnit4, postalUnit1));
-        postalNetwork.addConnection(givenConnection(postalUnit4, postalUnit3));
-        postalNetwork.addConnection(givenConnection(postalUnit4, postalUnit5));
+        postalNetwork.addConnection(givenConnection(postalUnit4, postalUnit1, 3));
+        postalNetwork.addConnection(givenConnection(postalUnit4, postalUnit3, 10));
+        postalNetwork.addConnection(givenConnection(postalUnit4, postalUnit5, 1));
 
-        postalNetwork.addConnection(givenConnection(postalUnit5, postalUnit6));
-        postalNetwork.addConnection(givenConnection(postalUnit5, postalUnit7));
+        postalNetwork.addConnection(givenConnection(postalUnit5, postalUnit6, 1));
+        postalNetwork.addConnection(givenConnection(postalUnit5, postalUnit7, 8));
 
-        postalNetwork.addConnection(givenConnection(postalUnit6, postalUnit3));
-        postalNetwork.addConnection(givenConnection(postalUnit6, postalUnit10));
+        postalNetwork.addConnection(givenConnection(postalUnit6, postalUnit3, 5));
+        postalNetwork.addConnection(givenConnection(postalUnit6, postalUnit10, 5));
 
-        postalNetwork.addConnection(givenConnection(postalUnit7, postalUnit1));
-        postalNetwork.addConnection(givenConnection(postalUnit7, postalUnit10));
+        postalNetwork.addConnection(givenConnection(postalUnit7, postalUnit1, 6));
+        postalNetwork.addConnection(givenConnection(postalUnit7, postalUnit10, 1));
 
-        postalNetwork.addConnection(givenConnection(postalUnit8, postalUnit5));
-        postalNetwork.addConnection(givenConnection(postalUnit8, postalUnit9));
+        postalNetwork.addConnection(givenConnection(postalUnit8, postalUnit5, 4));
+        postalNetwork.addConnection(givenConnection(postalUnit8, postalUnit9, 3));
 
-        postalNetwork.addConnection(givenConnection(postalUnit9, postalUnit6));
-        postalNetwork.addConnection(givenConnection(postalUnit9, postalUnit10));
+        postalNetwork.addConnection(givenConnection(postalUnit9, postalUnit6, 5));
+        postalNetwork.addConnection(givenConnection(postalUnit9, postalUnit10, 1));
 
-        postalNetwork.addConnection(givenConnection(postalUnit10, postalUnit4));
-        postalNetwork.addConnection(givenConnection(postalUnit10, postalUnit5));
-        postalNetwork.addConnection(givenConnection(postalUnit10, postalUnit9));
+        postalNetwork.addConnection(givenConnection(postalUnit10, postalUnit4, 9));
+        postalNetwork.addConnection(givenConnection(postalUnit10, postalUnit5, 6));
+        postalNetwork.addConnection(givenConnection(postalUnit10, postalUnit9, 2));
 
         postalNetwork.getPostalUnits().forEach(System.out::println);
+
+        assertEquals(12, instance().createDeliveryMap(postalUnit8, postalUnit7));
+        assertEquals(10, instance().createDeliveryMap(postalUnit8, postalUnit3));
+        assertEquals(11, instance().createDeliveryMap(postalUnit1, postalUnit9));
+        assertEquals(13, instance().createDeliveryMap(postalUnit9, postalUnit1));
     }
 }

@@ -20,13 +20,13 @@ public class PostalNetwork {
     }
 
     private void addConnectionToPostalUnit(Connection connection) {
-        addPostalUnit(connection.getStartUnit());
-        addPostalUnit(connection.getEndUnit());
+        addPostalUnit(connection.getStartNode());
+        addPostalUnit(connection.getEndNode());
 
         postalUnits.forEach(postalUnit -> {
-            if (connection.getStartUnit().equals(postalUnit)) {
+            if (connection.getStartNode().equals(postalUnit)) {
                 postalUnit.addOutputConnection(connection);
-            } else if (connection.getEndUnit().equals(postalUnit)) {
+            } else if (connection.getEndNode().equals(postalUnit)) {
                 postalUnit.addInputConnection(connection);
             }
         });

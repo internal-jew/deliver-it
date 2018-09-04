@@ -1,6 +1,9 @@
 package com.alevel.deliverit.postal.network;
 
+import com.alevel.deliverit.postal.network.limitations.SimpleLimitation;
+
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Given {
@@ -12,11 +15,14 @@ public class Given {
                 .build();
     }
 
-    public static Connection givenConnection(PostalUnit start, PostalUnit end){
+    public static Connection givenConnection(PostalUnit start, PostalUnit end, int weight) {
+        Set<Limitation> limitations = new HashSet<>();
+        limitations.add(new SimpleLimitation(weight));
+
         return Connection.builder()
                 .setStartUnit(start)
                 .setEndUnit(end)
-                .setLimitations(new HashSet<>())
+                .setLimitations(limitations)
                 .build();
     }
 }

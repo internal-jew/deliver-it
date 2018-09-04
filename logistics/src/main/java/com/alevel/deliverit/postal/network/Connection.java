@@ -1,7 +1,5 @@
 package com.alevel.deliverit.postal.network;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.*;
@@ -12,8 +10,8 @@ import static com.google.common.base.Preconditions.*;
  * @author Sergey Bogovesov
  */
 public class Connection {
-    private PostalUnit startUnit;
-    private PostalUnit endUnit;
+    private PostalUnit startNode;
+    private PostalUnit endNode;
     private Set<Limitation> limitations;
 
     public static Builder builder() {
@@ -26,7 +24,7 @@ public class Connection {
      * @param sendingContext context to be transmitted through the current connection
      * @return connection weight
      */
-    public double calcWeight(SendingContext sendingContext) {
+    public int calcWeight(SendingContext sendingContext) {
         int weight = 1;
         for (Limitation limitation : limitations) {
             weight = limitation.affectWeight(weight, sendingContext);
@@ -34,21 +32,21 @@ public class Connection {
         return weight;
     }
 
-    public PostalUnit getStartUnit() {
-        return startUnit;
+    public PostalUnit getStartNode() {
+        return startNode;
     }
 
-    public PostalUnit getEndUnit() {
-        return endUnit;
+    public PostalUnit getEndNode() {
+        return endNode;
     }
 
     public Set<Limitation> getLimitations() {
         return limitations;
     }
 
-    private Connection(PostalUnit startUnit, PostalUnit endUnit, Set<Limitation> limitations) {
-        this.startUnit = startUnit;
-        this.endUnit = endUnit;
+    private Connection(PostalUnit startNode, PostalUnit endNode, Set<Limitation> limitations) {
+        this.startNode = startNode;
+        this.endNode = endNode;
         this.limitations = limitations;
     }
 
@@ -87,6 +85,6 @@ public class Connection {
 
     @Override
     public String toString() {
-        return "Conn: {'" + startUnit.getName() + "' --> '" + endUnit.getName() + "'}";
+        return "Conn: {'" + startNode.getName() + "' --> '" + endNode.getName() + "'}";
     }
 }
