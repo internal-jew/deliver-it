@@ -7,18 +7,18 @@ import com.alevel.deliverit.logistics.PostalAddress;
  * @author Vadym Mitin
  */
 public class SenderProfile {
-    private final Name name;
+    private final Name senderName;
     private final PostalAddress address;
     private final Country country;
 
-    public SenderProfile(Name name, PostalAddress address, Country country) {
-        this.name = name;
+    public SenderProfile(Name senderName, PostalAddress address, Country country) {
+        this.senderName = senderName;
         this.address = address;
         this.country = country;
     }
 
-    public Name getName() {
-        return name;
+    public Name getSenderName() {
+        return senderName;
     }
 
     public PostalAddress getAddress() {

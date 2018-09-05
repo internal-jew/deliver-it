@@ -35,7 +35,16 @@ public class Given {
     }
 
     public static PostalAddress givenPostalAddress() {
-        return new PostalAddress(givenCountry(), "some address");
+        return PostalAddress.builder()
+                .setFirstName("Vasily")
+                .setLastName("Petrovich")
+                .setHouseNumber("1024")
+                .setCountry(givenCountry())
+                .setCity("Mukhosransk")
+                .setApartmentNumber("999")
+                .setPostalCode("666")
+                .setStreet("Sumskaya")
+                .build();
     }
 
     public static Parcel givenParcel() {
