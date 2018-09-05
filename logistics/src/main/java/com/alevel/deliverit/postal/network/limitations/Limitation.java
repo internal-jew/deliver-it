@@ -1,4 +1,6 @@
-package com.alevel.deliverit.postal.network;
+package com.alevel.deliverit.postal.network.limitations;
+
+import com.alevel.deliverit.postal.network.SendingContext;
 
 /**
  * @author Sergey Bogovesov

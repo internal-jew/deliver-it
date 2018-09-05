@@ -1,7 +1,5 @@
 package com.alevel.deliverit.postal.network;
 
-import com.google.common.base.Preconditions;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -9,6 +7,8 @@ import java.util.UUID;
 import static com.google.common.base.Preconditions.*;
 
 /**
+ * Represents a post office where a parcel can be delivered.
+ *
  * @author Sergey Bogovesov
  */
 public class PostalUnit {

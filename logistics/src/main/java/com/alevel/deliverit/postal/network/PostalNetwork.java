@@ -3,6 +3,8 @@ package com.alevel.deliverit.postal.network;
 import java.util.*;
 
 /**
+ * Represents a network of postal office and connections between them.
+ *
  * @author Sergey Bogovesov
  */
 public class PostalNetwork {

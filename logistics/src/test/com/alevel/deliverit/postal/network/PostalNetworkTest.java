@@ -1,13 +1,10 @@
 package com.alevel.deliverit.postal.network;
 
+import com.alevel.deliverit.postal.network.route.RouteMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.UUID;
-
 import static com.alevel.deliverit.postal.network.Given.*;
-import static com.alevel.deliverit.postal.network.RouteMap.instance;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -73,9 +70,34 @@ class PostalNetworkTest {
 
         postalNetwork.getPostalUnits().forEach(System.out::println);
 
-        assertEquals(12, instance().createDeliveryMap(postalUnit8, postalUnit7));
-        assertEquals(10, instance().createDeliveryMap(postalUnit8, postalUnit3));
-        assertEquals(11, instance().createDeliveryMap(postalUnit1, postalUnit9));
-        assertEquals(13, instance().createDeliveryMap(postalUnit9, postalUnit1));
+        assertEquals(12, RouteMap.builder()
+                .setStartNode(postalUnit8)
+                .setEndNode(postalUnit7)
+                .build()
+                .calcDistance());
+
+        assertEquals(11, RouteMap.builder()
+                .setStartNode(postalUnit1)
+                .setEndNode(postalUnit9)
+                .build()
+                .calcDistance());
+
+        assertEquals(18, RouteMap.builder()
+                .setStartNode(postalUnit9)
+                .setEndNode(postalUnit2)
+                .build()
+                .calcDistance());
+
+        assertEquals(22, RouteMap.builder()
+                .setStartNode(postalUnit6)
+                .setEndNode(postalUnit2)
+                .build()
+                .calcDistance());
+
+        assertEquals(22, RouteMap.builder()
+                .setStartNode(postalUnit3)
+                .setEndNode(postalUnit8)
+                .build()
+                .calcDistance());
     }
 }

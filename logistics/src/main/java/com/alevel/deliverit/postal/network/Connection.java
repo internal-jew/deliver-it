@@ -1,11 +1,13 @@
 package com.alevel.deliverit.postal.network;
 
+import com.alevel.deliverit.postal.network.limitations.Limitation;
+
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.*;
 
 /**
- * Implements connections between two postal unit
+ * Implements connections between two postal office.
  *
  * @author Sergey Bogovesov
  */
@@ -19,10 +21,10 @@ public class Connection {
     }
 
     /**
-     * Method for calculating the weight of a connection between two postal unit
+     * Method for calculating the weight of a connection between two postal office.
      *
-     * @param sendingContext context to be transmitted through the current connection
-     * @return connection weight
+     * @param sendingContext Context to be transmitted through the current connection.
+     * @return Connection weight.
      */
     public int calcWeight(SendingContext sendingContext) {
         int weight = 1;
@@ -51,17 +53,17 @@ public class Connection {
     }
 
     public static class Builder {
-        private PostalUnit startUnit;
-        private PostalUnit endUnit;
+        private PostalUnit startNode;
+        private PostalUnit endNode;
         private Set<Limitation> limitations;
 
-        public Builder setStartUnit(PostalUnit startUnit) {
-            this.startUnit = startUnit;
+        public Builder setStartNode(PostalUnit startNode) {
+            this.startNode = startNode;
             return this;
         }
 
-        public Builder setEndUnit(PostalUnit endUnit) {
-            this.endUnit = endUnit;
+        public Builder setEndNode(PostalUnit endNode) {
+            this.endNode = endNode;
             return this;
         }
 
@@ -71,15 +73,15 @@ public class Connection {
         }
 
         public Connection build() {
-            checkNotNull(startUnit);
-            checkNotNull(endUnit);
+            checkNotNull(startNode);
+            checkNotNull(endNode);
             checkNotNull(limitations);
 
-            if (startUnit.equals(endUnit)) {
+            if (startNode.equals(endNode)) {
                 throw new IllegalArgumentException("Connections to oneself forbidden");
             }
 
-            return new Connection(startUnit, endUnit, limitations);
+            return new Connection(startNode, endNode, limitations);
         }
     }
 

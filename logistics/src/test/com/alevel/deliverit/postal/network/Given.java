@@ -1,5 +1,6 @@
 package com.alevel.deliverit.postal.network;
 
+import com.alevel.deliverit.postal.network.limitations.Limitation;
 import com.alevel.deliverit.postal.network.limitations.SimpleLimitation;
 
 import java.util.HashSet;
@@ -20,8 +21,8 @@ public class Given {
         limitations.add(new SimpleLimitation(weight));
 
         return Connection.builder()
-                .setStartUnit(start)
-                .setEndUnit(end)
+                .setStartNode(start)
+                .setEndNode(end)
                 .setLimitations(limitations)
                 .build();
     }

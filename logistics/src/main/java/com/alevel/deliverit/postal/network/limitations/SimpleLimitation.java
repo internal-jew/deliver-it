@@ -1,8 +1,10 @@
 package com.alevel.deliverit.postal.network.limitations;
 
-import com.alevel.deliverit.postal.network.Limitation;
 import com.alevel.deliverit.postal.network.SendingContext;
 
+/**
+ * @author Sergey Bogovesov
+ */
 public class SimpleLimitation extends Limitation {
     private int weight;
 
