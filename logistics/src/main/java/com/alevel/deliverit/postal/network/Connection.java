@@ -1,6 +1,7 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.postal.network.limitations.Constraint;
+import com.alevel.deliverit.postal.network.constraint.Constraint;
+import com.alevel.deliverit.postal.network.context.SendingContext;
 
 import java.util.Objects;
 import java.util.Set;

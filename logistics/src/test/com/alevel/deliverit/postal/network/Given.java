@@ -1,7 +1,7 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.postal.network.limitations.Constraint;
-import com.alevel.deliverit.postal.network.limitations.SimpleConstraint;
+import com.alevel.deliverit.postal.network.constraint.Constraint;
+import com.alevel.deliverit.postal.network.constraint.SimpleConstraint;
 
 import java.util.HashSet;
 import java.util.Set;
