@@ -1,35 +1,36 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.postal.network.limitations.Limitation;
+import com.alevel.deliverit.postal.network.limitations.Constraint;
 
+import java.util.Objects;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.*;
 
 /**
- * Implements connections between two postal office.
+ * Implements connection between two postal offices.
  *
  * @author Sergey Bogovesov
  */
 public class Connection {
     private PostalUnit startNode;
     private PostalUnit endNode;
-    private Set<Limitation> limitations;
+    private Set<Constraint> constraints;
 
     public static Builder builder() {
         return new Builder();
     }
 
     /**
-     * Method for calculating the weight of a connection between two postal office.
+     * Calculates the weight of a connection between two postal office.
      *
-     * @param sendingContext Context to be transmitted through the current connection.
+     * @param {@link SendingContext context to be transmitted through the current connection.}
      * @return Connection weight.
      */
     public int calcWeight(SendingContext sendingContext) {
         int weight = 1;
-        for (Limitation limitation : limitations) {
-            weight = limitation.affectWeight(weight, sendingContext);
+        for (Constraint constraint : constraints) {
+            weight = constraint.affectWeight(weight, sendingContext);
         }
         return weight;
     }
@@ -42,20 +43,20 @@ public class Connection {
         return endNode;
     }
 
-    public Set<Limitation> getLimitations() {
-        return limitations;
+    public Set<Constraint> getConstraints() {
+        return constraints;
     }
 
-    private Connection(PostalUnit startNode, PostalUnit endNode, Set<Limitation> limitations) {
+    private Connection(PostalUnit startNode, PostalUnit endNode, Set<Constraint> constraints) {
         this.startNode = startNode;
         this.endNode = endNode;
-        this.limitations = limitations;
+        this.constraints = constraints;
     }
 
     public static class Builder {
         private PostalUnit startNode;
         private PostalUnit endNode;
-        private Set<Limitation> limitations;
+        private Set<Constraint> constraints;
 
         public Builder setStartNode(PostalUnit startNode) {
             this.startNode = startNode;
@@ -67,22 +68,37 @@ public class Connection {
             return this;
         }
 
-        public Builder setLimitations(Set<Limitation> limitations) {
-            this.limitations = limitations;
+        public Builder setConstraints(Set<Constraint> constraints) {
+            this.constraints = constraints;
             return this;
         }
 
         public Connection build() {
             checkNotNull(startNode);
             checkNotNull(endNode);
-            checkNotNull(limitations);
+            checkNotNull(constraints);
 
             if (startNode.equals(endNode)) {
                 throw new IllegalArgumentException("Connections to oneself forbidden");
             }
 
-            return new Connection(startNode, endNode, limitations);
+            return new Connection(startNode, endNode, constraints);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Connection)) return false;
+        Connection that = (Connection) o;
+        return Objects.equals(getStartNode(), that.getStartNode()) &&
+                Objects.equals(getEndNode(), that.getEndNode());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getStartNode(), getEndNode());
     }
 
     @Override

@@ -1,20 +1,18 @@
-package com.alevel.deliverit.postal.network.route;
+package com.alevel.deliverit.postal.network.dijkstra;
 
-import com.alevel.deliverit.postal.network.Connection;
-import com.alevel.deliverit.postal.network.PostalNetwork;
-import com.alevel.deliverit.postal.network.PostalUnit;
-import com.alevel.deliverit.postal.network.SendingContext;
+import com.alevel.deliverit.postal.network.*;
+import com.google.common.base.Preconditions;
 
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * This class calculates the weight between two post offices and also builds a route map.
+ * Calculates the weight between two post offices and also builds a route map using Dijkstra Algorithm
  *
  * @author Sergey Bogovesov
  */
-public class RouteMap {
+public class Dijkstra {
     private final Queue<Connection> nodesForVisit = new ArrayDeque<>();
     private final Map<PostalUnit, Integer> nodeWeights = new HashMap<>();
     private final Map<Integer, Route> routes = new HashMap<>();
@@ -22,22 +20,23 @@ public class RouteMap {
     private PostalUnit startNode;
     private PostalUnit endNode;
     private InitialVertex initialVertex;
-    private int currentNumRoute;
+    private int currentRouteNumber;
+    private Route shortestRoute;
 
     /**
      * @return Calculate the distance between two nodes using the Dijkstra Algorithm.
      * If @return is zero, the path was not found.
      */
-    public int calcDistance() {
+    public Route findShortestRoute() {
         buildRoute(startNode.getOutputs());
-        return getCalculatedDistance();
+        return getShortestRoute();
     }
 
     private void buildRoute(Set<Connection> connections) {
         final Map<PostalUnit, Integer> localWeight = new HashMap<>();
 
         connections.forEach(connection -> {
-            final int weight = connection.calcWeight(new SendingContext()) + initialVertex.getWeight();
+            final int weight = connection.calcWeight(new Context()) + initialVertex.getWeight();
             final PostalUnit currentNode = connection.getEndNode();
 
             if (nodeWeights.containsKey(currentNode)) {
@@ -52,6 +51,8 @@ public class RouteMap {
         localWeight.forEach(nodeWeights::put);
         searchNextStartNode(localWeight);
 
+        checkInitialNodeForVisit(connections, localWeight);
+
         if (isExistStartNode()) {
             fillNodeForVisit(connections, localWeight);
         } else {
@@ -62,15 +63,26 @@ public class RouteMap {
         }
     }
 
+    private void checkInitialNodeForVisit(Set<Connection> connections, Map<PostalUnit, Integer> localWeight) {
+        if ((currentRouteNumber == 0) && (nodeWeights.containsKey(endNode) && (nodesForVisit.isEmpty()))) {
+            connections.forEach(connection -> {
+                PostalUnit node = connection.getEndNode();
+                if ((localWeight.containsKey(node)) && (!node.equals(endNode))) {
+                    nodesForVisit.add(connection);
+                }
+            });
+        }
+    }
+
     private void getStartNodeFromSavedForVisit() {
         if (!nodesForVisit.isEmpty()) {
             final Connection connection = nodesForVisit.poll();
-            assert null != connection;
+            Preconditions.checkNotNull(connection);
 
             PostalUnit node = connection.getEndNode();
             initialVertex.init(node, nodeWeights.get(node));
 
-            currentNumRoute++;
+            currentRouteNumber++;
             if (!connection.getStartNode().equals(this.startNode)) {
                 addNodeToRoute(connection.getStartNode(), nodeWeights.get(node));
             }
@@ -82,8 +94,7 @@ public class RouteMap {
         addNodeToRoute(initialVertex.getNode(), nodeWeights.get(initialVertex.getNode()));
         connections.forEach(connection -> {
             PostalUnit node = connection.getEndNode();
-
-            if ((localWeight.containsKey(node)) && (!node.equals(initialVertex.getNode()))) {
+            if (localWeight.containsKey(node) && !node.equals(initialVertex.getNode())) {
                 nodesForVisit.add(connection);
             }
         });
@@ -103,12 +114,12 @@ public class RouteMap {
     }
 
     private void addNodeToRoute(PostalUnit node, int weight) {
-        if (!routes.containsKey(currentNumRoute)) {
+        if (!routes.containsKey(currentRouteNumber)) {
             Route route = new Route();
             route.addNode(node, weight);
-            routes.put(currentNumRoute, route);
+            routes.put(currentRouteNumber, route);
         } else {
-            routes.get(currentNumRoute).addNode(node, weight);
+            routes.get(currentRouteNumber).addNode(node, weight);
         }
     }
 
@@ -116,28 +127,34 @@ public class RouteMap {
         return initialVertex.isExistNode();
     }
 
-    private int getCalculatedDistance() {
-        printRoutes();
-        return nodeWeights.getOrDefault(endNode, 0);
-    }
-
-    private void printRoutes() {
+    private Route getShortestRoute() {
         routes.forEach((num, route) -> {
-            List<PostalUnit> nodes = route.getNodes();
+            List<PostalUnit> nodes = route.getUnits();
             int weight = nodeWeights.getOrDefault(endNode, 0);
-
-            if ((nodes.contains(endNode)) && (route.getWeight() == weight)) {
-                System.out.println("Route from '" + startNode.getName() + "' to '" + endNode.getName() + "'");
-
-                System.out.print("[" + startNode.getName());
-                nodes.forEach(node -> System.out.print(" -> " + node.getName()));
-                System.out.print("] weight: " + route.getWeight());
-                System.out.println();
+            if ( (nodes.contains(endNode)) && (route.getWeight() == weight)) {
+                shortestRoute = route;
             }
         });
+        printRoutes(shortestRoute);
+        return shortestRoute;
     }
 
-    private RouteMap(PostalUnit startNode, PostalUnit endNode) {
+    private void printRoutes(Route route) {
+        checkNotNull(route);
+        List<PostalUnit> nodes = route.getUnits();
+        int weight = nodeWeights.getOrDefault(endNode, 0);
+
+        if ((nodes.contains(endNode)) && (route.getWeight() == weight)) {
+            System.out.println("Route from '" + startNode.getName() + "' to '" + endNode.getName() + "'");
+
+            System.out.print("[" + startNode.getName());
+            nodes.forEach(node -> System.out.print(" -> " + node.getName()));
+            System.out.print("] weight: " + route.getWeight());
+            System.out.println();
+        }
+    }
+
+    private Dijkstra(PostalUnit startNode, PostalUnit endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
 
@@ -165,27 +182,29 @@ public class RouteMap {
             return this;
         }
 
-        public RouteMap build() {
+        public Dijkstra build() {
             checkNotNull(startNode);
             checkNotNull(endNode);
 
-            if (!PostalNetwork.instance().containsPostalUnit(startNode)) {
+            final PostalNetwork instance = PostalNetwork.instance();
+
+            if (!instance.containsPostalUnit(startNode)) {
                 throw new IllegalArgumentException("Postal units doesn't contain a begin node");
             }
 
-            if (!PostalNetwork.instance().containsPostalUnit(endNode)) {
+            if (!instance.containsPostalUnit(endNode)) {
                 throw new IllegalArgumentException("Postal units doesn't contain a end node");
             }
 
             if (startNode.getOutputs().isEmpty()) {
-                throw new IllegalStateException("Begin node doesn't have outputs connections");
+                throw new IllegalStateException("Start node doesn't have outputs connections");
             }
 
             if (endNode.getInputs().isEmpty()) {
                 throw new IllegalStateException("End node doesn't have inputs connections");
             }
 
-            return new RouteMap(startNode, endNode);
+            return new Dijkstra(startNode, endNode);
         }
     }
 }

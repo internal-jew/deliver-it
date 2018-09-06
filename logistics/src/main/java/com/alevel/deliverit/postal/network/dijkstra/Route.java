@@ -1,4 +1,4 @@
-package com.alevel.deliverit.postal.network.route;
+package com.alevel.deliverit.postal.network.dijkstra;
 
 import com.alevel.deliverit.postal.network.PostalUnit;
 
@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * Represents the route selected at the current stage of construction.
+ * Represents the dijkstra selected at the current stage of construction.
  *
  * @author Sergey Bogovesov
  */
@@ -20,7 +19,7 @@ public class Route {
         this.weight = weight;
     }
 
-    public List<PostalUnit> getNodes() {
+    public List<PostalUnit> getUnits() {
         return nodes;
     }
 

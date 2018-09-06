@@ -1,4 +1,4 @@
-package com.alevel.deliverit.postal.network.route;
+package com.alevel.deliverit.postal.network.dijkstra;
 
 import com.alevel.deliverit.postal.network.PostalUnit;
 

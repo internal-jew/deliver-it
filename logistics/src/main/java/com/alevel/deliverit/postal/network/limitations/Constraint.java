@@ -5,9 +5,7 @@ import com.alevel.deliverit.postal.network.SendingContext;
 /**
  * @author Sergey Bogovesov
  */
-public abstract class Limitation {
+public abstract class Constraint {
 
-    public int affectWeight(int weight, SendingContext sendingContext){
-        return weight;
-    }
+    public abstract int affectWeight(int weight, SendingContext sendingContext);
 }

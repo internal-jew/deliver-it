@@ -1,6 +1,6 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.postal.network.route.RouteMap;
+import com.alevel.deliverit.postal.network.dijkstra.Dijkstra;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,11 +28,6 @@ class PostalNetworkTest {
         PostalUnit postalUnit10 = givenPostalUnit("10");
 
         final PostalNetwork postalNetwork = PostalNetwork.instance();
-
-        postalNetwork.addPostalUnit(postalUnit1);
-        postalNetwork.addPostalUnit(postalUnit2);
-        postalNetwork.addPostalUnit(postalUnit3);
-        postalNetwork.addPostalUnit(postalUnit3);
 
         postalNetwork.addConnection(givenConnection(postalUnit1, postalUnit2, 5));
         postalNetwork.addConnection(givenConnection(postalUnit1, postalUnit3, 2));
@@ -70,34 +65,46 @@ class PostalNetworkTest {
 
         postalNetwork.getPostalUnits().forEach(System.out::println);
 
-        assertEquals(12, RouteMap.builder()
+        assertEquals(12, Dijkstra.builder()
                 .setStartNode(postalUnit8)
                 .setEndNode(postalUnit7)
                 .build()
-                .calcDistance());
+                .findShortestRoute()
+                .getWeight());
 
-        assertEquals(11, RouteMap.builder()
+        assertEquals(11, Dijkstra.builder()
                 .setStartNode(postalUnit1)
                 .setEndNode(postalUnit9)
                 .build()
-                .calcDistance());
+                .findShortestRoute()
+                .getWeight());
 
-        assertEquals(18, RouteMap.builder()
+        assertEquals(18, Dijkstra.builder()
                 .setStartNode(postalUnit9)
                 .setEndNode(postalUnit2)
                 .build()
-                .calcDistance());
+                .findShortestRoute()
+                .getWeight());
 
-        assertEquals(22, RouteMap.builder()
+        assertEquals(22, Dijkstra.builder()
                 .setStartNode(postalUnit6)
                 .setEndNode(postalUnit2)
                 .build()
-                .calcDistance());
+                .findShortestRoute()
+                .getWeight());
 
-        assertEquals(22, RouteMap.builder()
+        assertEquals(22, Dijkstra.builder()
                 .setStartNode(postalUnit3)
                 .setEndNode(postalUnit8)
                 .build()
-                .calcDistance());
+                .findShortestRoute()
+                .getWeight());
+
+        assertEquals(5, Dijkstra.builder()
+                .setStartNode(postalUnit4)
+                .setEndNode(postalUnit3)
+                .build()
+                .findShortestRoute()
+                .getWeight());
     }
 }

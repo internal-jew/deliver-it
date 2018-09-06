@@ -3,7 +3,7 @@ package com.alevel.deliverit.postal.network;
 import java.util.*;
 
 /**
- * Represents a network of postal office and connections between them.
+ * Represents a network of postal offices and connections between them.
  *
  * @author Sergey Bogovesov
  */
@@ -12,7 +12,7 @@ public class PostalNetwork {
     private Set<PostalUnit> postalUnits = new HashSet<>();
     private Set<Connection> connections = new HashSet<>();
 
-    public void addPostalUnit(PostalUnit postalUnit) {
+    private void addPostalUnit(PostalUnit postalUnit) {
         postalUnits.add(postalUnit);
     }
 
@@ -26,9 +26,9 @@ public class PostalNetwork {
         addPostalUnit(connection.getEndNode());
 
         postalUnits.forEach(postalUnit -> {
-            if (connection.getStartNode().equals(postalUnit)) {
+            if (postalUnit.equals(connection.getStartNode())) {
                 postalUnit.addOutputConnection(connection);
-            } else if (connection.getEndNode().equals(postalUnit)) {
+            } else if (postalUnit.equals(connection.getEndNode())) {
                 postalUnit.addInputConnection(connection);
             }
         });
