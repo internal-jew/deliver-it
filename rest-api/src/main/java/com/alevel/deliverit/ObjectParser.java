@@ -13,7 +13,8 @@ public class ObjectParser {
 
     /**
      * Parse JSON request to java objects: {@link Parcel} and {@link Sender}
-     * @param jsonObject - is a JSON request
+     *
+     * @param jsonObject is a JSON request
      */
     void parseToObject(JSONObject jsonObject) {
         sender = new SenderFactory().create(jsonObject);

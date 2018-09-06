@@ -18,13 +18,13 @@ import static com.alevel.deliverit.logistics.WeightUnit.POUND;
  */
 class ParcelFactory {
 
-    Parcel create(JSONObject jsonObject){
+    Parcel create(JSONObject jsonObject) {
         Map parcelMap = (Map) jsonObject.get("parcel");
-        Map deliveryAddressMap =(Map)parcelMap.get("deliveryAddress");
-        String address = (String)deliveryAddressMap.get("address") ;
-        String country = (String)deliveryAddressMap.get("country");
-        String countryCode=(String)deliveryAddressMap.get("countryCode");
-        double weightDouble = Double.parseDouble ((String) parcelMap.get("weight"));
+        Map deliveryAddressMap = (Map) parcelMap.get("deliveryAddress");
+        String address = (String) deliveryAddressMap.get("address");
+        String country = (String) deliveryAddressMap.get("country");
+        String countryCode = (String) deliveryAddressMap.get("countryCode");
+        double weightDouble = Double.parseDouble((String) parcelMap.get("weight"));
         long id = (long) parcelMap.get("parcelId");
         WeightUnit weightUnit = getWeightUnit(parcelMap);
         ParcelId parcelId = buildParcelId(id);
@@ -35,11 +35,11 @@ class ParcelFactory {
     }
 
     private PostalAddress buildPostalAddress(String address, String country, String countryCode) {
-        return new PostalAddress(buildCountry(country, countryCode),address);
+        return new PostalAddress(buildCountry(country, countryCode), address);
     }
 
     private Country buildCountry(String country, String countryCode) {
-        return new Country(country,countryCode);
+        return new Country(country, countryCode);
     }
 
     private Weight buildWeight(double weight, WeightUnit weightUnit) {
@@ -55,9 +55,9 @@ class ParcelFactory {
         if (weightUnit.equals("kilogram")) {
             return KILOGRAM;
         }
-        if (weightUnit.equals("pound")){
+        if (weightUnit.equals("pound")) {
             return POUND;
-        }else {
+        } else {
             throw new IllegalArgumentException();
         }
 

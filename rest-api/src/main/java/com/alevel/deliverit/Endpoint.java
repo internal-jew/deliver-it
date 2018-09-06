@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 /**
  * @author Vitalii Usatyi
  */
-public class EndPoint {
+public class Endpoint {
     private ObjectParser objectParser = new ObjectParser();
     private JsonParser jsonParser = new JsonParser();
 
