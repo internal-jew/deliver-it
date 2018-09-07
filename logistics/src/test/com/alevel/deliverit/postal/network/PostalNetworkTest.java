@@ -1,6 +1,6 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.postal.network.dijkstra.Dijkstra;
+import com.alevel.deliverit.postal.network.dijkstra.DijkstraAlgorithm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -65,42 +65,42 @@ class PostalNetworkTest {
 
         postalNetwork.getPostalUnits().forEach(System.out::println);
 
-        assertEquals(12, Dijkstra.builder()
+        assertEquals(12, DijkstraAlgorithm.builder()
                 .setStartNode(postalUnit8)
                 .setEndNode(postalUnit7)
                 .build()
                 .findShortestRoute()
                 .getWeight());
 
-        assertEquals(11, Dijkstra.builder()
+        assertEquals(11, DijkstraAlgorithm.builder()
                 .setStartNode(postalUnit1)
                 .setEndNode(postalUnit9)
                 .build()
                 .findShortestRoute()
                 .getWeight());
 
-        assertEquals(18, Dijkstra.builder()
+        assertEquals(18, DijkstraAlgorithm.builder()
                 .setStartNode(postalUnit9)
                 .setEndNode(postalUnit2)
                 .build()
                 .findShortestRoute()
                 .getWeight());
 
-        assertEquals(22, Dijkstra.builder()
+        assertEquals(22, DijkstraAlgorithm.builder()
                 .setStartNode(postalUnit6)
                 .setEndNode(postalUnit2)
                 .build()
                 .findShortestRoute()
                 .getWeight());
 
-        assertEquals(22, Dijkstra.builder()
+        assertEquals(22, DijkstraAlgorithm.builder()
                 .setStartNode(postalUnit3)
                 .setEndNode(postalUnit8)
                 .build()
                 .findShortestRoute()
                 .getWeight());
 
-        assertEquals(5, Dijkstra.builder()
+        assertEquals(5, DijkstraAlgorithm.builder()
                 .setStartNode(postalUnit4)
                 .setEndNode(postalUnit3)
                 .build()

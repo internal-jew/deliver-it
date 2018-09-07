@@ -2,7 +2,6 @@ package com.alevel.deliverit.postal.network.dijkstra;
 
 import com.alevel.deliverit.postal.network.*;
 import com.alevel.deliverit.postal.network.context.Context;
-import com.google.common.base.Preconditions;
 
 import java.util.*;
 
@@ -13,7 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Sergey Bogovesov
  */
-public class Dijkstra {
+public class DijkstraAlgorithm {
     private final Queue<Connection> nodesForVisit = new ArrayDeque<>();
     private final Map<PostalUnit, Integer> nodeWeights = new HashMap<>();
     private final Map<Integer, Route> routes = new HashMap<>();
@@ -65,7 +64,11 @@ public class Dijkstra {
     }
 
     private void checkInitialNodeForVisit(Set<Connection> connections, Map<PostalUnit, Integer> localWeight) {
-        if ((currentRouteNumber == 0) && (nodeWeights.containsKey(endNode) && (nodesForVisit.isEmpty()))) {
+        final boolean firstRoute = currentRouteNumber == 0;
+        final boolean nodeForVisitIsEmpty = nodesForVisit.isEmpty();
+        final boolean nodeWeightContainsEndNode = nodeWeights.containsKey(endNode);
+
+        if (firstRoute && (nodeWeightContainsEndNode && nodeForVisitIsEmpty)) {
             connections.forEach(connection -> {
                 PostalUnit node = connection.getEndNode();
                 if ((localWeight.containsKey(node)) && (!node.equals(endNode))) {
@@ -78,7 +81,7 @@ public class Dijkstra {
     private void getStartNodeFromSavedForVisit() {
         if (!nodesForVisit.isEmpty()) {
             final Connection connection = nodesForVisit.poll();
-            Preconditions.checkNotNull(connection);
+            checkNotNull(connection);
 
             PostalUnit node = connection.getEndNode();
             initialVertex.init(node, nodeWeights.get(node));
@@ -132,7 +135,7 @@ public class Dijkstra {
         routes.forEach((num, route) -> {
             List<PostalUnit> nodes = route.getUnits();
             int weight = nodeWeights.getOrDefault(endNode, 0);
-            if ( (nodes.contains(endNode)) && (route.getWeight() == weight)) {
+            if ((nodes.contains(endNode)) && (route.getWeight() == weight)) {
                 shortestRoute = route;
             }
         });
@@ -145,7 +148,7 @@ public class Dijkstra {
         List<PostalUnit> nodes = route.getUnits();
         int weight = nodeWeights.getOrDefault(endNode, 0);
 
-        if ((nodes.contains(endNode)) && (route.getWeight() == weight)) {
+        if (nodes.contains(endNode) && (route.getWeight() == weight)) {
             System.out.println("Route from '" + startNode.getName() + "' to '" + endNode.getName() + "'");
 
             System.out.print("[" + startNode.getName());
@@ -155,7 +158,7 @@ public class Dijkstra {
         }
     }
 
-    private Dijkstra(PostalUnit startNode, PostalUnit endNode) {
+    private DijkstraAlgorithm(PostalUnit startNode, PostalUnit endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
 
@@ -183,7 +186,7 @@ public class Dijkstra {
             return this;
         }
 
-        public Dijkstra build() {
+        public DijkstraAlgorithm build() {
             checkNotNull(startNode);
             checkNotNull(endNode);
 
@@ -205,7 +208,7 @@ public class Dijkstra {
                 throw new IllegalStateException("End node doesn't have inputs connections");
             }
 
-            return new Dijkstra(startNode, endNode);
+            return new DijkstraAlgorithm(startNode, endNode);
         }
     }
 }
