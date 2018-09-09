@@ -1,12 +1,12 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.customers;
 
-import com.alevel.deliverit.customers.Parcel;
-import com.alevel.deliverit.customers.ParcelId;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.Map;
 
@@ -16,9 +16,16 @@ import static com.alevel.deliverit.logistics.WeightUnit.POUND;
 /**
  * @author Vitalii Usatyi
  */
-class ParcelFactory {
+public class ParcelParser implements Parser<Parcel> {
 
-    Parcel create(JSONObject jsonObject) {
+    public ParcelParser() {
+
+    }
+
+    @Override
+    public Parcel parse(String jsonString) {
+
+        JSONObject jsonObject = parseToJsonObject(jsonString);
         Map parcelMap = (Map) jsonObject.get("parcel");
         Map deliveryAddressMap = (Map) parcelMap.get("deliveryAddress");
         String address = (String) deliveryAddressMap.get("address");
@@ -32,6 +39,15 @@ class ParcelFactory {
         PostalAddress deliveryAddress = buildPostalAddress(address, country, countryCode);
 
         return new Parcel(parcelId, weight, deliveryAddress);
+    }
+
+    @Override
+    public JSONObject parseToJsonObject(String jsonString) {
+        try {
+            return (JSONObject) new JSONParser().parse(jsonString);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private PostalAddress buildPostalAddress(String address, String country, String countryCode) {
@@ -52,13 +68,13 @@ class ParcelFactory {
 
     private WeightUnit getWeightUnit(Map parcelMap) {
         String weightUnit = (String) parcelMap.get("weightUnit");
-        if (weightUnit.equals("kilogram")) {
+        if (WeightUnit.KILOGRAM.toString().toLowerCase().equals(weightUnit)) {
             return KILOGRAM;
         }
-        if (weightUnit.equals("pound")) {
+        if (WeightUnit.POUND.toString().toLowerCase().equals(weightUnit)) {
             return POUND;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Uncorrected weight unit");
         }
 
     }

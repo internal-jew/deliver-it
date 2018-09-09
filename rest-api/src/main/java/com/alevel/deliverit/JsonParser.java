@@ -8,5 +8,4 @@ public class JsonParser {
     public void parseToJson() {
 
     }
-
 }

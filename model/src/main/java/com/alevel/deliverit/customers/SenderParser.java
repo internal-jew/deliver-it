@@ -1,21 +1,27 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.customers;
 
-import com.alevel.deliverit.customers.Name;
-import com.alevel.deliverit.customers.Sender;
-import com.alevel.deliverit.customers.SenderId;
-import com.alevel.deliverit.customers.SenderProfile;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.Map;
 
 /**
  * @author Vitalii Usatyi
  */
-class SenderFactory {
+public class SenderParser implements Parser<Sender> {
 
-    Sender create(JSONObject jsonObject) {
+
+    public SenderParser() {
+
+    }
+
+    @Override
+    public Sender parse(String jsonString) {
+
+        JSONObject jsonObject = parseToJsonObject(jsonString);
         Map senderMap = ((Map) jsonObject.get("sender"));
         Map senderProfileMap = (Map) senderMap.get("senderProfile");
         long id = (long) senderMap.get("senderId");
@@ -27,6 +33,15 @@ class SenderFactory {
         SenderProfile senderProfile = buildSenderProfile(name, address, country, countryCode);
 
         return new Sender(senderId, senderProfile);
+    }
+
+    @Override
+    public JSONObject parseToJsonObject(String jsonString) {
+        try {
+            return (JSONObject) new JSONParser().parse(jsonString);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private SenderProfile buildSenderProfile(String name, String address, String country, String countryCode) {
