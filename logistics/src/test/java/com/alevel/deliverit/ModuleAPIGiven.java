@@ -1,7 +1,6 @@
 package com.alevel.deliverit;
 
-import com.alevel.deliverit.moduleapi.BusinessLogicService;
-import com.alevel.deliverit.moduleapi.Subscribe;
+import com.alevel.deliverit.moduleapi.*;
 import io.vertx.core.eventbus.Message;
 
 /**
@@ -28,5 +27,21 @@ public class ModuleAPIGiven {
             }
         };
         return businessLogicService;
+    }
+    public static class TestClass implements BusinessLogicService{
+        @Subscribe(topic = "address 4")
+        public String stringMethod() {
+            return "Some Method 1 return";
+        }
+
+        @Subscribe(topic = "address 5")
+        public int intMethod() {
+            return 10;
+        }
+
+        @Subscribe(topic = "address 6")
+        public Message<String> nullMessageMethod() {
+            return null;
+        }
     }
 }

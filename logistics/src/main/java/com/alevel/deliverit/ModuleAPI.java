@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
+ *
  * @author Vadym Mitin
  */
 public class ModuleAPI<T extends BusinessLogicService> {
@@ -19,6 +20,12 @@ public class ModuleAPI<T extends BusinessLogicService> {
         this.methods = new HashMap<>();
     }
 
+    /**
+     * The method looks for all methods signed with the annotation {@Subscribe}
+     * and returns a Hash Map, where the key is the address, and the value is the signed method.
+     *
+     * @return Methods maped to addresses they listen to
+     */
     public HashMap<String, Method> findSubscribedMethods() {
         Class<Subscribe> annotation = Subscribe.class;
         if (businessLogicService == null ) {
@@ -33,5 +40,4 @@ public class ModuleAPI<T extends BusinessLogicService> {
             }
         return methods;
     }
-
 }
