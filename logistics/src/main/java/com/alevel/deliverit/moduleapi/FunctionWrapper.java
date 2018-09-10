@@ -1,7 +1,9 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.moduleapi;
 
 import java.util.function.Function;
-
+/**
+ * @author Vadym Mitin
+ */
 public class FunctionWrapper implements Function<String, String> {
 
     @Override

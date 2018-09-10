@@ -1,7 +1,8 @@
 package com.alevel.deliverit;
 
-import io.vertx.core.Handler;
-import io.vertx.core.eventbus.Message;
+
+import com.alevel.deliverit.moduleapi.BusinessLogicService;
+import com.alevel.deliverit.moduleapi.Subscribe;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -11,28 +12,26 @@ import java.util.HashMap;
  */
 public class ModuleAPI<T extends BusinessLogicService> {
     private final T businessLogicService;
+    private final HashMap<String, Method> methods;
 
     public ModuleAPI(T businessLogicService) {
         this.businessLogicService = businessLogicService;
+        this.methods = new HashMap<>();
     }
 
-    private HashMap<String, Method> findSubscribedMethods(final Object methodHolder, final Class<Subscribe> annotation) {
-        final HashMap<String, Method> annotatedMethods = new HashMap<>();
-        if (methodHolder == null || annotation == null) {
-            return annotatedMethods;
+    public HashMap<String, Method> findSubscribedMethods() {
+        Class<Subscribe> annotation = Subscribe.class;
+        if (businessLogicService == null ) {
+            return methods;
         } else
-            for (Method method : methodHolder.getClass().getDeclaredMethods()) {
+            for (Method method : businessLogicService.getClass().getDeclaredMethods()) {
                 if (method.isAnnotationPresent(annotation)) {
                     method.setAccessible(true);
                     String topic = method.getAnnotation(annotation).topic();
-                    annotatedMethods.put(topic, method);
+                    methods.put(topic, method);
                 }
             }
-        return annotatedMethods;
+        return methods;
     }
 
-    public MethodStorage<A> getConsumer() {
-        String address =
-        return new MethodStorage<A>()
-    }
 }
