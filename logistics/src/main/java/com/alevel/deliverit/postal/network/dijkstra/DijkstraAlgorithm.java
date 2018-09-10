@@ -87,15 +87,15 @@ public class DijkstraAlgorithm {
             initialVertex.init(node, nodeWeights.get(node));
 
             currentRouteNumber++;
-            if (!connection.getStartNode().equals(this.startNode)) {
-                addNodeToRoute(connection.getStartNode(), nodeWeights.get(node));
+            if (!connection.getStartNode().equals(startNode)) {
+                addNodeToRoute(connection.getStartNode());
             }
-            addNodeToRoute(node, nodeWeights.get(node));
+            addNodeToRoute(node);
         }
     }
 
     private void fillNodeForVisit(Set<Connection> connections, Map<PostalUnit, Integer> localWeight) {
-        addNodeToRoute(initialVertex.getNode(), nodeWeights.get(initialVertex.getNode()));
+        addNodeToRoute(initialVertex.getNode());
         connections.forEach(connection -> {
             PostalUnit node = connection.getEndNode();
             if (localWeight.containsKey(node) && !node.equals(initialVertex.getNode())) {
@@ -113,13 +113,15 @@ public class DijkstraAlgorithm {
                 }
             });
         } else {
-            addNodeToRoute(endNode, nodeWeights.get(endNode));
+            addNodeToRoute(endNode);
         }
     }
 
-    private void addNodeToRoute(PostalUnit node, int weight) {
+    private void addNodeToRoute(PostalUnit node) {
+        int weight = nodeWeights.getOrDefault(node, 0);
         if (!routes.containsKey(currentRouteNumber)) {
             Route route = new Route();
+            route.addNode(startNode, weight);
             route.addNode(node, weight);
             routes.put(currentRouteNumber, route);
         } else {
@@ -135,27 +137,12 @@ public class DijkstraAlgorithm {
         routes.forEach((num, route) -> {
             List<PostalUnit> nodes = route.getUnits();
             int weight = nodeWeights.getOrDefault(endNode, 0);
-            if ((nodes.contains(endNode)) && (route.getWeight() == weight)) {
+            if (nodes.contains(endNode) && route.getWeight() == weight) {
                 shortestRoute = route;
             }
         });
-        printRoutes(shortestRoute);
+        shortestRoute.print();
         return shortestRoute;
-    }
-
-    private void printRoutes(Route route) {
-        checkNotNull(route);
-        List<PostalUnit> nodes = route.getUnits();
-        int weight = nodeWeights.getOrDefault(endNode, 0);
-
-        if (nodes.contains(endNode) && (route.getWeight() == weight)) {
-            System.out.println("Route from '" + startNode.getName() + "' to '" + endNode.getName() + "'");
-
-            System.out.print("[" + startNode.getName());
-            nodes.forEach(node -> System.out.print(" -> " + node.getName()));
-            System.out.print("] weight: " + route.getWeight());
-            System.out.println();
-        }
     }
 
     private DijkstraAlgorithm(PostalUnit startNode, PostalUnit endNode) {
@@ -164,8 +151,6 @@ public class DijkstraAlgorithm {
 
         this.initialVertex = new InitialVertex();
         this.initialVertex.setNode(startNode);
-
-        addNodeToRoute(startNode, 0);
     }
 
     public static Builder builder() {

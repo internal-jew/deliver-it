@@ -11,6 +11,8 @@ import java.util.List;
  * @author Sergey Bogovesov
  */
 public class Route {
+    public static final int START_NODE = 0;
+
     private final List<PostalUnit> nodes = new ArrayList<>();
     private int weight;
 
@@ -25,5 +27,16 @@ public class Route {
 
     public int getWeight() {
         return weight;
+    }
+
+    public void print() {
+        PostalUnit startNode = nodes.get(START_NODE);
+        PostalUnit endNode = nodes.get(nodes.size() - 1);
+
+        System.out.println("Route from '" + startNode.getName() + "' to '" + endNode.getName() + "'");
+        System.out.print("[");
+        nodes.forEach(node -> System.out.print(node.getName() + " --> "));
+        System.out.print("weight: " + getWeight() + "]");
+        System.out.println();
     }
 }
