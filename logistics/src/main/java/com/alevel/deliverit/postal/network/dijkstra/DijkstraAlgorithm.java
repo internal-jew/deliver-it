@@ -71,7 +71,7 @@ public class DijkstraAlgorithm {
         if (firstRoute && (nodeWeightContainsEndNode && nodeForVisitIsEmpty)) {
             connections.forEach(connection -> {
                 PostalUnit node = connection.getEndNode();
-                if ((localWeight.containsKey(node)) && (!node.equals(endNode))) {
+                if (localWeight.containsKey(node) && !node.equals(endNode)) {
                     nodesForVisit.add(connection);
                 }
             });
