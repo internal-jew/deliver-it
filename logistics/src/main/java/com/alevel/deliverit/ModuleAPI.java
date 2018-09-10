@@ -1,12 +1,10 @@
 package com.alevel.deliverit;
 
-import com.google.common.base.Preconditions;
+import io.vertx.core.Handler;
+import io.vertx.core.eventbus.Message;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 /**
  * @author Vadym Mitin
@@ -18,18 +16,23 @@ public class ModuleAPI<T extends BusinessLogicService> {
         this.businessLogicService = businessLogicService;
     }
 
-    private Set<Method> findMethods(final Object holder, final Class<? extends Annotation> annotation) {
-        final Set<Method> annotatedMethods = new LinkedHashSet<>();
-        if (holder == null || annotation == null) {
+    private HashMap<String, Method> findSubscribedMethods(final Object methodHolder, final Class<Subscribe> annotation) {
+        final HashMap<String, Method> annotatedMethods = new HashMap<>();
+        if (methodHolder == null || annotation == null) {
             return annotatedMethods;
         } else
-            for (Method method : holder.getClass().getDeclaredMethods()) {
+            for (Method method : methodHolder.getClass().getDeclaredMethods()) {
                 if (method.isAnnotationPresent(annotation)) {
                     method.setAccessible(true);
-                    annotatedMethods.add(method);
+                    String topic = method.getAnnotation(annotation).topic();
+                    annotatedMethods.put(topic, method);
                 }
             }
-
         return annotatedMethods;
+    }
+
+    public MethodStorage<A> getConsumer() {
+        String address =
+        return new MethodStorage<A>()
     }
 }
