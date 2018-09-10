@@ -11,10 +11,10 @@ import java.util.Map;
 /**
  * @author Vitalii Usatyi
  */
-public class SenderParser implements Parser<Sender> {
+class SenderParser implements Parser<Sender> {
 
 
-    public SenderParser() {
+    SenderParser() {
 
     }
 

@@ -16,9 +16,9 @@ import static com.alevel.deliverit.logistics.WeightUnit.POUND;
 /**
  * @author Vitalii Usatyi
  */
-public class ParcelParser implements Parser<Parcel> {
+class ParcelParser implements Parser<Parcel> {
 
-    public ParcelParser() {
+    ParcelParser() {
 
     }
 
