@@ -1,12 +1,12 @@
-package com.alevel.deliverit.postal.network;
+package com.alevel.deliverit.logistics.postal.network;
 
-import com.alevel.deliverit.postal.network.constraint.Constraint;
-import com.alevel.deliverit.postal.network.context.SendingContext;
+import com.alevel.deliverit.logistics.postal.network.constraint.Constraint;
+import com.alevel.deliverit.logistics.postal.network.context.SendingContext;
 
 import java.util.Objects;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implements connection between two postal offices.

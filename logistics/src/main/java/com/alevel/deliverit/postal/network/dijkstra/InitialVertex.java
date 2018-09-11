@@ -1,6 +1,6 @@
 package com.alevel.deliverit.postal.network.dijkstra;
 
-import com.alevel.deliverit.postal.network.PostalUnit;
+import com.alevel.deliverit.logistics.postal.network.PostalUnit;
 
 /**
  * Initial Vertex of Graph.

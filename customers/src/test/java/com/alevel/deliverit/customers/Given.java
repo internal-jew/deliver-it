@@ -1,5 +1,6 @@
-package com.alevel.deliverit.customers;
+package java.com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.customers.*;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;

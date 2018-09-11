@@ -1,4 +1,4 @@
-package com.alevel.deliverit.postal.network.context;
+package com.alevel.deliverit.logistics.postal.network.context;
 
 /**
  * @author Sergey Bogovesov

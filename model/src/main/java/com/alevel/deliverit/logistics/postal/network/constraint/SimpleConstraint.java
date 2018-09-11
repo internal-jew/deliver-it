@@ -1,6 +1,6 @@
-package com.alevel.deliverit.postal.network.constraint;
+package com.alevel.deliverit.logistics.postal.network.constraint;
 
-import com.alevel.deliverit.postal.network.context.SendingContext;
+import com.alevel.deliverit.logistics.postal.network.context.SendingContext;
 
 /**
  * @author Sergey Bogovesov

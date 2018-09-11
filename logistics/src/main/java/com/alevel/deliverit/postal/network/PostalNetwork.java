@@ -1,6 +1,10 @@
 package com.alevel.deliverit.postal.network;
 
-import java.util.*;
+import com.alevel.deliverit.logistics.postal.network.Connection;
+import com.alevel.deliverit.logistics.postal.network.PostalUnit;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a network of postal offices and connections between them.

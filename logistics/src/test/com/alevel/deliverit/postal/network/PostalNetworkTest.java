@@ -1,11 +1,13 @@
 package com.alevel.deliverit.postal.network;
 
+import com.alevel.deliverit.logistics.postal.network.PostalUnit;
 import com.alevel.deliverit.postal.network.dijkstra.DijkstraAlgorithm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.alevel.deliverit.postal.network.Given.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.alevel.deliverit.postal.network.Given.givenConnection;
+import static com.alevel.deliverit.postal.network.Given.givenPostalUnit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Sergey Bogovesov

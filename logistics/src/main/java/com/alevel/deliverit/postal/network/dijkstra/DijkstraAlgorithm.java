@@ -1,7 +1,10 @@
 package com.alevel.deliverit.postal.network.dijkstra;
 
-import com.alevel.deliverit.postal.network.*;
-import com.alevel.deliverit.postal.network.context.Context;
+import com.alevel.deliverit.logistics.postal.network.Connection;
+import com.alevel.deliverit.logistics.postal.network.PostalUnit;
+import com.alevel.deliverit.logistics.postal.network.Route;
+import com.alevel.deliverit.logistics.postal.network.context.Context;
+import com.alevel.deliverit.postal.network.PostalNetwork;
 
 import java.util.*;
 

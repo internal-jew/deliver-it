@@ -1,6 +1,4 @@
-package com.alevel.deliverit.postal.network.dijkstra;
-
-import com.alevel.deliverit.postal.network.PostalUnit;
+package com.alevel.deliverit.logistics.postal.network;
 
 import java.util.ArrayList;
 import java.util.List;
