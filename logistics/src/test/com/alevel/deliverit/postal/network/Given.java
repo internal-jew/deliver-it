@@ -1,6 +1,7 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.postal.network.limitations.SimpleLimitation;
+import com.alevel.deliverit.postal.network.constraint.Constraint;
+import com.alevel.deliverit.postal.network.constraint.SimpleConstraint;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,13 +17,13 @@ public class Given {
     }
 
     public static Connection givenConnection(PostalUnit start, PostalUnit end, int weight) {
-        Set<Limitation> limitations = new HashSet<>();
-        limitations.add(new SimpleLimitation(weight));
+        Set<Constraint> constraints = new HashSet<>();
+        constraints.add(new SimpleConstraint(weight));
 
         return Connection.builder()
-                .setStartUnit(start)
-                .setEndUnit(end)
-                .setLimitations(limitations)
+                .setStartNode(start)
+                .setEndNode(end)
+                .setConstraints(constraints)
                 .build();
     }
 }

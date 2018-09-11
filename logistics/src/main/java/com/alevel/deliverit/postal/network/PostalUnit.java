@@ -1,14 +1,17 @@
 package com.alevel.deliverit.postal.network;
 
-import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.*;
 
 /**
+ * A postal unit.
+ *
  * @author Sergey Bogovesov
  */
 public class PostalUnit {
@@ -42,12 +45,12 @@ public class PostalUnit {
         return name;
     }
 
-    public Set<Connection> getInputs() {
-        return inputs;
+    public ImmutableSet<Connection> getInputs() {
+        return ImmutableSet.copyOf(inputs);
     }
 
-    public Set<Connection> getOutputs() {
-        return outputs;
+    public ImmutableSet<Connection> getOutputs() {
+        return  ImmutableSet.copyOf(outputs);
     }
 
     public static class Builder {
@@ -78,6 +81,21 @@ public class PostalUnit {
             stringBuilder.append(connection).append(" ");
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PostalUnit)) return false;
+        PostalUnit that = (PostalUnit) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getName());
     }
 
     @Override
