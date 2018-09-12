@@ -11,7 +11,7 @@ public class Parcel extends Entity<ParcelId> {
     private final Weight weight;
     private final PostalAddress deliveryAddress;
 
-    public static Parser parser() {
+    public static Parser<Parcel> parser() {
         return new ParcelParser();
     }
 

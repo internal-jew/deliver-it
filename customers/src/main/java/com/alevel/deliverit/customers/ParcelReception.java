@@ -46,7 +46,7 @@ public class ParcelReception {
                 .build();
     }
 
-    private ParcelReception(Parcel parcel, Sender sender) {
+    public ParcelReception(Parcel parcel, Sender sender) {
         this.parcel = parcel;
         this.sender = sender;
     }
@@ -90,5 +90,4 @@ public class ParcelReception {
             return new ParcelReception(parcel, sender);
         }
     }
-
 }
