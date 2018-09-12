@@ -46,7 +46,7 @@ public class ParcelReception {
                 .build();
     }
 
-    public ParcelReception(Parcel parcel, Sender sender) {
+    private ParcelReception(Parcel parcel, Sender sender) {
         this.parcel = parcel;
         this.sender = sender;
     }
