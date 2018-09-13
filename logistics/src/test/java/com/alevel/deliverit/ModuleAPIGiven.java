@@ -66,18 +66,19 @@ public class ModuleAPIGiven {
         }
 
         @Subscribe("address.1")
-        public void stringMethod(Object s) {
+        public void stringMethod(String s) {
             i++;
-            String t = (String) s;
-            System.out.println(t);
-//            return "Some Method 1 return" + s;
+//            String t = (String) s;
+//            System.out.println(t);
+            System.out.println(s);
         }
 
         @Subscribe("address.2")
-        public void doubleMethod(Object s) {
+        public void doubleMethod(Double s) {
             i++;
-            Double t = (Double) s;
-            System.out.println(t);
+//            Double t = (Double) s;
+//            System.out.println(t);
+            System.out.println(s);
         }
     }
 }

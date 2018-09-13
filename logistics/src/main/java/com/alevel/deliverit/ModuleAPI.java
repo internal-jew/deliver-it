@@ -4,6 +4,7 @@ package com.alevel.deliverit;
 import com.google.common.base.Preconditions;
 import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,11 +63,17 @@ public class ModuleAPI {
             if (method.isAnnotationPresent(annotationClass)) {
                 String address = method.getAnnotation(annotationClass).value();
                 if (methodsContainer.containsKey(address)) {
-                    throw new IllegalAnnotationException("this value already used", annotationClass.newInstance());
+                    throw new IllegalStateException("this address: " + address + "; already used in method: "
+                            + method.getName() + "; from Class: " + service.getClass().getName());
                 }
                 method.setAccessible(true);
                 methodsContainer.put(address, new MethodStorage(serviceClass, method));
-                methods.put(address, param -> method.invoke(service, param));
+                methods.put(address, new Handler() {
+                    @Override
+                    public Object invokeMethod(Object o) throws InvocationTargetException, IllegalAccessException {
+                        return method.invoke(service, o);
+                    }
+                });
             }
         }
     }

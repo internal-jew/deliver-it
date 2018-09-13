@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class ModuleAPITest {
 
     @Test
-    @DisplayName("check find subscribed methods without parameters")
+    @DisplayName("find subscribed methods without parameters")
     void checkMethodContainer() throws InvocationTargetException,
             IllegalAccessException, InstantiationException, IllegalAnnotationException {
 
@@ -51,7 +51,7 @@ public class ModuleAPITest {
     }
 
     @Test
-    @DisplayName("check find subscribed methods with parameters")
+    @DisplayName("find subscribed methods with parameters")
     void checkFunctionContainer() throws InvocationTargetException,
             IllegalAccessException, InstantiationException, IllegalAnnotationException {
 
@@ -89,7 +89,7 @@ public class ModuleAPITest {
     }
 
     @Test
-    @DisplayName("Check vertx by MethodStorage")
+    @DisplayName("run vertx witch MethodStorage")
     void checkVertx() throws IllegalAccessException, InstantiationException,
             IllegalAnnotationException, InvocationTargetException {
 
@@ -105,7 +105,6 @@ public class ModuleAPITest {
             String address = e.getKey();
             MethodStorage value = e.getValue();
             eb.consumer(address, message -> {
-
                 try {
                     value.invokeMethod(message.body());
                 } catch (InvocationTargetException e1) {
@@ -115,7 +114,6 @@ public class ModuleAPITest {
                 } catch (InstantiationException e1) {
                     e1.printStackTrace();
                 }
-
             });
         }
 
@@ -126,7 +124,7 @@ public class ModuleAPITest {
     }
 
     @Test
-    @DisplayName("Check vertx by function")
+    @DisplayName("run vertx witch function")
     void checkVertx2() throws IllegalAccessException, InstantiationException,
             IllegalAnnotationException, InvocationTargetException {
 
