@@ -3,6 +3,7 @@ package com.alevel.deliverit;
 import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -49,46 +50,46 @@ public class ModuleAPITest {
         }
     }
 
-//    @Test
-//    @DisplayName("check find subscribed methods with parameters")
-//    void checkFunctionContainer() throws InvocationTargetException,
-//            IllegalAccessException, InstantiationException, IllegalAnnotationException {
-//
-//        ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
-//        ModuleAPI api = ModuleAPI.getInstance();
-//
-//        api.register(testClass2);
-//
-//        Map<String, Handler> methodsContainer = api.getFunctionContainer();
-////        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
-//
-//        for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
-//            String address = e.getKey();
-//            Handler value = e.getValue();
-//
-//            if (address.equals("Str")) {
-//                String s = "Hello";
-//                Object handle = value.handle(s);
-//                Assertions.assertEquals(s, handle);
-//                System.out.println(handle);
-//            }
-//            if (address.equals("Int")) {
-//                int i = 10;
-//                Object handle = value.handle(10);
-//                assertEquals(i, handle);
-//                System.out.println(handle);
-//            }
-//            if (address.equals("Bool")) {
-//                boolean b = true;
-//                boolean handle = (boolean) value.handle(b);
-//                Assertions.assertTrue(handle);
-//                System.out.println(handle);
-//            }
-//        }
-//    }
+    @Test
+    @DisplayName("check find subscribed methods with parameters")
+    void checkFunctionContainer() throws InvocationTargetException,
+            IllegalAccessException, InstantiationException, IllegalAnnotationException {
+
+        ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
+        ModuleAPI api = ModuleAPI.getInstance();
+
+        api.register(testClass2);
+
+        Map<String, Handler> methodsContainer = api.getFunctionContainer();
+//        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
+
+        for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
+            String address = e.getKey();
+            Handler value = e.getValue();
+
+            if (address.equals("Str")) {
+                String s = "Hello";
+                Object invokeMethod = value.invokeMethod(s);
+                Assertions.assertEquals(s, invokeMethod);
+                System.out.println(invokeMethod);
+            }
+            if (address.equals("Int")) {
+                int i = 10;
+                Object invokeMethod = value.invokeMethod(10);
+                assertEquals(i, invokeMethod);
+                System.out.println(invokeMethod);
+            }
+            if (address.equals("Bool")) {
+                boolean b = true;
+                boolean invokeMethod = (boolean) value.invokeMethod(b);
+                Assertions.assertTrue(invokeMethod);
+                System.out.println(invokeMethod);
+            }
+        }
+    }
 
     @Test
-    @DisplayName("Check vertx handler")
+    @DisplayName("Check vertx by MethodStorage")
     void checkVertx() throws IllegalAccessException, InstantiationException,
             IllegalAnnotationException, InvocationTargetException {
 
@@ -99,15 +100,50 @@ public class ModuleAPITest {
 
         api.register(testClass4);
 
-        Map<String, Handler> methodsContainer = api.getFunctionContainer();
-        Map<String, MethodStorage> storageContainer = api.getMethodsContainer();
+        Map<String, MethodStorage> methodsStorage = api.getMethodsContainer();
+        for (Map.Entry<String, MethodStorage> e : methodsStorage.entrySet()) {
+            String address = e.getKey();
+            MethodStorage value = e.getValue();
+            eb.consumer(address, message -> {
 
+                try {
+                    value.invokeMethod(message.body());
+                } catch (InvocationTargetException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                }
+
+            });
+        }
+
+        eb.send("address.1", "Hello");
+        eb.send("address.2", new Double(10));
+        eb.send("address.1", null);
+        eb.send("address.2", null);
+    }
+
+    @Test
+    @DisplayName("Check vertx by function")
+    void checkVertx2() throws IllegalAccessException, InstantiationException,
+            IllegalAnnotationException, InvocationTargetException {
+
+        Vertx vertx = Vertx.vertx();
+        EventBus eb = vertx.eventBus();
+        ModuleAPIGiven.TestClass4 testClass4 = new ModuleAPIGiven.TestClass4();
+        ModuleAPI api = ModuleAPI.getInstance();
+
+        api.register(testClass4);
+
+        Map<String, Handler> methodsContainer = api.getFunctionContainer();
         for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
             String address = e.getKey();
             Handler value = e.getValue();
             eb.consumer(address, message -> {
                 try {
-                    value.handle(message.body());
+                    value.invokeMethod(message.body());
                 } catch (InvocationTargetException e1) {
                     e1.printStackTrace();
                 } catch (IllegalAccessException e1) {
@@ -115,7 +151,10 @@ public class ModuleAPITest {
                 }
             });
         }
-        eb.send("address.1", "Hello");
-        eb.send("address.2", 100);
+
+        eb.send("address.1", new String("Hello"));
+        eb.send("address.2", new Double(10));
+        eb.send("address.1", null);
+        eb.send("address.2", null);
     }
 }

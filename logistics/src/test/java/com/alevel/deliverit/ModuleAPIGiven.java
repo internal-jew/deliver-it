@@ -76,7 +76,7 @@ public class ModuleAPIGiven {
         @Subscribe("address.2")
         public void doubleMethod(Object s) {
             i++;
-            double t = (double) s;
+            Double t = (Double) s;
             System.out.println(t);
         }
     }
