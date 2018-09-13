@@ -28,4 +28,20 @@ public class ModuleAPITest {
         HashMap<String, Method> consumer = api.findSubscribedMethods();
         consumer.forEach((k, v) -> System.out.println("value = " + k + "; Method name = " + v.getName()));
     }
+
+    @Test
+    void getInstance() {
+    }
+
+    @Test
+    void register() {
+    }
+
+    @Test
+    void getMethodsContainer() {
+    }
+
+    @Test
+    void getFunctionContainer() {
+    }
 }
