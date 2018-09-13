@@ -16,8 +16,8 @@ public class MethodStorage {
         this.method = method;
     }
 
-    public <T> T invokeMethod(Object... args) throws InvocationTargetException, IllegalAccessException {
-       return (T) method.invoke(methodClass,args);
+    public <T> T invokeMethod(Object... args) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+        return (T) method.invoke(methodClass.newInstance(), args);
     }
 
 }

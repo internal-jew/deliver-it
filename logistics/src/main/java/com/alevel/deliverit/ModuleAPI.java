@@ -8,14 +8,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * @author Vadym Mitin
  */
 public class ModuleAPI {
     private final Map<String, MethodStorage> methodsContainer = new HashMap<>();
-    private final Map<String, Consumer> methods = new HashMap<>();
+    private final Map<String, Handler> methods = new HashMap<>();
 
     private ModuleAPI() {
     }
@@ -27,7 +27,8 @@ public class ModuleAPI {
     /**
      * @param service An object containing annotated {@link Subscribe} annotation methodsContainer
      */
-    public <T extends BusinessLogicService> void register(T service) throws IllegalAccessException, IllegalAnnotationException, InstantiationException {
+    public <T extends BusinessLogicService> void register(T service) throws IllegalAccessException,
+            IllegalAnnotationException, InstantiationException {
         findAnnotatedMethods(service);
     }
 
@@ -39,9 +40,9 @@ public class ModuleAPI {
     }
 
     /**
-     * @returna Мap containing the method.invoke wrapped to {@link Consumer}
+     * @returna Мap containing the method.invoke wrapped to {@link Function}
      */
-    public Map<String, Consumer> getFunctionContainer() {
+    public Map<String, Handler> getFunctionContainer() {
         return methods;
     }
 
@@ -72,12 +73,13 @@ public class ModuleAPI {
                 methodsContainer.put(address, new MethodStorage(serviceClass, method));
                 methods.put(address, param -> {
                     try {
-                        method.invoke(service, param);
+                        return method.invoke(service, param);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
+                    return null;
                 });
             }
         }
