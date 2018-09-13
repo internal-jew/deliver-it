@@ -1,4 +1,4 @@
-package com.alevel.deliverit.moduleapi;
+package com.alevel.deliverit;
 
 
 /**

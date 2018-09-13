@@ -1,6 +1,5 @@
 package com.alevel.deliverit;
 
-import com.alevel.deliverit.moduleapi.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,7 @@ public class ModuleAPITest {
         BusinessLogicService businessLogicService = ModuleAPIGiven.givenSubscribe();
         ModuleAPI<BusinessLogicService> api = new ModuleAPI<>(businessLogicService);
         HashMap<String, Method> consumer = api.findSubscribedMethods();
-        consumer.forEach((k, v) -> System.out.println("address = " + k + "; Method name = " + v.getName()));
+        consumer.forEach((k, v) -> System.out.println("value = " + k + "; Method name = " + v.getName()));
     }
 
     @Test
@@ -27,6 +26,6 @@ public class ModuleAPITest {
         ModuleAPIGiven.TestClass testClass = new ModuleAPIGiven.TestClass();
         ModuleAPI<BusinessLogicService> api = new ModuleAPI<>(testClass);
         HashMap<String, Method> consumer = api.findSubscribedMethods();
-        consumer.forEach((k, v) -> System.out.println("address = " + k + "; Method name = " + v.getName()));
+        consumer.forEach((k, v) -> System.out.println("value = " + k + "; Method name = " + v.getName()));
     }
 }

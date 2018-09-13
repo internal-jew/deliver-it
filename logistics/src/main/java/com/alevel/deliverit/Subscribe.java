@@ -1,4 +1,4 @@
-package com.alevel.deliverit.moduleapi;
+package com.alevel.deliverit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Subscribe {
-    String address() default "";
+    String value() default "";
 }

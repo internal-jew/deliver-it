@@ -1,50 +1,60 @@
 package com.alevel.deliverit;
 
 
-import com.alevel.deliverit.moduleapi.BusinessLogicService;
-import com.alevel.deliverit.moduleapi.Subscribe;
+import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author Vadym Mitin
  */
 public class ModuleAPI<T extends BusinessLogicService> {
-    private final Map<String, Method> methods = new HashMap<>();
+    private final Map<String, MethodStorage> methodsContainer = new HashMap<>();
 
     private ModuleAPI() {
     }
 
-    public void register(T businessLogicService){
-        findSubscribedMethods(businessLogicService);
-    }
-
-    public Map<String, Method> getMethods() {
-        return methods;
+    public static <T> ModuleAPI getInstance() {
+        return Single.INSTANCE.instance;
     }
 
     /**
-     * The method looks for all methods annotated with the annotation {@link Subscribe}
-     * and returns a Hash Map, where the key is the address, and the value is the annotated method.
-     *
-     * @return Methods maped to addresses they listen to
+     * @param businessLogicService An object containing annotated {@link Subscribe} annotation methodsContainer
      */
-    private void findSubscribedMethods(T businessLogicService) {
+    public void register(T businessLogicService) throws IllegalAccessException, IllegalAnnotationException, InstantiationException {
+        findSubscribedMethods(businessLogicService);
+    }
+
+    public Map<String, MethodStorage> getMethodsContainer() {
+        return methodsContainer;
+    }
+
+    /**
+     * The method looks for all methodsContainer annotated with the annotation {@link Subscribe}
+     * and returns a Hash Map, where the key is the value, and the value is the annotated method.
+     *
+     * @return Methods map to addresses they listen to
+     */
+    private void findSubscribedMethods(T service) throws IllegalAccessException, InstantiationException, IllegalAnnotationException {
         Class<Subscribe> annotation = Subscribe.class;
-        if (businessLogicService == null ) {
-        } else
-            for (Method method : businessLogicService.getClass().getDeclaredMethods()) {
+        if (service == null) {
+            for (Method method : service.getClass().getDeclaredMethods()) {
+                String address = method.getAnnotation(annotation).value();
+                if (methodsContainer.containsKey(address)) {
+                    throw new IllegalAnnotationException("this value already used", annotation.newInstance());
+                }
                 if (method.isAnnotationPresent(annotation)) {
                     method.setAccessible(true);
-                    String topic = method.getAnnotation(annotation).address();
-                    methods.put(topic, method);
+                    methodsContainer.put(address, new MethodStorage(service.getClass(), method));
                 }
             }
+        }
     }
-    private static enum Single{
+
+
+    private static enum Single {
         INSTANCE;
         private final ModuleAPI instance = new ModuleAPI();
     }
