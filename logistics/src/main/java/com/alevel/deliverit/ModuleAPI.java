@@ -4,11 +4,9 @@ package com.alevel.deliverit;
 import com.google.common.base.Preconditions;
 import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * @author Vadym Mitin
@@ -40,7 +38,7 @@ public class ModuleAPI {
     }
 
     /**
-     * @returna Мap containing the method.invoke wrapped to {@link Function}
+     * @returna Мap containing the method.invoke wrapped to {@link Handler}
      */
     public Map<String, Handler> getFunctionContainer() {
         return methods;
@@ -61,31 +59,19 @@ public class ModuleAPI {
         Class<? extends BusinessLogicService> serviceClass = service.getClass();
 
         for (Method method : serviceClass.getDeclaredMethods()) {
-
-            String address = method.getAnnotation(annotationClass).value();
-
-            if (methodsContainer.containsKey(address)) {
-                throw new IllegalAnnotationException("this value already used", annotationClass.newInstance());
-            }
-
             if (method.isAnnotationPresent(annotationClass)) {
+                String address = method.getAnnotation(annotationClass).value();
+                if (methodsContainer.containsKey(address)) {
+                    throw new IllegalAnnotationException("this value already used", annotationClass.newInstance());
+                }
                 method.setAccessible(true);
                 methodsContainer.put(address, new MethodStorage(serviceClass, method));
-                methods.put(address, param -> {
-                    try {
-                        return method.invoke(service, param);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                });
+                methods.put(address, param -> method.invoke(service, param));
             }
         }
     }
 
-    private static enum Single {
+    private enum Single {
         INSTANCE;
         private final ModuleAPI instance = new ModuleAPI();
     }

@@ -1,8 +1,10 @@
 package com.alevel.deliverit;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * @author Vadym Mitin
  */
 public interface Handler<T> {
-    T handle(T t);
+     void handle(T t) throws InvocationTargetException, IllegalAccessException;
 }

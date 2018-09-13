@@ -1,7 +1,8 @@
 package com.alevel.deliverit;
 
 import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
-import org.junit.jupiter.api.Assertions;
+import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.EventBus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -48,41 +49,73 @@ public class ModuleAPITest {
         }
     }
 
-    @Test
-    @DisplayName("check find subscribed methods with parameters")
-    void checkFunctionContainer() throws InvocationTargetException,
-            IllegalAccessException, InstantiationException, IllegalAnnotationException {
+//    @Test
+//    @DisplayName("check find subscribed methods with parameters")
+//    void checkFunctionContainer() throws InvocationTargetException,
+//            IllegalAccessException, InstantiationException, IllegalAnnotationException {
+//
+//        ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
+//        ModuleAPI api = ModuleAPI.getInstance();
+//
+//        api.register(testClass2);
+//
+//        Map<String, Handler> methodsContainer = api.getFunctionContainer();
+////        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
+//
+//        for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
+//            String address = e.getKey();
+//            Handler value = e.getValue();
+//
+//            if (address.equals("Str")) {
+//                String s = "Hello";
+//                Object handle = value.handle(s);
+//                Assertions.assertEquals(s, handle);
+//                System.out.println(handle);
+//            }
+//            if (address.equals("Int")) {
+//                int i = 10;
+//                Object handle = value.handle(10);
+//                assertEquals(i, handle);
+//                System.out.println(handle);
+//            }
+//            if (address.equals("Bool")) {
+//                boolean b = true;
+//                boolean handle = (boolean) value.handle(b);
+//                Assertions.assertTrue(handle);
+//                System.out.println(handle);
+//            }
+//        }
+//    }
 
-        ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
+    @Test
+    @DisplayName("Check vertx handler")
+    void checkVertx() throws IllegalAccessException, InstantiationException,
+            IllegalAnnotationException, InvocationTargetException {
+
+        Vertx vertx = Vertx.vertx();
+        EventBus eb = vertx.eventBus();
+        ModuleAPIGiven.TestClass4 testClass4 = new ModuleAPIGiven.TestClass4();
         ModuleAPI api = ModuleAPI.getInstance();
 
-        api.register(testClass2);
+        api.register(testClass4);
 
         Map<String, Handler> methodsContainer = api.getFunctionContainer();
-//        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
+        Map<String, MethodStorage> storageContainer = api.getMethodsContainer();
 
         for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
             String address = e.getKey();
             Handler value = e.getValue();
-
-            if (address.equals("Str")) {
-                String s = "Hello";
-                Object handle = value.handle(s);
-                Assertions.assertEquals(s, handle);
-                System.out.println(handle);
-            }
-            if (address.equals("Int")) {
-                int i = 10;
-                Object handle = value.handle(10);
-                assertEquals(i, handle);
-                System.out.println(handle);
-            }
-            if (address.equals("Bool")) {
-                boolean b = true;
-                boolean handle = (boolean) value.handle(b);
-                Assertions.assertTrue(handle);
-                System.out.println(handle);
-            }
+            eb.consumer(address, message -> {
+                try {
+                    value.handle(message.body());
+                } catch (InvocationTargetException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
+            });
         }
+        eb.send("address.1", "Hello");
+        eb.send("address.2", 100);
     }
 }

@@ -1,7 +1,5 @@
 package com.alevel.deliverit;
 
-import io.vertx.core.eventbus.Message;
-
 /**
  * @author Vadym Mitin
  */
@@ -19,7 +17,7 @@ public class ModuleAPIGiven {
         }
 
         @Subscribe("value 3")
-        public Message<String> nullMessageMethod() {
+        public Object nullMessageMethod() {
             return null;
         }
 
@@ -60,4 +58,26 @@ public class ModuleAPIGiven {
 
     }
 
+    public static class TestClass4 implements BusinessLogicService {
+        private static int i = 0;
+
+        public static int getI() {
+            return i;
+        }
+
+        @Subscribe("address.1")
+        public void stringMethod(Object s) {
+            i++;
+            String t = (String) s;
+            System.out.println(t);
+//            return "Some Method 1 return" + s;
+        }
+
+        @Subscribe("address.2")
+        public void doubleMethod(Object s) {
+            i++;
+            double t = (double) s;
+            System.out.println(t);
+        }
+    }
 }
