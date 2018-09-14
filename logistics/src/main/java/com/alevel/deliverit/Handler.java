@@ -6,5 +6,5 @@ import java.lang.reflect.InvocationTargetException;
  * @author Vadym Mitin
  */
 public interface Handler<T> {
-    <A> A invokeMethod(T t) throws InvocationTargetException, IllegalAccessException;
+    void invokeMethod(T t) throws InvocationTargetException, IllegalAccessException;
 }

@@ -67,17 +67,37 @@ public class ModuleAPIGiven {
 
         @Subscribe("address.1")
         public void stringMethod(String s) {
+            System.out.println("address.1 = " + i);
             i++;
-//            String t = (String) s;
-//            System.out.println(t);
             System.out.println(s);
         }
 
         @Subscribe("address.2")
         public void doubleMethod(Double s) {
+            System.out.println("address.2 = " + i);
             i++;
-//            Double t = (Double) s;
-//            System.out.println(t);
+            System.out.println(s);
+        }
+    }
+
+    public static class TestClass5 implements BusinessLogicService {
+        private static int i = 0;
+
+        public static int getI() {
+            return i;
+        }
+
+        @Subscribe("address.3")
+        public void stringMethod(String s) {
+            System.out.println("address.3 = " + i);
+            i++;
+            System.out.println(s);
+        }
+
+        @Subscribe("address.4")
+        public void doubleMethod(Double s) {
+            System.out.println("address.4 = " + i);
+            i++;
             System.out.println(s);
         }
     }

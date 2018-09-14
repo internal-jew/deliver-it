@@ -53,19 +53,18 @@ public class ModuleAPITest {
     @Test
     @DisplayName("find subscribed methods with parameters")
     void checkFunctionContainer() throws InvocationTargetException,
-            IllegalAccessException, InstantiationException, IllegalAnnotationException {
+            IllegalAccessException, InstantiationException {
 
         ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
         ModuleAPI api = ModuleAPI.getInstance();
 
         api.register(testClass2);
 
-        Map<String, Handler> methodsContainer = api.getFunctionContainer();
-//        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
+        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
 
-        for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
+        for (Map.Entry<String, MethodStorage> e : methodsContainer.entrySet()) {
             String address = e.getKey();
-            Handler value = e.getValue();
+            MethodStorage value = e.getValue();
 
             if (address.equals("Str")) {
                 String s = "Hello";
@@ -90,8 +89,7 @@ public class ModuleAPITest {
 
     @Test
     @DisplayName("run vertx witch MethodStorage")
-    void checkVertx() throws IllegalAccessException, InstantiationException,
-            IllegalAnnotationException, InvocationTargetException {
+    void checkVertx() {
 
         Vertx vertx = Vertx.vertx();
         EventBus eb = vertx.eventBus();
@@ -117,7 +115,7 @@ public class ModuleAPITest {
             });
         }
 
-        eb.send("address.1", "Hello");
+        eb.send("address.1", "Hello address.1");
         eb.send("address.2", new Double(10));
         eb.send("address.1", null);
         eb.send("address.2", null);
@@ -125,15 +123,14 @@ public class ModuleAPITest {
 
     @Test
     @DisplayName("run vertx witch function")
-    void checkVertx2() throws IllegalAccessException, InstantiationException,
-            IllegalAnnotationException, InvocationTargetException {
+    void checkVertx2() {
 
         Vertx vertx = Vertx.vertx();
         EventBus eb = vertx.eventBus();
-        ModuleAPIGiven.TestClass4 testClass4 = new ModuleAPIGiven.TestClass4();
+        ModuleAPIGiven.TestClass5 testClass5 = new ModuleAPIGiven.TestClass5();
         ModuleAPI api = ModuleAPI.getInstance();
 
-        api.register(testClass4);
+        api.registerFunction(testClass5);
 
         Map<String, Handler> methodsContainer = api.getFunctionContainer();
         for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
@@ -150,9 +147,9 @@ public class ModuleAPITest {
             });
         }
 
-        eb.send("address.1", new String("Hello"));
-        eb.send("address.2", new Double(10));
-        eb.send("address.1", null);
-        eb.send("address.2", null);
+        eb.send("address.3", "Hello address.3");
+        eb.send("address.4", new Double(10));
+        eb.send("address.3", null);
+        eb.send("address.4", null);
     }
 }
