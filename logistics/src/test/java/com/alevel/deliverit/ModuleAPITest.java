@@ -1,9 +1,7 @@
 package com.alevel.deliverit;
 
-import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +10,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Vadym Mitin
@@ -19,33 +18,34 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @DisplayName("Module Api should")
 public class ModuleAPITest {
 
+    public static final String SOME_METHOD_1_RETURN = "Some Method 1 return";
+
     @Test
     @DisplayName("find subscribed methods without parameters")
     void checkMethodContainer() throws InvocationTargetException,
-            IllegalAccessException, InstantiationException, IllegalAnnotationException {
+            IllegalAccessException, InstantiationException {
 
         ModuleAPIGiven.TestClass1 testClass1 = new ModuleAPIGiven.TestClass1();
         ModuleAPI api = ModuleAPI.getInstance();
 
         api.register(testClass1);
 
-//        Map<String, Consumer> functionContainer = api.getFunctionContainer();
-        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
+        Map<String, ServiceMethod> methodsContainer = api.getFunctionsContainer();
 
-        for (Map.Entry<String, MethodStorage> e : methodsContainer.entrySet()) {
-            MethodStorage value = e.getValue();
+        for (Map.Entry<String, ServiceMethod> e : methodsContainer.entrySet()) {
+            ServiceMethod value = e.getValue();
             String address = e.getKey();
             if (address.equals("value 1")) {
-                assertEquals("Some Method 1 return", value.invokeMethod());
+                assertEquals(SOME_METHOD_1_RETURN, value.invokeConsumer());
             }
             if (address.equals("value 2")) {
-                assertEquals(10, java.util.Optional.ofNullable(value.invokeMethod()).get());
+                assertEquals(10, java.util.Optional.ofNullable(value.invokeConsumer()).get());
             }
             if (address.equals("value 3")) {
-                assertNull(value.invokeMethod());
+                assertNull(value.invokeConsumer());
             }
             if (address.equals("value 4")) {
-                value.invokeMethod();
+                value.invokeConsumer();
             }
         }
     }
@@ -60,35 +60,34 @@ public class ModuleAPITest {
 
         api.register(testClass2);
 
-        Map<String, MethodStorage> methodsContainer = api.getMethodsContainer();
+        Map<String, ServiceMethod> methodsContainer = api.getFunctionsContainer();
 
-        for (Map.Entry<String, MethodStorage> e : methodsContainer.entrySet()) {
+        for (Map.Entry<String, ServiceMethod> e : methodsContainer.entrySet()) {
             String address = e.getKey();
-            MethodStorage value = e.getValue();
+            ServiceMethod value = e.getValue();
 
             if (address.equals("Str")) {
-                String s = "Hello";
-                Object invokeMethod = value.invokeMethod(s);
-                Assertions.assertEquals(s, invokeMethod);
+                Object invokeMethod = value.invokeConsumer(SOME_METHOD_1_RETURN);
+                assertEquals(SOME_METHOD_1_RETURN, invokeMethod);
                 System.out.println(invokeMethod);
             }
             if (address.equals("Int")) {
                 int i = 10;
-                Object invokeMethod = value.invokeMethod(10);
+                Object invokeMethod = value.invokeConsumer(10);
                 assertEquals(i, invokeMethod);
                 System.out.println(invokeMethod);
             }
             if (address.equals("Bool")) {
                 boolean b = true;
-                boolean invokeMethod = (boolean) value.invokeMethod(b);
-                Assertions.assertTrue(invokeMethod);
+                boolean invokeMethod = (boolean) value.invokeConsumer(b);
+                assertTrue(invokeMethod);
                 System.out.println(invokeMethod);
             }
         }
     }
 
     @Test
-    @DisplayName("run vertx witch MethodStorage")
+    @DisplayName("run vertx witch ServiceMethod")
     void checkVertx() {
 
         Vertx vertx = Vertx.vertx();
@@ -98,18 +97,15 @@ public class ModuleAPITest {
 
         api.register(testClass4);
 
-        Map<String, MethodStorage> methodsStorage = api.getMethodsContainer();
-        for (Map.Entry<String, MethodStorage> e : methodsStorage.entrySet()) {
+        Map<String, ServiceMethod> methodsStorage = api.getFunctionsContainer();
+
+        for (Map.Entry<String, ServiceMethod> e : methodsStorage.entrySet()) {
             String address = e.getKey();
-            MethodStorage value = e.getValue();
+            ServiceMethod value = e.getValue();
             eb.consumer(address, message -> {
                 try {
-                    value.invokeMethod(message.body());
-                } catch (InvocationTargetException e1) {
-                    e1.printStackTrace();
-                } catch (IllegalAccessException e1) {
-                    e1.printStackTrace();
-                } catch (InstantiationException e1) {
+                    value.invokeConsumer(message.body());
+                } catch (InvocationTargetException | IllegalAccessException | InstantiationException e1) {
                     e1.printStackTrace();
                 }
             });
@@ -132,16 +128,15 @@ public class ModuleAPITest {
 
         api.registerFunction(testClass5);
 
-        Map<String, Handler> methodsContainer = api.getFunctionContainer();
-        for (Map.Entry<String, Handler> e : methodsContainer.entrySet()) {
+        Map<String, ServiceConsumer> methodsContainer = api.getConsumersContainer();
+
+        for (Map.Entry<String, ServiceConsumer> e : methodsContainer.entrySet()) {
             String address = e.getKey();
-            Handler value = e.getValue();
+            ServiceConsumer value = e.getValue();
             eb.consumer(address, message -> {
                 try {
-                    value.invokeMethod(message.body());
-                } catch (InvocationTargetException e1) {
-                    e1.printStackTrace();
-                } catch (IllegalAccessException e1) {
+                    value.invokeConsumer(message.body());
+                } catch (InvocationTargetException | IllegalAccessException e1) {
                     e1.printStackTrace();
                 }
             });

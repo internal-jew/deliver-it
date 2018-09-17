@@ -1,28 +1,27 @@
 package com.alevel.deliverit;
 
-
-import com.google.common.base.Preconditions;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Vadym Mitin
  */
 public class ModuleAPI {
-    private final Map<String, MethodStorage> methodsContainer = new HashMap<>();
-    private final Map<String, Handler> functionContainer = new HashMap<>();
+    private final Map<String, ServiceMethod> functionsContainer = new HashMap<>();
+    private final Map<String, ServiceConsumer> consumersContainer = new HashMap<>();
 
     private ModuleAPI() {
     }
 
     public static ModuleAPI getInstance() {
-        return Single.INSTANCE.instance;
+        return Singletone.INSTANCE.instance;
     }
 
     /**
-     * @param service An object containing annotated {@link Subscribe} annotation methodsContainer
+     * @param service An object containing annotated {@link Subscribe} annotation methods container
      */
     public <T extends BusinessLogicService> void register(T service) {
         findAnnotatedMethods(service);
@@ -33,28 +32,30 @@ public class ModuleAPI {
     }
 
     /**
-     * @return a Мap containing the {@link MethodStorage}
+     * @return a Мap containing the {@link ServiceMethod}
      */
-    public Map<String, MethodStorage> getMethodsContainer() {
-        return methodsContainer;
+    public Map<String, ServiceMethod> getFunctionsContainer() {
+        return functionsContainer;
     }
 
     /**
-     * @returna Мap containing the method.invoke wrapped to {@link Handler}
+     * @returna Мap containing the method.invoke wrapped to {@link ServiceConsumer}
      */
-    public Map<String, Handler> getFunctionContainer() {
-        return functionContainer;
+    public Map<String, ServiceConsumer> getConsumersContainer() {
+        return consumersContainer;
     }
 
+    // Map<String, ServiceConsumer> consumersContainer
+
     /**
-     * The method looks for all methodsContainer annotated with the annotation {@link Subscribe}
+     * The method looks for all functionsContainer annotated with the annotation {@link Subscribe}
      * and returns a Hash Map, where the key is the value, and the value is the annotated method.
      *
      * @return Methods map to addresses they listen to
      */
-    private <T extends BusinessLogicService> void findAnnotatedMethods(T service) {
+    private <T extends BusinessLogicService, K, V> void findAnnotatedMethods(T service) {
 
-        Preconditions.checkNotNull(service);
+        checkNotNull(service);
 
         Class<Subscribe> annotationClass = Subscribe.class;
         Class<? extends BusinessLogicService> serviceClass = service.getClass();
@@ -62,19 +63,19 @@ public class ModuleAPI {
         for (Method method : serviceClass.getDeclaredMethods()) {
             if (method.isAnnotationPresent(annotationClass)) {
                 String address = method.getAnnotation(annotationClass).value();
-                if (methodsContainer.containsKey(address)) {
-                    throw new IllegalStateException("this address: " + address + "; already used in method: "
+                if (functionsContainer.containsKey(address)) {
+                    throw new IllegalArgumentException("this address: " + address + "; already used in method: "
                             + method.getName() + "; from Class: " + service.getClass().getName());
                 }
                 method.setAccessible(true);
-                methodsContainer.put(address, new MethodStorage(serviceClass, method));
+                functionsContainer.put(address, new ServiceMethod(serviceClass, method));
             }
         }
     }
 
     private <T extends BusinessLogicService> void findAnnotatedFunction(T service) {
 
-        Preconditions.checkNotNull(service);
+        checkNotNull(service);
 
         Class<Subscribe> annotationClass = Subscribe.class;
         Class<? extends BusinessLogicService> serviceClass = service.getClass();
@@ -82,18 +83,17 @@ public class ModuleAPI {
         for (Method method : serviceClass.getDeclaredMethods()) {
             if (method.isAnnotationPresent(annotationClass)) {
                 String address = method.getAnnotation(annotationClass).value();
-                if (functionContainer.containsKey(address)) {
-                    throw new IllegalStateException("this address: " + address + "; already used in method: "
+                if (consumersContainer.containsKey(address)) {
+                    throw new IllegalArgumentException("this address: " + address + "; already used in method: "
                             + method.getName() + "; from Class: " + service.getClass().getName());
                 }
                 method.setAccessible(true);
-                functionContainer.put(address, message -> method.invoke(service, message));
+                consumersContainer.put(address, message -> method.invoke(service, message));
             }
         }
     }
 
-
-    private enum Single {
+    private enum Singletone {
         INSTANCE;
         private final ModuleAPI instance = new ModuleAPI();
     }
