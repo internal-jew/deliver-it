@@ -104,6 +104,6 @@ public class Connection {
 
     @Override
     public String toString() {
-        return "Conn: {'" + startNode.getName() + "' --> '" + endNode.getName() + "'}";
+        return "Conn: {'" + startNode.getPostalCode() + "' --> '" + endNode.getPostalCode() + "'}";
     }
 }

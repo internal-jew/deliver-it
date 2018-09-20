@@ -16,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class PostalUnit {
     private UUID id;
-    private String name;
+    private String postalCode;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
 
@@ -32,17 +32,17 @@ public class PostalUnit {
         outputs.add(connection);
     }
 
-    private PostalUnit(UUID id, String name) {
+    private PostalUnit(UUID id, String postalCode) {
         this.id = id;
-        this.name = name;
+        this.postalCode = postalCode;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getPostalCode() {
+        return postalCode;
     }
 
     public ImmutableSet<Connection> getInputs() {
@@ -89,13 +89,13 @@ public class PostalUnit {
         if (!(o instanceof PostalUnit)) return false;
         PostalUnit that = (PostalUnit) o;
         return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getName(), that.getName());
+                Objects.equals(getPostalCode(), that.getPostalCode());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getId(), getPostalCode());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class PostalUnit {
 
         return "PostalUnit{" +
                 /*"id='" + id + '\'' +*/
-                "  name='" + name + '\'' +
+                "  postalCode='" + postalCode + '\'' +
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';

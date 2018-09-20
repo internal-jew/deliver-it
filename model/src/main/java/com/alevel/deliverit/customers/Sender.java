@@ -12,4 +12,8 @@ public class Sender extends Entity<SenderId> {
         super(id);
         this.senderProfile = senderProfile;
     }
+
+    public SenderProfile getSenderProfile() {
+        return senderProfile;
+    }
 }

@@ -16,4 +16,8 @@ public class Parcel extends Entity<ParcelId> {
         this.weight = weight;
         this.deliveryAddress = deliveryAddress;
     }
+
+    public PostalAddress getDeliveryAddress() {
+        return deliveryAddress;
+    }
 }

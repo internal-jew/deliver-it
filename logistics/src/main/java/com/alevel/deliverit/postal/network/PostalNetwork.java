@@ -38,7 +38,17 @@ public class PostalNetwork {
         });
     }
 
-    public boolean containsPostalUnit(PostalUnit postalUnit) {
+    public PostalUnit find(String postalCode) {
+        PostalUnit result = null;
+        for (PostalUnit unit : postalUnits) {
+            if (unit.getPostalCode().equals(postalCode)) {
+                result = unit;
+            }
+        }
+        return result;
+    }
+
+    public boolean contains(PostalUnit postalUnit) {
         return postalUnits.contains(postalUnit);
     }
 

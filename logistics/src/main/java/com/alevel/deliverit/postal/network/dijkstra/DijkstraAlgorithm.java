@@ -180,11 +180,11 @@ public class DijkstraAlgorithm {
 
             final PostalNetwork instance = PostalNetwork.instance();
 
-            if (!instance.containsPostalUnit(startNode)) {
+            if (!instance.contains(startNode)) {
                 throw new IllegalArgumentException("Postal units doesn't contain a begin node");
             }
 
-            if (!instance.containsPostalUnit(endNode)) {
+            if (!instance.contains(endNode)) {
                 throw new IllegalArgumentException("Postal units doesn't contain a end node");
             }
 

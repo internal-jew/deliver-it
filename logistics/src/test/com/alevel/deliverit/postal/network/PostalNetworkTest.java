@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PostalNetworkTest {
 
     @Test
-    @DisplayName("Build a map of post units and calc distance")
+    @DisplayName("Build a map of post units and calculate distance")
     void buildNetworkMap() {
         PostalUnit postalUnit1 = givenPostalUnit("1");
         PostalUnit postalUnit2 = givenPostalUnit("2");
