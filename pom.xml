@@ -51,6 +51,13 @@
             <artifactId>vertx-ignite</artifactId>
             <version>${vertx.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.vertx/vertx-codegen -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-codegen</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

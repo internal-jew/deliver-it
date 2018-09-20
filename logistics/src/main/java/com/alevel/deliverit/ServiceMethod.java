@@ -2,12 +2,12 @@ package com.alevel.deliverit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.function.Function;
 
 /**
  * @author Vadym Mitin
  */
-public class ServiceMethod {
-
+public class ServiceMethod<T> implements ServiceConsumer<T> {
     private final Class methodClass;
     private final Method method;
 
@@ -16,8 +16,8 @@ public class ServiceMethod {
         this.method = method;
     }
 
-    public <T> T invokeConsumer(Object... args) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+    @Override
+    public T invokeConsumer(T... args) throws InvocationTargetException, IllegalAccessException, InstantiationException {
         return (T) method.invoke(methodClass.newInstance(), args);
     }
-
 }

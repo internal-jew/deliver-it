@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName("Module Api should")
 public class ModuleAPITest {
 
-    public static final String SOME_METHOD_1_RETURN = "Some Method 1 return";
+    public static final String METHOD_ASSERTION_RETURN = "Method return TEST";
 
     @Test
     @DisplayName("find subscribed methods without parameters")
@@ -28,15 +28,15 @@ public class ModuleAPITest {
         ModuleAPIGiven.TestClass1 testClass1 = new ModuleAPIGiven.TestClass1();
         ModuleAPI api = ModuleAPI.getInstance();
 
-        api.register(testClass1);
+        api.registerConsumers(testClass1);
 
-        Map<String, ServiceMethod> methodsContainer = api.getFunctionsContainer();
+        Map<String, ServiceConsumer> methodsContainer = api.getConsumersContainer();
 
-        for (Map.Entry<String, ServiceMethod> e : methodsContainer.entrySet()) {
-            ServiceMethod value = e.getValue();
+        for (Map.Entry<String, ServiceConsumer> e : methodsContainer.entrySet()) {
+            ServiceConsumer value = e.getValue();
             String address = e.getKey();
             if (address.equals("value 1")) {
-                assertEquals(SOME_METHOD_1_RETURN, value.invokeConsumer());
+                assertEquals(METHOD_ASSERTION_RETURN, value.invokeConsumer());
             }
             if (address.equals("value 2")) {
                 assertEquals(10, java.util.Optional.ofNullable(value.invokeConsumer()).get());
@@ -58,17 +58,17 @@ public class ModuleAPITest {
         ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
         ModuleAPI api = ModuleAPI.getInstance();
 
-        api.register(testClass2);
+        api.registerConsumers(testClass2);
 
-        Map<String, ServiceMethod> methodsContainer = api.getFunctionsContainer();
+        Map<String, ServiceConsumer> methodsContainer = api.getConsumersContainer();
 
-        for (Map.Entry<String, ServiceMethod> e : methodsContainer.entrySet()) {
+        for (Map.Entry<String, ServiceConsumer> e : methodsContainer.entrySet()) {
             String address = e.getKey();
-            ServiceMethod value = e.getValue();
+            ServiceConsumer value = e.getValue();
 
             if (address.equals("Str")) {
-                Object invokeMethod = value.invokeConsumer(SOME_METHOD_1_RETURN);
-                assertEquals(SOME_METHOD_1_RETURN, invokeMethod);
+                Object invokeMethod = value.invokeConsumer(METHOD_ASSERTION_RETURN);
+                assertEquals(METHOD_ASSERTION_RETURN, invokeMethod);
                 System.out.println(invokeMethod);
             }
             if (address.equals("Int")) {
@@ -95,13 +95,13 @@ public class ModuleAPITest {
         ModuleAPIGiven.TestClass4 testClass4 = new ModuleAPIGiven.TestClass4();
         ModuleAPI api = ModuleAPI.getInstance();
 
-        api.register(testClass4);
+        api.registerConsumers(testClass4);
 
-        Map<String, ServiceMethod> methodsStorage = api.getFunctionsContainer();
+        Map<String, ServiceConsumer> methodsStorage = api.getConsumersContainer();
 
-        for (Map.Entry<String, ServiceMethod> e : methodsStorage.entrySet()) {
+        for (Map.Entry<String, ServiceConsumer> e : methodsStorage.entrySet()) {
             String address = e.getKey();
-            ServiceMethod value = e.getValue();
+            ServiceConsumer value = e.getValue();
             eb.consumer(address, message -> {
                 try {
                     value.invokeConsumer(message.body());
@@ -126,7 +126,7 @@ public class ModuleAPITest {
         ModuleAPIGiven.TestClass5 testClass5 = new ModuleAPIGiven.TestClass5();
         ModuleAPI api = ModuleAPI.getInstance();
 
-        api.registerFunction(testClass5);
+        api.registerConsumers(testClass5);
 
         Map<String, ServiceConsumer> methodsContainer = api.getConsumersContainer();
 
@@ -136,7 +136,7 @@ public class ModuleAPITest {
             eb.consumer(address, message -> {
                 try {
                     value.invokeConsumer(message.body());
-                } catch (InvocationTargetException | IllegalAccessException e1) {
+                } catch (InvocationTargetException | IllegalAccessException | InstantiationException e1) {
                     e1.printStackTrace();
                 }
             });
