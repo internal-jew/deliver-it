@@ -1,10 +1,10 @@
 package com.alevel.deliverit.postal.network.dijkstra;
 
 import com.alevel.deliverit.logistics.postal.network.Connection;
-import com.alevel.deliverit.logistics.postal.network.PostalUnit;
+import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import com.alevel.deliverit.logistics.postal.network.context.Context;
-import com.alevel.deliverit.postal.network.PostalNetwork;
+import com.alevel.deliverit.postal.network.PostNetwork;
 
 import java.util.*;
 
@@ -17,11 +17,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class DijkstraAlgorithm {
     private final Queue<Connection> nodesForVisit = new ArrayDeque<>();
-    private final Map<PostalUnit, Integer> nodeWeights = new HashMap<>();
+    private final Map<PostOffice, Integer> nodeWeights = new HashMap<>();
     private final Map<Integer, Route> routes = new HashMap<>();
 
-    private PostalUnit startNode;
-    private PostalUnit endNode;
+    private PostOffice startNode;
+    private PostOffice endNode;
     private InitialVertex initialVertex;
     private int currentRouteNumber;
     private Route shortestRoute;
@@ -36,11 +36,11 @@ public class DijkstraAlgorithm {
     }
 
     private void buildRoute(Set<Connection> connections) {
-        final Map<PostalUnit, Integer> localWeight = new HashMap<>();
+        final Map<PostOffice, Integer> localWeight = new HashMap<>();
 
         connections.forEach(connection -> {
             final int weight = connection.calcWeight(new Context()) + initialVertex.getWeight();
-            final PostalUnit currentNode = connection.getEndNode();
+            final PostOffice currentNode = connection.getEndNode();
 
             if (nodeWeights.containsKey(currentNode)) {
                 if (nodeWeights.get(currentNode) > weight) {
@@ -66,14 +66,14 @@ public class DijkstraAlgorithm {
         }
     }
 
-    private void checkInitialNodeForVisit(Set<Connection> connections, Map<PostalUnit, Integer> localWeight) {
+    private void checkInitialNodeForVisit(Set<Connection> connections, Map<PostOffice, Integer> localWeight) {
         final boolean firstRoute = currentRouteNumber == 0;
         final boolean nodeForVisitIsEmpty = nodesForVisit.isEmpty();
         final boolean nodeWeightContainsEndNode = nodeWeights.containsKey(endNode);
 
         if (firstRoute && (nodeWeightContainsEndNode && nodeForVisitIsEmpty)) {
             connections.forEach(connection -> {
-                PostalUnit node = connection.getEndNode();
+                PostOffice node = connection.getEndNode();
                 if (localWeight.containsKey(node) && !node.equals(endNode)) {
                     nodesForVisit.add(connection);
                 }
@@ -86,7 +86,7 @@ public class DijkstraAlgorithm {
             final Connection connection = nodesForVisit.poll();
             checkNotNull(connection);
 
-            PostalUnit node = connection.getEndNode();
+            PostOffice node = connection.getEndNode();
             initialVertex.init(node, nodeWeights.get(node));
 
             currentRouteNumber++;
@@ -97,17 +97,17 @@ public class DijkstraAlgorithm {
         }
     }
 
-    private void fillNodeForVisit(Set<Connection> connections, Map<PostalUnit, Integer> localWeight) {
+    private void fillNodeForVisit(Set<Connection> connections, Map<PostOffice, Integer> localWeight) {
         addNodeToRoute(initialVertex.getNode());
         connections.forEach(connection -> {
-            PostalUnit node = connection.getEndNode();
+            PostOffice node = connection.getEndNode();
             if (localWeight.containsKey(node) && !node.equals(initialVertex.getNode())) {
                 nodesForVisit.add(connection);
             }
         });
     }
 
-    private void searchNextStartNode(Map<PostalUnit, Integer> nodes) {
+    private void searchNextStartNode(Map<PostOffice, Integer> nodes) {
         initialVertex.resetNode();
         if (!nodes.containsKey(endNode)) {
             nodes.forEach((node, weight) -> {
@@ -120,7 +120,7 @@ public class DijkstraAlgorithm {
         }
     }
 
-    private void addNodeToRoute(PostalUnit node) {
+    private void addNodeToRoute(PostOffice node) {
         int weight = nodeWeights.getOrDefault(node, 0);
         if (!routes.containsKey(currentRouteNumber)) {
             Route route = new Route();
@@ -138,7 +138,7 @@ public class DijkstraAlgorithm {
 
     private Route getShortestRoute() {
         routes.forEach((num, route) -> {
-            List<PostalUnit> nodes = route.getUnits();
+            List<PostOffice> nodes = route.getUnits();
             int weight = nodeWeights.getOrDefault(endNode, 0);
             if (nodes.contains(endNode) && route.getWeight() == weight) {
                 shortestRoute = route;
@@ -148,7 +148,7 @@ public class DijkstraAlgorithm {
         return shortestRoute;
     }
 
-    private DijkstraAlgorithm(PostalUnit startNode, PostalUnit endNode) {
+    private DijkstraAlgorithm(PostOffice startNode, PostOffice endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
 
@@ -161,15 +161,15 @@ public class DijkstraAlgorithm {
     }
 
     public static class Builder {
-        private PostalUnit startNode;
-        private PostalUnit endNode;
+        private PostOffice startNode;
+        private PostOffice endNode;
 
-        public Builder setStartNode(PostalUnit startNode) {
+        public Builder setStartNode(PostOffice startNode) {
             this.startNode = startNode;
             return this;
         }
 
-        public Builder setEndNode(PostalUnit endNode) {
+        public Builder setEndNode(PostOffice endNode) {
             this.endNode = endNode;
             return this;
         }
@@ -178,14 +178,14 @@ public class DijkstraAlgorithm {
             checkNotNull(startNode);
             checkNotNull(endNode);
 
-            final PostalNetwork instance = PostalNetwork.instance();
+            final PostNetwork instance = PostNetwork.instance();
 
             if (!instance.contains(startNode)) {
-                throw new IllegalArgumentException("Postal units doesn't contain a begin node");
+                throw new IllegalArgumentException("Post office do not contain a begin node");
             }
 
             if (!instance.contains(endNode)) {
-                throw new IllegalArgumentException("Postal units doesn't contain a end node");
+                throw new IllegalArgumentException("Post office do not contain an end node");
             }
 
             if (startNode.getOutputs().isEmpty()) {

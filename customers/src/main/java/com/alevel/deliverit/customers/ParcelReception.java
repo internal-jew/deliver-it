@@ -36,7 +36,7 @@ public class ParcelReception {
      * @return {@link ParcelReceipt package receipt}
      */
     public ParcelReceipt accept() {
-        RouteLookupRequest request = new RouteLookupRequest(parcel, sender);
+        RouteLookupRequest request = RouteLookupFactory.create(parcel, sender);
         Route route = find(request);
 
         Money price = estimatedPriceCalculator.calculate(parcel, sender);
