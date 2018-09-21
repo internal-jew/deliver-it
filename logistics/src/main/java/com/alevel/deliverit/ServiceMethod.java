@@ -1,23 +1,27 @@
 package com.alevel.deliverit;
 
+import org.checkerframework.checker.nullness.Opt;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.function.Function;
+import java.util.Optional;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Vadym Mitin
  */
-public class ServiceMethod<T> implements ServiceConsumer<T> {
-    private final Class methodClass;
+public class ServiceMethod<S> {
+    private final S service;
     private final Method method;
 
-    public ServiceMethod(Class methodClass, Method method) {
-        this.methodClass = methodClass;
+    public ServiceMethod(S service, Method method) {
+        this.service = service;
         this.method = method;
     }
 
-    @Override
-    public T invokeConsumer(T... args) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        return (T) method.invoke(methodClass.newInstance(), args);
+    public Optional invokeConsumer(Object... args) throws InvocationTargetException, IllegalAccessException {
+        return ofNullable(method.invoke(service, args));
     }
 }

@@ -10,7 +10,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Vadym Mitin
  */
 public class ModuleAPI {
-    private final Map<String, ServiceConsumer> consumersContainer = new HashMap<>();
+    private final Map<String, ServiceMethod> consumersContainer = new HashMap<>();
+    public static final Class<Subscribe> ANNOTATION_CLASS = Subscribe.class;
 
     private ModuleAPI() {
     }
@@ -20,16 +21,16 @@ public class ModuleAPI {
     }
 
     /**
-     * @param service An object containing annotated {@link Subscribe} annotation methods container
+     * @param service an object containing annotated with {@link Subscribe} annotation methods container
      */
     public <T extends BusinessLogicService> void registerConsumers(T service) {
         findAnnotatedMethods(service, consumersContainer);
     }
 
     /**
-     * @returna Мap containing the method.invoke wrapped to {@link ServiceConsumer}
+     * @return a Мap containing the {@link Method#invoke(Object, Object...)} wrapped to {@link ServiceMethod}
      */
-    public Map<String, ServiceConsumer> getConsumersContainer() {
+    public Map<String, ServiceMethod> getConsumersContainer() {
         return consumersContainer;
     }
 
@@ -39,22 +40,20 @@ public class ModuleAPI {
      *
      * @return Methods map to addresses they listen to
      */
-    private <T extends BusinessLogicService> void findAnnotatedMethods(T service, Map<String, ServiceConsumer> container) {
+    private <T extends BusinessLogicService> void findAnnotatedMethods(T service, Map<String, ServiceMethod> container) {
 
         checkNotNull(service);
 
-        Class<Subscribe> annotationClass = Subscribe.class;
         Class<? extends BusinessLogicService> serviceClass = service.getClass();
 
         for (Method method : serviceClass.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(annotationClass)) {
-                String address = method.getAnnotation(annotationClass).value();
+            if (method.isAnnotationPresent(ANNOTATION_CLASS)) {
+                String address = method.getAnnotation(ANNOTATION_CLASS).value();
                 if (container.containsKey(address)) {
-                    throw new IllegalArgumentException("this address: " + address + "; already used in method: "
-                            + method.getName() + "; from Class: " + service.getClass().getName());
+                    throw new IllegalArgumentException(String.format(" this address: %s ; already used in method: %s ; from Class: %s", address, method.getName(), serviceClass.getName()));
                 }
                 method.setAccessible(true);
-                container.put(address, message -> method.invoke(service, message));
+                container.put(address, new ServiceMethod(service, method));
             }
         }
     }
