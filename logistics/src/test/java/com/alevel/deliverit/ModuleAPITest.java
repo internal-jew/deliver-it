@@ -4,14 +4,10 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.util.Optional.ofNullable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -20,12 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName("Module Api should")
 public class ModuleAPITest {
 
-    public static final String METHOD_ASSERTION_RETURN = "Method return TEST";
+    public static final String METHOD_ASSERTION_RETURN = ModuleAPIGiven.TestClass1.METHOD_ASSERTION_RETURN;
 
     @Test
     @DisplayName("find subscribed methods without parameters")
-    void checkMethodContainer() throws InvocationTargetException,
-            IllegalAccessException, InstantiationException {
+    void checkMethodContainer() {
 
         ModuleAPIGiven.TestClass1 testClass1 = new ModuleAPIGiven.TestClass1();
         ModuleAPI api = ModuleAPI.getInstance();
@@ -45,18 +40,17 @@ public class ModuleAPITest {
                 assertEquals(10, actual.get());
             }
             if (address.equals("value 3")) {
-                assertNull(actual.get());
+                assertEquals(Optional.empty(), actual);
             }
             if (address.equals("value 4")) {
-                actual.get();
+                assertEquals(Optional.empty(), actual);
             }
         }
     }
 
     @Test
     @DisplayName("find subscribed methods with parameters")
-    void checkFunctionContainer() throws InvocationTargetException,
-            IllegalAccessException {
+    void checkFunctionContainer() {
 
         ModuleAPIGiven.TestClass2 testClass2 = new ModuleAPIGiven.TestClass2();
         ModuleAPI api = ModuleAPI.getInstance();
@@ -107,13 +101,7 @@ public class ModuleAPITest {
         for (Map.Entry<String, ServiceMethod> e : methodsStorage.entrySet()) {
             String address = e.getKey();
             ServiceMethod value = e.getValue();
-            eb.consumer(address, message -> {
-                try {
-                    value.invokeConsumer(message.body());
-                } catch (InvocationTargetException | IllegalAccessException e1) {
-                    e1.printStackTrace();
-                }
-            });
+            eb.consumer(address, message -> value.invokeConsumer(message.body()));
         }
 
         eb.send("address.1", "Hello address.1");
@@ -138,18 +126,13 @@ public class ModuleAPITest {
         for (Map.Entry<String, ServiceMethod> e : methodsContainer.entrySet()) {
             String address = e.getKey();
             ServiceMethod value = e.getValue();
-            eb.consumer(address, message -> {
-                try {
-                    value.invokeConsumer(message.body());
-                } catch (InvocationTargetException | IllegalAccessException e1) {
-                    e1.printStackTrace();
-                }
-            });
+            eb.consumer(address, message -> value.invokeConsumer(message.body()));
         }
 
         eb.send("address.3", "Hello address.3");
         eb.send("address.4", new Double(10));
         eb.send("address.3", null);
         eb.send("address.4", null);
+//        assertEquals(4,ModuleAPIGiven.getI());
     }
 }

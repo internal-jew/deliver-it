@@ -1,12 +1,10 @@
 package com.alevel.deliverit;
 
-import org.checkerframework.checker.nullness.Opt;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -21,7 +19,12 @@ public class ServiceMethod<S> {
         this.method = method;
     }
 
-    public Optional invokeConsumer(Object... args) throws InvocationTargetException, IllegalAccessException {
-        return ofNullable(method.invoke(service, args));
+    public Optional invokeConsumer(Object... args) {
+        try {
+            return ofNullable(method.invoke(service, args));
+        } catch (NoSuchElementException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }
