@@ -19,6 +19,4 @@ public class Endpoint {
                         .build();
         parcelReception.accept();
     }
-
-
 }

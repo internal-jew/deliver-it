@@ -10,9 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
- * Unit test for simple App.
+ * Unit test for Rest.
  */
 @DisplayName("Rest API should:")
 class RestTest {
@@ -20,17 +23,27 @@ class RestTest {
     @Test
     @DisplayName("Parse json to Object")
     void testParseToObject() {
-//        ObjectParser objectParser = new ObjectParser();
         Endpoint endpoint = new Endpoint();
+
         try {
-            File file = new File("E:\\Java\\Java_test\\JsonRequest.json");
-            JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(file));
+            Path path = getPath();
+            File file = new File(path.toUri());
+            JSONObject jsonObject = getJsonObject(file);
             String jsonString = jsonObject.toJSONString();
             endpoint.run(jsonString);
-
-//            System.out.println(jsonObject);
-        } catch (IOException | ParseException e) {
+        } catch (IOException | ParseException | URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    private JSONObject getJsonObject(File file) throws IOException, ParseException {
+        return (JSONObject) new JSONParser().parse(new FileReader(file));
+    }
+
+    private Path getPath() throws URISyntaxException {
+        return Paths.get(getClass()
+                        .getClassLoader()
+                        .getResource("JsonRequest.json")
+                        .toURI());
     }
 }

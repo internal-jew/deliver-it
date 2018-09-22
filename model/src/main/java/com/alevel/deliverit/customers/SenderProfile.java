@@ -1,5 +1,6 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 
@@ -15,6 +16,10 @@ public class SenderProfile {
         this.name = name;
         this.address = address;
         this.country = country;
+    }
+
+    public static Parser<SenderProfile> parser() {
+        return new SenderProfileParser();
     }
 
     public Name getName() {

@@ -1,4 +1,4 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,11 +11,11 @@ public abstract class Parser<T> {
 
     private T t;
 
-    public T parse(String json) {
+    public T parse(String jsonSting) {
         return t;
     }
 
-    JSONObject parseToJsonObject(String jsonString) {
+    public JSONObject parseToJsonObject(String jsonString) {
         try {
             return (JSONObject) new JSONParser().parse(jsonString);
         } catch (ParseException e) {

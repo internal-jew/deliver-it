@@ -1,12 +1,14 @@
 package com.alevel.deliverit;
 
 import com.alevel.deliverit.customers.Parcel;
-import com.alevel.deliverit.customers.Parser;
 import com.alevel.deliverit.customers.Sender;
 
 /**
+ * The value objects that recept {@link Sender} and {@link Parcel} from JSON request.
+ *
  * @author Vitalii Usatyi
  */
+
 class ParcelReceptionRequest {
     private Sender sender;
     private Parcel parcel;
