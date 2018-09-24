@@ -1,12 +1,17 @@
-package com.alevel.deliverit.customers;
+package java.com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
 import com.alevel.deliverit.TrackNumbers;
-import com.alevel.deliverit.logistics.PostalAddress;
+import com.alevel.deliverit.customers.Parcel;
+import com.alevel.deliverit.customers.ParcelReceipt;
+import com.alevel.deliverit.customers.ParcelReception;
+import com.alevel.deliverit.customers.Sender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static java.com.alevel.deliverit.customers.Given.givenParcel;
+import static java.com.alevel.deliverit.customers.Given.givenSender;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -19,8 +24,8 @@ class ParcelReceptionTest {
     @Test
     @DisplayName("Receiving a package from the sender")
     void accept() {
-        Parcel parcel = Given.givenParcel();
-        Sender sender = Given.givenSender();
+        Parcel parcel = givenParcel();
+        Sender sender = givenSender();
 
         final ParcelReception packageReception = ParcelReception
                 .builder()

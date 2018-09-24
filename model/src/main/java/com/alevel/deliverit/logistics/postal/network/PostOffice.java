@@ -1,22 +1,22 @@
-package com.alevel.deliverit.postal.network;
+package com.alevel.deliverit.logistics.postal.network;
 
+import com.alevel.deliverit.entity.Entity;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * A postal unit.
+ * A post office.
  *
  * @author Sergey Bogovesov
  */
-public class PostalUnit {
-    private UUID id;
-    private String name;
+public class PostOffice  {
+    private PostOfficeId id;
+    private String postalCode;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
 
@@ -32,17 +32,17 @@ public class PostalUnit {
         outputs.add(connection);
     }
 
-    private PostalUnit(UUID id, String name) {
+    private PostOffice(PostOfficeId id, String postalCode) {
         this.id = id;
-        this.name = name;
+        this.postalCode = postalCode;
     }
 
-    public UUID getId() {
+    public PostOfficeId getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getPostalCode() {
+        return postalCode;
     }
 
     public ImmutableSet<Connection> getInputs() {
@@ -50,14 +50,14 @@ public class PostalUnit {
     }
 
     public ImmutableSet<Connection> getOutputs() {
-        return  ImmutableSet.copyOf(outputs);
+        return ImmutableSet.copyOf(outputs);
     }
 
     public static class Builder {
-        private UUID id;
+        private PostOfficeId id;
         private String name;
 
-        public Builder setId(UUID id) {
+        public Builder setId(PostOfficeId id) {
             this.id = id;
             return this;
         }
@@ -67,11 +67,11 @@ public class PostalUnit {
             return this;
         }
 
-        public PostalUnit build() {
+        public PostOffice build() {
             checkNotNull(id);
             checkNotNull(name);
 
-            return new PostalUnit(id, name);
+            return new PostOffice(id, name);
         }
     }
 
@@ -86,24 +86,24 @@ public class PostalUnit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PostalUnit)) return false;
-        PostalUnit that = (PostalUnit) o;
+        if (!(o instanceof PostOffice)) return false;
+        PostOffice that = (PostOffice) o;
         return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getName(), that.getName());
+                Objects.equals(getPostalCode(), that.getPostalCode());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getName());
+        return Objects.hash(getId(), getPostalCode());
     }
 
     @Override
     public String toString() {
 
-        return "PostalUnit{" +
+        return "PostOffice{" +
                 /*"id='" + id + '\'' +*/
-                "  name='" + name + '\'' +
+                "  postalCode='" + postalCode + '\'' +
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';

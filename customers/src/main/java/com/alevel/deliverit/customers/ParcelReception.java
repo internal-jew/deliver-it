@@ -4,8 +4,10 @@ import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
 import com.alevel.deliverit.TrackNumbers;
 import com.alevel.deliverit.billing.Money;
+import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.TrackNumber;
+import com.alevel.deliverit.logistics.postal.network.Route;
 import com.google.common.annotations.VisibleForTesting;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -33,6 +35,9 @@ public class ParcelReception {
      * @return {@link ParcelReceipt package receipt}
      */
     public ParcelReceipt accept() {
+        RouteLookupRequest request = RouteLookupFactory.newRequest(parcel, sender);
+        Route route = LogisticsGateway.find(request);
+
         Money price = estimatedPriceCalculator.calculate(parcel, sender);
         EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender);
         TrackNumber trackNumber = trackNumbers.issue(parcel);

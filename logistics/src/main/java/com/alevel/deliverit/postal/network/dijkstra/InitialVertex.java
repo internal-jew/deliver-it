@@ -1,13 +1,13 @@
 package com.alevel.deliverit.postal.network.dijkstra;
 
-import com.alevel.deliverit.postal.network.PostalUnit;
+import com.alevel.deliverit.logistics.postal.network.PostOffice;
 
 /**
  * Initial Vertex of Graph.
  * @author Sergey Bogovesov
  */
 public class InitialVertex {
-    private PostalUnit node;
+    private PostOffice node;
     private int weight;
     private int minWeight;
 
@@ -16,13 +16,13 @@ public class InitialVertex {
         minWeight = Integer.MAX_VALUE;
     }
 
-    void init(PostalUnit node, int weight) {
+    void init(PostOffice node, int weight) {
         this.node = node;
         this.weight = weight;
         this.minWeight = weight;
     }
 
-    PostalUnit getNode() {
+    PostOffice getNode() {
         return node;
     }
 
@@ -34,7 +34,7 @@ public class InitialVertex {
         return minWeight;
     }
 
-    void setNode(PostalUnit node) {
+    void setNode(PostOffice node) {
         this.node = node;
     }
 

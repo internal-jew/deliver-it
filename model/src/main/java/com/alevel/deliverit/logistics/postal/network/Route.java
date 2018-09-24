@@ -1,6 +1,4 @@
-package com.alevel.deliverit.postal.network.dijkstra;
-
-import com.alevel.deliverit.postal.network.PostalUnit;
+package com.alevel.deliverit.logistics.postal.network;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +11,15 @@ import java.util.List;
 public class Route {
     public static final int START_NODE = 0;
 
-    private final List<PostalUnit> nodes = new ArrayList<>();
+    private final List<PostOffice> nodes = new ArrayList<>();
     private int weight;
 
-    public void addNode(PostalUnit node, int weight) {
+    public void addNode(PostOffice node, int weight) {
         nodes.add(node);
         this.weight = weight;
     }
 
-    public List<PostalUnit> getUnits() {
+    public List<PostOffice> getUnits() {
         return nodes;
     }
 
@@ -30,12 +28,12 @@ public class Route {
     }
 
     public void print() {
-        PostalUnit startNode = nodes.get(START_NODE);
-        PostalUnit endNode = nodes.get(nodes.size() - 1);
+        PostOffice startNode = nodes.get(START_NODE);
+        PostOffice endNode = nodes.get(nodes.size() - 1);
 
-        System.out.println("Route from '" + startNode.getName() + "' to '" + endNode.getName() + "'");
+        System.out.println("Route from '" + startNode.getPostalCode() + "' to '" + endNode.getPostalCode() + "'");
         System.out.print("[");
-        nodes.forEach(node -> System.out.print(node.getName() + " --> "));
+        nodes.forEach(node -> System.out.print(node.getPostalCode() + " --> "));
         System.out.print("weight: " + getWeight() + "]");
         System.out.println();
     }

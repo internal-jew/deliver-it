@@ -1,12 +1,12 @@
-package com.alevel.deliverit.postal.network;
+package com.alevel.deliverit.logistics.postal.network;
 
-import com.alevel.deliverit.postal.network.constraint.Constraint;
-import com.alevel.deliverit.postal.network.context.SendingContext;
+import com.alevel.deliverit.logistics.postal.network.constraint.Constraint;
+import com.alevel.deliverit.logistics.postal.network.context.SendingContext;
 
 import java.util.Objects;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implements connection between two postal offices.
@@ -14,8 +14,8 @@ import static com.google.common.base.Preconditions.*;
  * @author Sergey Bogovesov
  */
 public class Connection {
-    private PostalUnit startNode;
-    private PostalUnit endNode;
+    private PostOffice startNode;
+    private PostOffice endNode;
     private Set<Constraint> constraints;
 
     public static Builder builder() {
@@ -36,11 +36,11 @@ public class Connection {
         return weight;
     }
 
-    public PostalUnit getStartNode() {
+    public PostOffice getStartNode() {
         return startNode;
     }
 
-    public PostalUnit getEndNode() {
+    public PostOffice getEndNode() {
         return endNode;
     }
 
@@ -48,23 +48,23 @@ public class Connection {
         return constraints;
     }
 
-    private Connection(PostalUnit startNode, PostalUnit endNode, Set<Constraint> constraints) {
+    private Connection(PostOffice startNode, PostOffice endNode, Set<Constraint> constraints) {
         this.startNode = startNode;
         this.endNode = endNode;
         this.constraints = constraints;
     }
 
     public static class Builder {
-        private PostalUnit startNode;
-        private PostalUnit endNode;
+        private PostOffice startNode;
+        private PostOffice endNode;
         private Set<Constraint> constraints;
 
-        public Builder setStartNode(PostalUnit startNode) {
+        public Builder setStartNode(PostOffice startNode) {
             this.startNode = startNode;
             return this;
         }
 
-        public Builder setEndNode(PostalUnit endNode) {
+        public Builder setEndNode(PostOffice endNode) {
             this.endNode = endNode;
             return this;
         }
@@ -104,6 +104,6 @@ public class Connection {
 
     @Override
     public String toString() {
-        return "Conn: {'" + startNode.getName() + "' --> '" + endNode.getName() + "'}";
+        return "Conn: {'" + startNode.getPostalCode() + "' --> '" + endNode.getPostalCode() + "'}";
     }
 }
