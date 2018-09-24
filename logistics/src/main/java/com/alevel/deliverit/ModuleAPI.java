@@ -37,7 +37,7 @@ public class ModuleAPI {
     }
 
     /**
-     * The method looks for all methods in the registered {@link #registerConsumers(BusinessLogicService)}
+     * The method looks for all methods in the {@linkplain #registerConsumers(BusinessLogicService) registered}
      * annotated {@link Subscribe} and returns {@link Map}, where the key is the value,
      * and the value is the annotated method.
      *
@@ -53,10 +53,10 @@ public class ModuleAPI {
             if (method.isAnnotationPresent(ANNOTATION_CLASS)) {
                 String address = method.getAnnotation(ANNOTATION_CLASS).value();
                 if (container.containsKey(address)) {
-                    throw new IllegalArgumentException(format(" this address: %s ; already used in method: %s ; from Class: %s"
-                            , address
-                            , method.getName()
-                            , serviceClass.getName()));
+                    throw new IllegalArgumentException(format(" this address: %s ; already used in method: %s ; from Class: %s",
+                            address,
+                            method.getName(),
+                            serviceClass.getName()));
                 }
                 method.setAccessible(true);
                 container.put(address, new ServiceMethod(service, method));
