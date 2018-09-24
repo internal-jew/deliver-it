@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * @author Sergey Bogovesov
  */
-public class LogisticsGateway {
+public class RouteLookup {
 
     @Subscribe("logistics.calculate.distance")
     public static Route find(RouteLookupRequest request) {

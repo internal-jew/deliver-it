@@ -40,14 +40,9 @@ public class PostNetwork {
     }
 
     public Optional<PostOffice> find(Long id) {
-        PostOffice postOffice = null;
-        for (PostOffice unit : postOffices) {
-            if (unit.getId().getValue().equals(id)) {
-                postOffice = unit;
-                break;
-            }
-        }
-        return Optional.ofNullable(postOffice);
+        return postOffices.stream()
+                .filter(office -> office.getId().getValue().equals(id))
+                .findFirst();
     }
 
     public boolean contains(PostOffice postOffice) {

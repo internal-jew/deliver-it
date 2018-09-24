@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Sergey Bogovesov
  */
-public class PostOffice extends Entity<PostOfficeId> {
+public class PostOffice  {
     private PostOfficeId id;
     private String postalCode;
     private Set<Connection> inputs = new HashSet<>();
@@ -33,7 +33,6 @@ public class PostOffice extends Entity<PostOfficeId> {
     }
 
     private PostOffice(PostOfficeId id, String postalCode) {
-        super(id);
         this.id = id;
         this.postalCode = postalCode;
     }
