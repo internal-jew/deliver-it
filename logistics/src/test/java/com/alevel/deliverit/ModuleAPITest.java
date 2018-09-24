@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.alevel.deliverit.ModuleAPIGiven.TestClass1.METHOD_ASSERTION_RETURN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -15,8 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @DisplayName("Module Api should")
 public class ModuleAPITest {
-
-    public static final String METHOD_ASSERTION_RETURN = ModuleAPIGiven.TestClass1.METHOD_ASSERTION_RETURN;
 
     @Test
     @DisplayName("find subscribed methods without parameters")
@@ -32,18 +32,18 @@ public class ModuleAPITest {
         for (Map.Entry<String, ServiceMethod> e : methodsContainer.entrySet()) {
             ServiceMethod value = e.getValue();
             String address = e.getKey();
-            Optional actual = value.invokeConsumer();
+
             if (address.equals("value 1")) {
-                assertEquals(METHOD_ASSERTION_RETURN, actual.get());
+                assertEquals(METHOD_ASSERTION_RETURN, value.invokeConsumer().get());
             }
             if (address.equals("value 2")) {
-                assertEquals(10, actual.get());
+                assertEquals(10, value.invokeConsumer().get());
             }
             if (address.equals("value 3")) {
-                assertEquals(Optional.empty(), actual);
+                assertThrows(NullPointerException.class, value::invokeConsumer);
             }
             if (address.equals("value 4")) {
-                assertEquals(Optional.empty(), actual);
+                assertEquals(Optional.empty(), value.invokeConsumer());
             }
         }
     }

@@ -19,16 +19,20 @@ public class ModuleAPIGiven {
 
         @Subscribe("value 1")
         public String stringMethod() {
+
+            System.out.println("value 1");
             return METHOD_ASSERTION_RETURN;
         }
 
         @Subscribe("value 2")
         public int intMethod() {
+            System.out.println("Value 2");
             return 10;
         }
 
         @Subscribe("value 3")
         public Object nullMessageMethod() {
+            System.out.println("Value 3");
             return null;
         }
 

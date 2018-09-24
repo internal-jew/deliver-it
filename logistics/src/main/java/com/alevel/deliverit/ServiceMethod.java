@@ -2,10 +2,10 @@ package com.alevel.deliverit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static java.util.Optional.ofNullable;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 /**
  * @author Vadym Mitin
@@ -21,10 +21,15 @@ public class ServiceMethod<S> {
 
     public Optional invokeConsumer(Object... args) {
         try {
-            return ofNullable(method.invoke(service, args));
-        } catch (NoSuchElementException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            if (Void.TYPE.equals(method.getReturnType())) {
+                return empty();
+            } else {
+                return of(method.invoke(service, args));
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalStateException("Error occurred when calling a @Subscribe method");
+        } catch (Exception e) {
+            throw e;
         }
-        return Optional.empty();
     }
 }

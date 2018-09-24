@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.String.format;
 
 /**
  * @author Vadym Mitin
  */
 public class ModuleAPI {
+    private static final Class<Subscribe> ANNOTATION_CLASS = Subscribe.class;
+
     private final Map<String, ServiceMethod> consumersContainer = new HashMap<>();
-    public static final Class<Subscribe> ANNOTATION_CLASS = Subscribe.class;
 
     private ModuleAPI() {
     }
@@ -28,15 +30,16 @@ public class ModuleAPI {
     }
 
     /**
-     * @return a Мap containing the {@link Method#invoke(Object, Object...)} wrapped to {@link ServiceMethod}
+     * @return a {@link Map} containing the {@link Method#invoke(Object, Object...)} wrapped to {@link ServiceMethod}
      */
     public Map<String, ServiceMethod> getConsumersContainer() {
         return consumersContainer;
     }
 
     /**
-     * The method looks for all functionsContainer annotated with the annotation {@link Subscribe}
-     * and returns a {@link Map}, where the key is the value, and the value is the annotated method.
+     * The method looks for all methods in the registered {@link #registerConsumers(BusinessLogicService)}
+     * annotated {@link Subscribe} and returns {@link Map}, where the key is the value,
+     * and the value is the annotated method.
      *
      * @return Methods map to addresses they listen to
      */
@@ -50,7 +53,10 @@ public class ModuleAPI {
             if (method.isAnnotationPresent(ANNOTATION_CLASS)) {
                 String address = method.getAnnotation(ANNOTATION_CLASS).value();
                 if (container.containsKey(address)) {
-                    throw new IllegalArgumentException(String.format(" this address: %s ; already used in method: %s ; from Class: %s", address, method.getName(), serviceClass.getName()));
+                    throw new IllegalArgumentException(format(" this address: %s ; already used in method: %s ; from Class: %s"
+                            , address
+                            , method.getName()
+                            , serviceClass.getName()));
                 }
                 method.setAccessible(true);
                 container.put(address, new ServiceMethod(service, method));
