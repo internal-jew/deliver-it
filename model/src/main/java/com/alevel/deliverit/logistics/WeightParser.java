@@ -18,10 +18,10 @@ public class WeightParser extends Parser<Weight> {
 
     private WeightUnit getWeightUnit(JSONObject jsonObject) {
         String weightUnit = (String) jsonObject.get("weightUnit");
-        if (KILOGRAM.value.equalsIgnoreCase(weightUnit)) {
+        if (KILOGRAM.value().equalsIgnoreCase(weightUnit)) {
             return KILOGRAM;
         }
-        if (POUND.value.equalsIgnoreCase(weightUnit)) {
+        if (POUND.value().equalsIgnoreCase(weightUnit)) {
             return POUND;
         } else {
             throw new IllegalArgumentException("Invalid weight unit");

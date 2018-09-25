@@ -6,9 +6,13 @@ package com.alevel.deliverit.logistics;
 public enum WeightUnit {
     KILOGRAM("kilogram"),
     POUND("pond");
-    public final String value;
+    private final String value;
 
     WeightUnit(String value) {
         this.value = value;
+    }
+
+    public String value() {
+        return this.value;
     }
 }

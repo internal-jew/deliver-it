@@ -26,6 +26,11 @@ class RestTest {
         Endpoint endpoint = new Endpoint();
 
         try {
+            new RestVerticle().start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             Path path = getPath();
             File file = new File(path.toUri());
             JSONObject jsonObject = getJsonObject(file);
@@ -41,7 +46,8 @@ class RestTest {
     }
 
     private Path getPath() throws URISyntaxException {
-        return Paths.get(getClass()
+        return Paths.get(
+                getClass()
                         .getClassLoader()
                         .getResource("JsonRequest.json")
                         .toURI());

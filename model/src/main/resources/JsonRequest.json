@@ -1,0 +1,39 @@
+{
+  "sender": {
+    "senderId": {
+      "value": 446546564
+    },
+    "senderProfile": {
+      "name": {
+        "name": "Vasya"
+      },
+      "postalAddress": {
+        "address": "Pushkin st. 24",
+        "country": {
+          "country": "Ukraine",
+          "countryCode": "UA"
+        }
+      },
+      "country": {
+        "country": "Ukraine",
+        "countryCode": "UA"
+      }
+    }
+  },
+  "parcel": {
+    "parcelId": {
+      "value": 87893648
+    },
+    "weight": {
+      "value": 10.0,
+      "weightUnit": "kilogram"
+    },
+    "postalAddress": {
+      "address": "Lenina st. 65",
+      "country": {
+        "country": "Ukraine",
+        "countryCode": "UA"
+      }
+    }
+  }
+}
