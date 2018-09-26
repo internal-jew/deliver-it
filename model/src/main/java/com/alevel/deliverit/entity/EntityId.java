@@ -8,7 +8,7 @@ package com.alevel.deliverit.entity;
 public abstract class EntityId<T> {
     private final T value;
 
-    protected EntityId(T value) {
+    public EntityId(T value) {
         this.value = value;
     }
 

@@ -9,8 +9,12 @@ package com.alevel.deliverit.entity;
 public abstract class Entity<I extends EntityId> {
     private final I id;
 
-    protected Entity(I id) {
+    public Entity(I id) {
         this.id = id;
+    }
+
+    public I getId() {
+        return id;
     }
 
     public String getName() {
