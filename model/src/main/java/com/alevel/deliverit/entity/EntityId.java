@@ -1,7 +1,7 @@
 package com.alevel.deliverit.entity;
 
 /**
- * Базовый класс определяющий поведение классов хранилих информации о сущностях.
+ * The base class represents the behavior of entity information storage classes
  *
  * @author Vadym Mitin
  */

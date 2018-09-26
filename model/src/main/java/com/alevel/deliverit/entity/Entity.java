@@ -1,8 +1,7 @@
 package com.alevel.deliverit.entity;
 
 /**
- * Базовый класс определяющий поведение классов сущностей,
- * учавствующих в процессе трекинга
+ * The base class represents entity classes behavior involved in tracking
  *
  * @author Vadym Mitin
  */
