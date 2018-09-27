@@ -26,11 +26,6 @@ class RestTest {
         Endpoint endpoint = new Endpoint();
 
         try {
-            new RestVerticle().start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
             Path path = getPath();
             File file = new File(path.toUri());
             JSONObject jsonObject = getJsonObject(file);
@@ -51,5 +46,17 @@ class RestTest {
                         .getClassLoader()
                         .getResource("JsonRequest.json")
                         .toURI());
+
+
+    }
+
+    @Test
+    @DisplayName("get json from HTTP request")
+    void vertexTest() {
+        try {
+            new RestVerticle().start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
