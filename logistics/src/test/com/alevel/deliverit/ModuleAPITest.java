@@ -1,5 +1,6 @@
 package com.alevel.deliverit;
 
+import com.google.common.collect.ImmutableMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import org.junit.jupiter.api.DisplayName;
@@ -96,8 +97,9 @@ public class ModuleAPITest {
 
         api.registerConsumers(testClass4);
 
-        Map<String, ServiceMethod> methodsStorage = api.getConsumersContainer();
+        ImmutableMap<String, ServiceMethod> methodsStorage = api.getConsumersContainer();
 
+        //TODO сделать проверку на Optional.empty
         for (Map.Entry<String, ServiceMethod> e : methodsStorage.entrySet()) {
             String address = e.getKey();
             ServiceMethod value = e.getValue();

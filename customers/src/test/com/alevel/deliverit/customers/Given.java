@@ -2,15 +2,11 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.TrackNumbers;
-import com.alevel.deliverit.customers.*;
+import com.alevel.deliverit.TrackNumberRepository;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
-
-import java.lang.reflect.Array;
-import java.util.*;
 
 import static org.mockito.Mockito.mock;
 
@@ -72,7 +68,7 @@ public class Given {
         return mock(EstimatedPriceCalculator.class);
     }
 
-    public static TrackNumbers getTrackNumbers() {
-        return mock(TrackNumbers.class);
+    public static TrackNumberRepository getTrackNumbers() {
+        return mock(TrackNumberRepository.class);
     }
 }

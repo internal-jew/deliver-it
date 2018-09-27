@@ -27,7 +27,7 @@ class ParcelReceptionTest {
 
         packageReception.setDeliveryTime(getDeliveryTime());
         packageReception.setEstimatedPriceCalculator(getEstimatedPriceCalculator());
-        packageReception.setTrackNumbers(getTrackNumbers());
+        packageReception.setTrackNumberRepository(getTrackNumbers());
 
         ParcelReceipt parcelReceipt = packageReception.accept();
 
