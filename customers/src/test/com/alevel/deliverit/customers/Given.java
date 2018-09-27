@@ -1,12 +1,18 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.DeliveryTime;
+import com.alevel.deliverit.EstimatedPriceCalculator;
+import com.alevel.deliverit.TrackNumbers;
 import com.alevel.deliverit.customers.*;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
 
-import java.util.UUID;
+import java.lang.reflect.Array;
+import java.util.*;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * @author Sergey Bogovesov
@@ -22,11 +28,11 @@ public class Given {
     }
 
     public static ParcelId givenParcelId() {
-        return new ParcelId(10l);
+        return new ParcelId(10L);
     }
 
     public static SenderId givenSenderId() {
-        return new SenderId(11l);
+        return new SenderId(11L);
     }
 
     public static Weight givenWeight() {
@@ -56,5 +62,17 @@ public class Given {
 
     public static Sender givenSender() {
         return new Sender(givenSenderId(), givenSenderProfile());
+    }
+
+    public static DeliveryTime getDeliveryTime() {
+        return mock(DeliveryTime.class);
+    }
+
+    public static EstimatedPriceCalculator getEstimatedPriceCalculator() {
+        return mock(EstimatedPriceCalculator.class);
+    }
+
+    public static TrackNumbers getTrackNumbers() {
+        return mock(TrackNumbers.class);
     }
 }
