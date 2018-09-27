@@ -1,7 +1,4 @@
-package com.alevel.deliverit.module_api;
-
-import com.alevel.deliverit.BusinessLogicService;
-import com.alevel.deliverit.Subscribe;
+package com.alevel.deliverit;
 
 /**
  * @author Vadym Mitin
