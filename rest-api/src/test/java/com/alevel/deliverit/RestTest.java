@@ -23,14 +23,14 @@ class RestTest {
     @Test
     @DisplayName("Parse json to Object")
     void testParseToObject() {
-        Endpoint endpoint = new Endpoint();
+        ParcelReceptionEndpoint parcelReceptionEndpoint = new ParcelReceptionEndpoint();
 
         try {
             Path path = getPath();
             File file = new File(path.toUri());
             JSONObject jsonObject = getJsonObject(file);
             String jsonString = jsonObject.toJSONString();
-            endpoint.run(jsonString);
+            parcelReceptionEndpoint.accept(jsonString);
         } catch (IOException | ParseException | URISyntaxException e) {
             e.printStackTrace();
         }

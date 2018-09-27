@@ -6,7 +6,7 @@ import com.alevel.deliverit.entity.EntityId;
  * @author Vadym Mitin
  */
 public class TrackNumber extends EntityId<TrackNumberId> {
-    protected TrackNumber(TrackNumberId value) {
+    public TrackNumber(TrackNumberId value) {
         super(value);
     }
 }
