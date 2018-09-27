@@ -1,7 +1,5 @@
-package com.alevel.deliverit.module_api;
+package com.alevel.deliverit;
 
-import com.alevel.deliverit.ModuleAPI;
-import com.alevel.deliverit.ServiceMethod;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.alevel.deliverit.module_api.ModuleAPIGiven.TestClass1.METHOD_ASSERTION_RETURN;
+import static com.alevel.deliverit.ModuleAPIGiven.TestClass1.METHOD_ASSERTION_RETURN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
