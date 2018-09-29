@@ -1,5 +1,6 @@
-package com.alevel.deliverit.customers;
+package java.com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.customers.*;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
@@ -35,7 +36,16 @@ public class Given {
     }
 
     public static PostalAddress givenPostalAddress() {
-        return new PostalAddress(givenCountry(), "some address");
+        return PostalAddress.builder()
+                .setFirstName("Vasily")
+                .setLastName("Petrovich")
+                .setHouseNumber("1024")
+                .setCountry(givenCountry())
+                .setCity("Mukhosransk")
+                .setApartmentNumber("999")
+                .setPostalCode("666")
+                .setStreet("Sumskaya")
+                .build();
     }
 
     public static Parcel givenParcel() {

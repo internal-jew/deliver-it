@@ -3,9 +3,11 @@ package com.alevel.deliverit.customers;
 import com.alevel.deliverit.Parser;
 
 /**
+ * The {@code Name} class wraps a value of {@code String} name
+ *
  * @author Vadym Mitin
  */
-public class Name {
+public final class Name {
     private final String name;
 
     public Name(String name) {
