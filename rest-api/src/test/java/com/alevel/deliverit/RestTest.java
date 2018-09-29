@@ -51,7 +51,7 @@ class RestTest {
     }
 
     @Test
-    @DisplayName("get json from HTTP request")
+    @DisplayName("Get json from HTTP request")
     void vertexTest() {
         try {
             new RestVerticle().start();
