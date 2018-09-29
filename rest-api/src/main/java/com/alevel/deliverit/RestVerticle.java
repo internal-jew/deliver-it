@@ -11,7 +11,7 @@ import io.vertx.core.http.HttpServerResponse;
 
 
 /**
- * Receipt HTTP POST request{@link ParcelReceptionEndpoint#accept(String)}.
+ * Receipt request {@link ParcelReceptionEndpoint#accept(String)}.
  * Give back json response
  *
  * @author Vitalii Usatyi
