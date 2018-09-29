@@ -1,5 +1,7 @@
 package com.alevel.deliverit.logistics;
 
+import com.alevel.deliverit.Parser;
+
 /**
  * @author Vadym Mitin
  */
@@ -18,6 +20,10 @@ public class Weight {
     public Weight(double weight, WeightUnit unit) {
         this.value = weight;
         this.unit = unit;
+    }
+
+    public static Parser<Weight> parser() {
+        return new WeightParser();
     }
 
     private static boolean isWeight(double weight) {
