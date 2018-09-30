@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import static com.alevel.deliverit.customers.Given.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 /**
  * @author Sergey Bogovesov
@@ -27,7 +26,7 @@ class ParcelReceptionTest {
 
         packageReception.setDeliveryTime(getDeliveryTime());
         packageReception.setEstimatedPriceCalculator(getEstimatedPriceCalculator());
-        packageReception.setTrackNumberRepository(getTrackNumbers());
+        packageReception.setTrackNumbers(getTrackNumbers());
 
         ParcelReceipt parcelReceipt = packageReception.accept();
 

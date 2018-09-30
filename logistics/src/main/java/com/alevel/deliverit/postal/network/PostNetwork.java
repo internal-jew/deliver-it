@@ -14,6 +14,12 @@ import java.util.Set;
  */
 public class PostNetwork {
 
+    //ToDo  Create real postal network
+    static {
+        PostalNetworkCreator.buildFakeNetwork();
+    }
+    //ToDo  Create real postal network
+
     private Set<PostOffice> postOffices = new HashSet<>();
     private Set<Connection> connections = new HashSet<>();
 

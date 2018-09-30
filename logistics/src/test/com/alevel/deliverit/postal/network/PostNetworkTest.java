@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.alevel.deliverit.postal.network.Given.givenConnection;
-import static com.alevel.deliverit.postal.network.Given.givenPostalUnit;
+import static com.alevel.deliverit.postal.network.Given.givenPostOffice;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -18,16 +18,16 @@ class PostNetworkTest {
     @Test
     @DisplayName("Build a map of post units and calculate distance")
     void buildNetworkMap() {
-        PostOffice postOffice1 = givenPostalUnit(1l);
-        PostOffice postOffice2 = givenPostalUnit(2l);
-        PostOffice postOffice3 = givenPostalUnit(3l);
-        PostOffice postOffice4 = givenPostalUnit(4l);
-        PostOffice postOffice5 = givenPostalUnit(5l);
-        PostOffice postOffice6 = givenPostalUnit(6l);
-        PostOffice postOffice7 = givenPostalUnit(7l);
-        PostOffice postOffice8 = givenPostalUnit(8l);
-        PostOffice postOffice9 = givenPostalUnit(9l);
-        PostOffice postOffice10 = givenPostalUnit(10l);
+        PostOffice postOffice1 = givenPostOffice(1l);
+        PostOffice postOffice2 = givenPostOffice(2l);
+        PostOffice postOffice3 = givenPostOffice(3l);
+        PostOffice postOffice4 = givenPostOffice(4l);
+        PostOffice postOffice5 = givenPostOffice(5l);
+        PostOffice postOffice6 = givenPostOffice(6l);
+        PostOffice postOffice7 = givenPostOffice(7l);
+        PostOffice postOffice8 = givenPostOffice(8l);
+        PostOffice postOffice9 = givenPostOffice(9l);
+        PostOffice postOffice10 = givenPostOffice(10l);
 
         final PostNetwork postNetwork = PostNetwork.instance();
 

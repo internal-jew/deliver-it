@@ -2,7 +2,7 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.TrackNumbers;
+import com.alevel.deliverit.logistics.TrackNumberRepository;
 import com.alevel.deliverit.billing.Money;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
@@ -23,7 +23,7 @@ public class ParcelReception {
 
     private EstimatedPriceCalculator estimatedPriceCalculator;
     private DeliveryTime deliveryTime;
-    private TrackNumbers trackNumbers;
+    private TrackNumberRepository trackNumbers;
 
     public static Builder builder() {
         return new Builder();
@@ -38,9 +38,9 @@ public class ParcelReception {
         RouteLookupRequest request = RouteLookupFactory.newRequest(parcel, sender);
         Route route = LogisticsGateway.find(request);
 
-        Money price = estimatedPriceCalculator.calculate(parcel, sender);
+        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
         EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender);
-        TrackNumber trackNumber = trackNumbers.issue(parcel);
+        TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
 
         return ParcelReceipt
                 .builder()
@@ -67,7 +67,7 @@ public class ParcelReception {
     }
 
     @VisibleForTesting
-    public void setTrackNumbers(TrackNumbers trackNumbers) {
+    public void setTrackNumbers(TrackNumberRepository trackNumbers) {
         this.trackNumbers = trackNumbers;
     }
 

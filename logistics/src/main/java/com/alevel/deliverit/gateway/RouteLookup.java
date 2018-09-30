@@ -16,8 +16,8 @@ public class RouteLookup {
 
     @Subscribe("logistics.calculate.distance")
     public static Route find(RouteLookupRequest request) {
-        PostOffice startOffice = getPostOffice(request.getBeginId());
-        PostOffice endOffice = getPostOffice(request.getEndId());
+        PostOffice startOffice = getPostOffice(request.getStart());
+        PostOffice endOffice = getPostOffice(request.getFinish());
 
         return DijkstraAlgorithm
                 .builder()

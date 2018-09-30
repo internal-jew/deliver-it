@@ -2,7 +2,7 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.TrackNumberRepository;
+import com.alevel.deliverit.logistics.TrackNumberRepository;
 import com.alevel.deliverit.logistics.Country;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
@@ -69,6 +69,6 @@ public class Given {
     }
 
     public static TrackNumberRepository getTrackNumbers() {
-        return mock(TrackNumberRepository.class);
+        return TrackNumberRepository.getInstance();
     }
 }
