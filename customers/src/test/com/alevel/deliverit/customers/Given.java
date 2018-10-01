@@ -61,11 +61,11 @@ public class Given {
     }
 
     public static DeliveryTime getDeliveryTime() {
-        return mock(DeliveryTime.class);
+        return new DeliveryTime();
     }
 
     public static EstimatedPriceCalculator getEstimatedPriceCalculator() {
-        return mock(EstimatedPriceCalculator.class);
+        return new EstimatedPriceCalculator();
     }
 
     public static TrackNumberRepository getTrackNumbers() {

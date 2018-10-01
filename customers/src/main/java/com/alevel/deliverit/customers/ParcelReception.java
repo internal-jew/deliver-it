@@ -39,7 +39,7 @@ public class ParcelReception {
         Route route = LogisticsGateway.find(request);
 
         Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
-        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, sender);
+        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
         TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
 
         return ParcelReceipt
