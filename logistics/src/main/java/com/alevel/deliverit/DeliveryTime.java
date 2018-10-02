@@ -22,9 +22,9 @@ public class DeliveryTime {
 
 
         long delay = Double.valueOf(postOfficeDelay + distance).longValue();
-        LocalDate calculatedData = LocalDate.now().plusDays(delay);
+        LocalDate estimatedData = LocalDate.now().plusDays(delay);
 
-        return new EstimatedDeliveryTime(calculatedData);
+        return new EstimatedDeliveryTime(estimatedData);
     }
 
     /**

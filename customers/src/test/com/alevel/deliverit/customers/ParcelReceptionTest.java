@@ -3,6 +3,8 @@ package com.alevel.deliverit.customers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static com.alevel.deliverit.customers.Given.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,8 +32,12 @@ class ParcelReceptionTest {
 
         ParcelReceipt parcelReceipt = packageReception.accept();
 
-        assertEquals(parcelReceipt.getParcel(), parcel);
-        //TODO https://github.com/internal-jew/deliver-it/issues/14
-    }
+        LocalDate estimatedDeliveryTime = parcelReceipt.getDeliveryTime().getEstimatedDeliveryTime();
 
+        long price = parcelReceipt.getPrice().getValue();
+
+        assertEquals(parcelReceipt.getParcel(), parcel);
+        assertEquals(LocalDate.now().plusDays(10), estimatedDeliveryTime);
+        assertEquals(545012L, price);
+    }
 }

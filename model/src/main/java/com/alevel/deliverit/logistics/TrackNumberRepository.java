@@ -33,7 +33,7 @@ public final class TrackNumberRepository {
         } else throw new IllegalArgumentException("this parcel already registered");
     }
 
-    public static ImmutableMap<TrackNumber, Parcel> getTrackNumbersMap() {
+    public ImmutableMap<TrackNumber, Parcel> getTrackNumbersMap() {
         return ImmutableMap.copyOf(TRACK_NUMBERS);
     }
 

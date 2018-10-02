@@ -2,7 +2,6 @@ package com.alevel.deliverit;
 
 import com.alevel.deliverit.billing.Money;
 import com.alevel.deliverit.logistics.Weight;
-import com.alevel.deliverit.logistics.WeightUnit;
 import com.alevel.deliverit.logistics.postal.network.Route;
 
 import java.util.Currency;
@@ -12,6 +11,9 @@ import java.util.Currency;
  * @author Vadym Mitin
  */
 public class EstimatedPriceCalculator {
+
+    public static final double WEIGHT_COEFFICIENT = 20.5;
+    public static final double DISTANCE_COEFFICIENT = 49.5;
 
     public Money calculate(Weight parcelWeight, Route route) {
         Double weight = parcelWeight.getValue();
@@ -38,11 +40,12 @@ public class EstimatedPriceCalculator {
 
     private double estimateDistanceCost(int distanceKilometers) {
         //TODO implement the calculate the cost with increasing depending on the weight
-        return distanceKilometers * 49.5;
+//        System.out.println();
+        return distanceKilometers * DISTANCE_COEFFICIENT;
     }
 
     //TODO implement the calculate the cost with increasing depending on the distance
     private double estimateWeightCost(Double weight) {
-        return weight * 20.5;
+        return weight * WEIGHT_COEFFICIENT;
     }
 }
