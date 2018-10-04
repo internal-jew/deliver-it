@@ -12,7 +12,9 @@ import java.util.Set;
 
 import static com.alevel.deliverit.logistics.fsm.State.*;
 
-
+/**
+ * @author Vitalii Usatyi
+ */
 public class FiniteStateMachine {
     private State currentState;
     private final ImmutableMap<State, Set<State>> routeMap;

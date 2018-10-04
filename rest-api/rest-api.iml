@@ -71,7 +71,6 @@
     <orderEntry type="library" name="Maven: javax.cache:cache-api:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Maven: org.gridgain:ignite-shmem:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.ignite:ignite-spring:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.ignite:ignite-indexing:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:5.5.2" level="project" />
