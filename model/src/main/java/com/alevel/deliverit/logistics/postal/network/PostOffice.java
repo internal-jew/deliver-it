@@ -1,5 +1,6 @@
 package com.alevel.deliverit.logistics.postal.network;
 
+import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
 import com.google.common.collect.ImmutableSet;
 
@@ -102,5 +103,9 @@ public class PostOffice extends Entity<PostOfficeId> {
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';
+    }
+
+    public static Parser<PostOffice> parser() {
+        return new PostOfficeParser();
     }
 }
