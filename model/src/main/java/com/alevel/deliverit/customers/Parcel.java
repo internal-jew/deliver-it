@@ -1,5 +1,6 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.TrackNumber;
@@ -28,8 +29,8 @@ public class Parcel extends Entity<ParcelId> {
         return weight;
     }
 
-    public PostalAddress getDeliveryAddress() {
-        return deliveryAddress;
+    public static Parser<Parcel> parser() {
+        return new ParcelParser();
     }
 
     public PostOffice getStartPostOffice() {

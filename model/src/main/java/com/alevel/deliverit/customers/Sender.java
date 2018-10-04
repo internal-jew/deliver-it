@@ -1,5 +1,6 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
 
 /**
@@ -13,7 +14,7 @@ public class Sender extends Entity<SenderId> {
         this.senderProfile = senderProfile;
     }
 
-    public SenderProfile getSenderProfile() {
-        return senderProfile;
+    public static Parser<Sender> parser() {
+        return new SenderParser();
     }
 }

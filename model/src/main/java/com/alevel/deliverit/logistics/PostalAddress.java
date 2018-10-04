@@ -1,11 +1,13 @@
 package com.alevel.deliverit.logistics;
 
+import com.alevel.deliverit.Parser;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Класс реализующий международный стандарт заполнения почтового адреса
  * http://www.bitboost.com/ref/international-address-formats.html#Formats
- * 
+ *
  * @author Vadym Mitin
  */
 public class PostalAddress {
@@ -27,6 +29,9 @@ public class PostalAddress {
         this.city = builder.city.toUpperCase();
         this.postalCode = builder.postalCode.toUpperCase();
         this.country = builder.country;
+    }
+    public static Parser<PostalAddress> parser() {
+        return new PostalAddressParser();
     }
 
     public static Builder builder() {

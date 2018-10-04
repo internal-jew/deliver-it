@@ -34,7 +34,7 @@ public class Given {
     }
 
     public static Weight givenWeight() {
-        return new Weight(25, WeightUnit.KILOGRAMM);
+        return new Weight(25, WeightUnit.KILOGRAM);
     }
 
     public static SenderProfile givenSenderProfile() {

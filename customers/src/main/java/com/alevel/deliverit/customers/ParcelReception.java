@@ -95,5 +95,4 @@ public class ParcelReception {
             return new ParcelReception(parcel, sender);
         }
     }
-
 }

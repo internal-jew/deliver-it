@@ -1,5 +1,7 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.Parser;
+
 /**
  * The {@code Name} class wraps a value of {@code String} name
  *
@@ -10,6 +12,10 @@ public final class Name {
 
     public Name(String name) {
         this.name = name;
+    }
+
+    public static Parser<Name> parser() {
+        return new NameParser();
     }
 
     public String getName() {
