@@ -9,7 +9,7 @@
       },
       "postalAddress": {
         "firstName": "Vasya",
-        "lastName":"Pupkin",
+        "lastName": "Pupkin",
         "houseNumber": "789",
         "street": "Lenina",
         "apartmentNumber": "54",
@@ -36,7 +36,7 @@
     },
     "postalAddress": {
       "firstName": "Lexa",
-      "lastName":"Lihovskiy",
+      "lastName": "Lihovskiy",
       "houseNumber": "220",
       "street": "Pushkina",
       "apartmentNumber": "365",
@@ -46,6 +46,16 @@
         "country": "Ukraine",
         "countryCode": "UA"
       }
+    }
+  },
+  "StartPostOffice": {
+    "PostOfficeId": {
+      "value": 1
+    }
+  },
+  "FinishPostOffice": {
+    "PostOfficeId": {
+      "value": 9
     }
   }
 }
