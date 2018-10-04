@@ -8,10 +8,16 @@
         "name": "Vasya"
       },
       "postalAddress": {
-        "address": "Pushkin st. 24",
+        "firstName": "Vasya",
+        "lastName":"Pupkin",
+        "houseNumber": "789",
+        "street": "Lenina",
+        "apartmentNumber": "54",
+        "city": "jamanja",
+        "postalCode": "977",
         "country": {
-          "country": "Ukraine",
-          "countryCode": "UA"
+          "country": "Russia",
+          "countryCode": "RU"
         }
       },
       "country": {
@@ -29,7 +35,13 @@
       "weightUnit": "kilogram"
     },
     "postalAddress": {
-      "address": "Lenina st. 65",
+      "firstName": "Lexa",
+      "lastName":"Lihovskiy",
+      "houseNumber": "220",
+      "street": "Pushkina",
+      "apartmentNumber": "365",
+      "city": "herznaetgde",
+      "postalCode": "448",
       "country": {
         "country": "Ukraine",
         "countryCode": "UA"
