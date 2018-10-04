@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class DeliveryTime {
 
-    static final double AVERAGE_SPEED = 60;
-    static final int KILOMETERS_KOEFFICIENT = 1000;
-    static final int DAY_HOURS = 24;
-    static final double DELAY_COEFFICIENT = 0.8;
+    private static final double AVERAGE_SPEED = 60;
+    private static final int KILOMETERS_KOEFFICIENT = 1000;
+    private static final int DAY_HOURS = 24;
+    private static final double DELAY_COEFFICIENT = 0.8;
 
     public EstimatedDeliveryTime estimate(Parcel parcel, Route route) {
         //TODO https://github.com/internal-jew/deliver-it/issues/12
