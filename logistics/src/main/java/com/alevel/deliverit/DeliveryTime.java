@@ -14,7 +14,7 @@ import java.util.List;
 public class DeliveryTime {
 
     private static final double AVERAGE_SPEED = 60;
-    private static final int KILOMETERS_KOEFFICIENT = 1000;
+    private static final int KILOMETERS_COEFFICIENT = 1000;
     private static final int DAY_HOURS = 24;
     private static final double DELAY_COEFFICIENT = 0.8;
 
@@ -38,7 +38,7 @@ public class DeliveryTime {
      */
     private double estimateDistanceDelay(Route route) {
         //turning abstract route weight to concrete kilometers
-        int distanceKilometers = route.getWeight() * KILOMETERS_KOEFFICIENT;
+        int distanceKilometers = route.getWeight() * KILOMETERS_COEFFICIENT;
 
         return (distanceKilometers / AVERAGE_SPEED) / DAY_HOURS;
     }
