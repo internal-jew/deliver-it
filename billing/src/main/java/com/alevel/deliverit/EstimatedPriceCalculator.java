@@ -19,7 +19,7 @@ public class EstimatedPriceCalculator {
         Double weight = parcelWeight.getValue();
 
         //TODO implement the calculate with estimating the units
-//        WeightUnit unit = parcelWeight.getUnit();
+        //WeightUnit unit = parcelWeight.getUnit();
 
         int routeWeight = route.getWeight();
 

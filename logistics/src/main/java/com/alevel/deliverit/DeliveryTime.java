@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class DeliveryTime {
 
+    static final double AVERAGE_SPEED = 60;
+    static final int KILOMETERS_KOEFFICIENT = 1000;
+    static final int DAY_HOURS = 24;
+    static final double DELAY_COEFFICIENT = 0.8;
+
     public EstimatedDeliveryTime estimate(Parcel parcel, Route route) {
         //TODO https://github.com/internal-jew/deliver-it/issues/12
 //        System.out.println("`DeliveryTime.estimate` is not yet implemented");
@@ -33,12 +38,9 @@ public class DeliveryTime {
      */
     private double estimateDistanceDelay(Route route) {
         //turning abstract route weight to concrete kilometers
-        int distanceKilometers = route.getWeight() * 1000;
+        int distanceKilometers = route.getWeight() * KILOMETERS_KOEFFICIENT;
 
-        // in km/hour
-        double averageSpeed = 60;
-
-        return (distanceKilometers / averageSpeed) / 24;
+        return (distanceKilometers / AVERAGE_SPEED) / DAY_HOURS;
     }
 
 
@@ -50,7 +52,7 @@ public class DeliveryTime {
         List<PostOffice> units = route.getUnits();
 
         //TODO implement a different number of inspections in offices
-        return units.size() * 0.8;
+        return units.size() * DELAY_COEFFICIENT;
 
     }
 }
