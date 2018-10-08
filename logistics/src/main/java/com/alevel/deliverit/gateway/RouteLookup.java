@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * @author Sergey Bogovesov
  */
-public class RouteLookup implements BusinessLogicService{
+public class RouteLookup implements BusinessLogicService {
 
     @Subscribe("logistics.calculate.distance")
     public static Route find(RouteLookupRequest request) {
