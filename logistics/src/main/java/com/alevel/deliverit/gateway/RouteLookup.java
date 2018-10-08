@@ -1,5 +1,6 @@
 package com.alevel.deliverit.gateway;
 
+import com.alevel.deliverit.BusinessLogicService;
 import com.alevel.deliverit.Subscribe;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
@@ -12,7 +13,7 @@ import java.util.Optional;
 /**
  * @author Sergey Bogovesov
  */
-public class RouteLookup {
+public class RouteLookup implements BusinessLogicService{
 
     @Subscribe("logistics.calculate.distance")
     public static Route find(RouteLookupRequest request) {
