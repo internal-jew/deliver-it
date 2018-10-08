@@ -9,8 +9,6 @@ import io.vertx.core.eventbus.EventBus;
  * @author Eugene Mitrofanov
  */
 
-
-
 public class CustomersVerticle extends AbstractVerticle {
 
     @Override
