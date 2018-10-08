@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Given {
 
-    public static PostOffice givenPostalUnit(Long id) {
+    public static PostOffice givenPostOffice(Long id) {
         return PostOffice.builder()
                 .setId(new PostOfficeId(id))
                 .setName("Post unit " + id)

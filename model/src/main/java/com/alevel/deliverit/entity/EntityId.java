@@ -1,14 +1,14 @@
 package com.alevel.deliverit.entity;
 
 /**
- * Базовый класс определяющий поведение классов хранилих информации о сущностях.
+ * The base class represents the behavior of entity information storage classes
  *
  * @author Vadym Mitin
  */
 public abstract class EntityId<T> {
     private final T value;
 
-    protected EntityId(T value) {
+    public EntityId(T value) {
         this.value = value;
     }
 

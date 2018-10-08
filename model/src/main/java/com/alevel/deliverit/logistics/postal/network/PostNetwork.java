@@ -1,7 +1,4 @@
-package com.alevel.deliverit.postal.network;
-
-import com.alevel.deliverit.logistics.postal.network.Connection;
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
+package com.alevel.deliverit.logistics.postal.network;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -13,6 +10,12 @@ import java.util.Set;
  * @author Sergey Bogovesov
  */
 public class PostNetwork {
+
+    //ToDo  Create real postal network
+    static {
+        PostalNetworkCreator.buildFakeNetwork();
+    }
+    //ToDo  Create real postal network
 
     private Set<PostOffice> postOffices = new HashSet<>();
     private Set<Connection> connections = new HashSet<>();

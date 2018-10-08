@@ -1,5 +1,6 @@
 package com.alevel.deliverit.logistics.postal.network;
 
+import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
 import com.google.common.collect.ImmutableSet;
 
@@ -14,8 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Sergey Bogovesov
  */
-public class PostOffice  {
-    private PostOfficeId id;
+public class PostOffice extends Entity<PostOfficeId> {
     private String postalCode;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
@@ -33,12 +33,8 @@ public class PostOffice  {
     }
 
     private PostOffice(PostOfficeId id, String postalCode) {
-        this.id = id;
+        super(id);
         this.postalCode = postalCode;
-    }
-
-    public PostOfficeId getId() {
-        return id;
     }
 
     public String getPostalCode() {
@@ -107,5 +103,9 @@ public class PostOffice  {
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';
+    }
+
+    public static Parser<PostOffice> parser() {
+        return new PostOfficeParser();
     }
 }

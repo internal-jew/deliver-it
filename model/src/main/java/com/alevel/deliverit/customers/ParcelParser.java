@@ -4,6 +4,8 @@ import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.PostalAddressParser;
 import com.alevel.deliverit.logistics.Weight;
+import com.alevel.deliverit.logistics.postal.network.PostOffice;
+import com.alevel.deliverit.logistics.postal.network.PostOfficeParser;
 import org.json.simple.JSONObject;
 
 /**
@@ -20,6 +22,10 @@ class ParcelParser extends Parser<Parcel> {
         Weight weight = Weight.parser().parse(weightJson);
         String postalAddressJson = jsonObject.get("postalAddress").toString();
         PostalAddress postalAddress = PostalAddressParser.parser().parse(postalAddressJson);
-        return new Parcel(parcelId, weight, postalAddress);
+        String startPostOfficeJson = jsonObject.get("StartPostOffice").toString();
+        String finishPostOfficeJson = jsonObject.get("FinishPostOffice").toString();
+        PostOffice startPostOffice = PostOfficeParser.parser().parse(startPostOfficeJson);
+        PostOffice finishPostOffice = PostOfficeParser.parser().parse(finishPostOfficeJson);
+        return new Parcel(parcelId, weight, postalAddress, startPostOffice, finishPostOffice);
     }
 }

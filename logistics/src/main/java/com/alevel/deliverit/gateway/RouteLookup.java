@@ -4,7 +4,7 @@ import com.alevel.deliverit.Subscribe;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
-import com.alevel.deliverit.postal.network.PostNetwork;
+import com.alevel.deliverit.logistics.postal.network.PostNetwork;
 import com.alevel.deliverit.postal.network.dijkstra.DijkstraAlgorithm;
 
 import java.util.Optional;
@@ -16,8 +16,8 @@ public class RouteLookup {
 
     @Subscribe("logistics.calculate.distance")
     public static Route find(RouteLookupRequest request) {
-        PostOffice startOffice = getPostOffice(request.getBeginId());
-        PostOffice endOffice = getPostOffice(request.getEndId());
+        PostOffice startOffice = getPostOffice(request.getStart());
+        PostOffice endOffice = getPostOffice(request.getFinish());
 
         return DijkstraAlgorithm
                 .builder()

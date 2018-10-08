@@ -1,5 +1,7 @@
 package com.alevel.deliverit;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +32,10 @@ public class ModuleAPI {
     }
 
     /**
-     * @return a {@link Map} containing the {@link Method#invoke(Object, Object...)} wrapped to {@link ServiceMethod}
+     * @return a {@link ImmutableMap} containing the {@link Method#invoke(Object, Object...)} wrapped to {@link ServiceMethod}
      */
-    public Map<String, ServiceMethod> getConsumersContainer() {
-        return consumersContainer;
+    public ImmutableMap<String, ServiceMethod> getConsumersContainer() {
+        return ImmutableMap.copyOf(consumersContainer);
     }
 
     /**

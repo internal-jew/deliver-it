@@ -2,15 +2,13 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.TrackNumbers;
+import com.alevel.deliverit.logistics.TrackNumberRepository;
 import com.alevel.deliverit.billing.Money;
+import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.TrackNumber;
-import com.alevel.deliverit.logistics.TrackNumberId;
+import com.alevel.deliverit.logistics.postal.network.Route;
 import com.google.common.annotations.VisibleForTesting;
-
-import java.time.LocalDate;
-import java.util.Currency;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,7 +23,7 @@ public class ParcelReception {
 
     private EstimatedPriceCalculator estimatedPriceCalculator;
     private DeliveryTime deliveryTime;
-    private TrackNumbers trackNumbers;
+    private TrackNumberRepository trackNumbers;
 
     public static Builder builder() {
         return new Builder();
@@ -37,9 +35,12 @@ public class ParcelReception {
      * @return {@link ParcelReceipt package receipt}
      */
     public ParcelReceipt accept() {
-        Money price = new Money(100500, Currency.getInstance("USD"));
-        EstimatedDeliveryTime estimatedDeliveryTime = new EstimatedDeliveryTime(LocalDate.now());
-        TrackNumber trackNumber = new TrackNumber(new TrackNumberId("7987645"));
+        RouteLookupRequest request = RouteLookupFactory.newRequest(parcel, sender);
+        Route route = LogisticsGateway.find(request);
+
+        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
+        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
+        TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
 
         return ParcelReceipt
                 .builder()
@@ -50,31 +51,41 @@ public class ParcelReception {
                 .build();
     }
 
-    private ParcelReception(Parcel parcel, Sender sender) {
+    private ParcelReception(Parcel parcel,
+                            Sender sender,
+                            EstimatedPriceCalculator estimatedPriceCalculator,
+                            DeliveryTime deliveryTime,
+                            TrackNumberRepository trackNumbers) {
         this.parcel = parcel;
         this.sender = sender;
-    }
-
-    @VisibleForTesting
-    public void setEstimatedPriceCalculator(EstimatedPriceCalculator estimatedPriceCalculator) {
         this.estimatedPriceCalculator = estimatedPriceCalculator;
-    }
-
-    @VisibleForTesting
-    public void setDeliveryTime(DeliveryTime deliveryTime) {
         this.deliveryTime = deliveryTime;
-    }
-
-    @VisibleForTesting
-    public void setTrackNumbers(TrackNumbers trackNumbers) {
         this.trackNumbers = trackNumbers;
     }
 
     public static class Builder {
         private Parcel parcel;
         private Sender sender;
+        private EstimatedPriceCalculator estimatedPriceCalculator;
+        private DeliveryTime deliveryTime;
+        private TrackNumberRepository trackNumbers;
 
         private Builder() {
+        }
+
+        public Builder setEstimatedPriceCalculator(EstimatedPriceCalculator estimatedPriceCalculator) {
+            this.estimatedPriceCalculator = estimatedPriceCalculator;
+            return this;
+        }
+
+        public Builder setDeliveryTime(DeliveryTime deliveryTime) {
+            this.deliveryTime = deliveryTime;
+            return this;
+        }
+
+        public Builder setTrackNumbers(TrackNumberRepository trackNumbers) {
+            this.trackNumbers = trackNumbers;
+            return this;
         }
 
         public Builder setParcel(Parcel parcel) {
@@ -87,11 +98,15 @@ public class ParcelReception {
             return this;
         }
 
+
         public ParcelReception build() {
             checkNotNull(parcel);
             checkNotNull(sender);
+            checkNotNull(estimatedPriceCalculator);
+            checkNotNull(deliveryTime);
+            checkNotNull(trackNumbers);
 
-            return new ParcelReception(parcel, sender);
+            return new ParcelReception(parcel, sender, estimatedPriceCalculator, deliveryTime, trackNumbers);
         }
     }
 }
