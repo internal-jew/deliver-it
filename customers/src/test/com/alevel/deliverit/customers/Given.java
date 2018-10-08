@@ -8,7 +8,7 @@ import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
-import com.alevel.deliverit.postal.network.PostNetwork;
+import com.alevel.deliverit.logistics.postal.network.PostNetwork;
 
 import static org.mockito.Mockito.mock;
 

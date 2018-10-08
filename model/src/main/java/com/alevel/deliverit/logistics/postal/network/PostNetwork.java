@@ -1,7 +1,4 @@
-package com.alevel.deliverit.postal.network;
-
-import com.alevel.deliverit.logistics.postal.network.Connection;
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
+package com.alevel.deliverit.logistics.postal.network;
 
 import java.util.HashSet;
 import java.util.Optional;

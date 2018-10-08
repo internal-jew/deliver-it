@@ -1,8 +1,5 @@
-package com.alevel.deliverit.postal.network;
+package com.alevel.deliverit.logistics.postal.network;
 
-import com.alevel.deliverit.logistics.postal.network.Connection;
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
-import com.alevel.deliverit.logistics.postal.network.PostOfficeId;
 import com.alevel.deliverit.logistics.postal.network.constraint.Constraint;
 import com.alevel.deliverit.logistics.postal.network.constraint.SimpleConstraint;
 

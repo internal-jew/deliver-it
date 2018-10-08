@@ -46,16 +46,16 @@
         "country": "Ukraine",
         "countryCode": "UA"
       }
-    }
-  },
-  "StartPostOffice": {
-    "PostOfficeId": {
-      "value": 1
-    }
-  },
-  "FinishPostOffice": {
-    "PostOfficeId": {
-      "value": 9
+    },
+    "StartPostOffice": {
+      "PostOfficeId": {
+        "value": 1
+      }
+    },
+    "FinishPostOffice": {
+      "PostOfficeId": {
+        "value": 9
+      }
     }
   }
 }

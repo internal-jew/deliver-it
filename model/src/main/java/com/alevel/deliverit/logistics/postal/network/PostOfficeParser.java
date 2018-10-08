@@ -3,6 +3,8 @@ package com.alevel.deliverit.logistics.postal.network;
 import com.alevel.deliverit.Parser;
 import org.json.simple.JSONObject;
 
+import java.util.Optional;
+
 /**
  * @author Vadym Mitin
  */
@@ -16,11 +18,10 @@ public class PostOfficeParser extends Parser<PostOffice> {
     public PostOffice parse(String jsonSting) {
 
         JSONObject jsonObject = parseToJsonObject(jsonSting);
-//        String postOfficeId = jsonObject.get("PostOfficeId").toString();
-        long id = (long) jsonObject.get("PostOfficeId");
-        return PostOffice.builder()
-                .setId(new PostOfficeId(id))
-                .setName("Post unit " + id)
-                .build();
+        PostOfficeId postOfficeId = PostOfficeId.parser().parse(jsonObject.get("PostOfficeId").toString());
+        PostNetwork instance = PostNetwork.instance();
+        Long value = postOfficeId.getValue();
+        Optional<PostOffice> postOffice = instance.find(value);
+        return postOffice.orElseThrow(() -> new IllegalArgumentException("cant find Post office by id"));
     }
 }

@@ -51,31 +51,41 @@ public class ParcelReception {
                 .build();
     }
 
-    private ParcelReception(Parcel parcel, Sender sender) {
+    private ParcelReception(Parcel parcel,
+                            Sender sender,
+                            EstimatedPriceCalculator estimatedPriceCalculator,
+                            DeliveryTime deliveryTime,
+                            TrackNumberRepository trackNumbers) {
         this.parcel = parcel;
         this.sender = sender;
-    }
-
-    @VisibleForTesting
-    public void setEstimatedPriceCalculator(EstimatedPriceCalculator estimatedPriceCalculator) {
         this.estimatedPriceCalculator = estimatedPriceCalculator;
-    }
-
-    @VisibleForTesting
-    public void setDeliveryTime(DeliveryTime deliveryTime) {
         this.deliveryTime = deliveryTime;
-    }
-
-    @VisibleForTesting
-    public void setTrackNumbers(TrackNumberRepository trackNumbers) {
         this.trackNumbers = trackNumbers;
     }
 
     public static class Builder {
         private Parcel parcel;
         private Sender sender;
+        private EstimatedPriceCalculator estimatedPriceCalculator;
+        private DeliveryTime deliveryTime;
+        private TrackNumberRepository trackNumbers;
 
         private Builder() {
+        }
+
+        public Builder setEstimatedPriceCalculator(EstimatedPriceCalculator estimatedPriceCalculator) {
+            this.estimatedPriceCalculator = estimatedPriceCalculator;
+            return this;
+        }
+
+        public Builder setDeliveryTime(DeliveryTime deliveryTime) {
+            this.deliveryTime = deliveryTime;
+            return this;
+        }
+
+        public Builder setTrackNumbers(TrackNumberRepository trackNumbers) {
+            this.trackNumbers = trackNumbers;
+            return this;
         }
 
         public Builder setParcel(Parcel parcel) {
@@ -88,11 +98,15 @@ public class ParcelReception {
             return this;
         }
 
+
         public ParcelReception build() {
             checkNotNull(parcel);
             checkNotNull(sender);
+            checkNotNull(estimatedPriceCalculator);
+            checkNotNull(deliveryTime);
+            checkNotNull(trackNumbers);
 
-            return new ParcelReception(parcel, sender);
+            return new ParcelReception(parcel, sender, estimatedPriceCalculator, deliveryTime, trackNumbers);
         }
     }
 }

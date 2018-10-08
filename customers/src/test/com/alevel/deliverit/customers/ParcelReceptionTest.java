@@ -24,11 +24,10 @@ class ParcelReceptionTest {
                 .builder()
                 .setParcel(parcel)
                 .setSender(sender)
+                .setDeliveryTime(getDeliveryTime())
+                .setEstimatedPriceCalculator(getEstimatedPriceCalculator())
+                .setTrackNumbers(getTrackNumbers())
                 .build();
-
-        packageReception.setDeliveryTime(getDeliveryTime());
-        packageReception.setEstimatedPriceCalculator(getEstimatedPriceCalculator());
-        packageReception.setTrackNumbers(getTrackNumbers());
 
         ParcelReceipt parcelReceipt = packageReception.accept();
 
