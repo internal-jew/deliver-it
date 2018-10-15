@@ -2,6 +2,7 @@ package com.alevel.deliverit.logistics.postal.network;
 
 import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
+import com.alevel.deliverit.logistics.fsm.State;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.HashSet;
@@ -16,9 +17,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Sergey Bogovesov
  */
 public class PostOffice extends Entity<PostOfficeId> {
-    private String postalCode;
+    private final String postalCode;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
+    private Set<State> states;
+
+    private PostOffice(PostOfficeId id, String postalCode) {
+        super(id);
+        this.postalCode = postalCode;
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -32,9 +39,12 @@ public class PostOffice extends Entity<PostOfficeId> {
         outputs.add(connection);
     }
 
-    private PostOffice(PostOfficeId id, String postalCode) {
-        super(id);
-        this.postalCode = postalCode;
+    public void setStates(Set<State> states) {
+        this.states = states;
+    }
+
+    public Set<State> getStates() {
+        return states;
     }
 
     public String getPostalCode() {
@@ -47,28 +57,6 @@ public class PostOffice extends Entity<PostOfficeId> {
 
     public ImmutableSet<Connection> getOutputs() {
         return ImmutableSet.copyOf(outputs);
-    }
-
-    public static class Builder {
-        private PostOfficeId id;
-        private String name;
-
-        public Builder setId(PostOfficeId id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public PostOffice build() {
-            checkNotNull(id);
-            checkNotNull(name);
-
-            return new PostOffice(id, name);
-        }
     }
 
     private String getConnectionsAsString(Set<Connection> connections) {
@@ -107,5 +95,33 @@ public class PostOffice extends Entity<PostOfficeId> {
 
     public static Parser<PostOffice> parser() {
         return new PostOfficeParser();
+    }
+
+    public static class Builder {
+        private PostOfficeId id;
+        private String name;
+        private Set<State> states;
+
+        public Builder setId(PostOfficeId id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setStates(Set<State> states) {
+            this.states = states;
+            return this;
+        }
+
+        public PostOffice build() {
+            checkNotNull(id);
+            checkNotNull(name);
+
+            return new PostOffice(id, name);
+        }
     }
 }

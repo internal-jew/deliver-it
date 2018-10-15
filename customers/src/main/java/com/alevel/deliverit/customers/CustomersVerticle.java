@@ -10,10 +10,17 @@ import io.vertx.core.eventbus.EventBus;
  */
 
 public class CustomersVerticle extends AbstractVerticle {
+    private final Vertx vertx;
+    private final EventBus eventBus;
+
+    public CustomersVerticle(Vertx vertx) {
+        this.vertx = vertx;
+        this.eventBus = vertx.eventBus();
+    }
 
     @Override
     public void start() throws Exception {
-        Vertx vertx = Vertx.vertx();
-        VertxContext.instance().setEventBus(vertx.eventBus());
+
+        VertxContext.instance().setEventBus(eventBus);
     }
 }

@@ -1,5 +1,6 @@
 package com.alevel.deliverit.logistics.postal.network;
 
+import com.alevel.deliverit.logistics.fsm.State;
 import com.alevel.deliverit.logistics.postal.network.constraint.Constraint;
 import com.alevel.deliverit.logistics.postal.network.constraint.SimpleConstraint;
 
@@ -30,6 +31,14 @@ public class PostalNetworkCreator {
     }
 
     public static void buildFakeNetwork() {
+        Set<State> states = new HashSet<>();
+        states.add(State.ACCEPTING);
+        states.add(State.WEIGHTING);
+        states.add(State.RADIATION_CONTROL);
+        states.add(State.STAMPING);
+        states.add(State.DEPARTED);
+        states.add(State.TRASH);
+
         PostOffice postOffice1 = fakeOffice(1L);
         PostOffice postOffice2 = fakeOffice(2L);
         PostOffice postOffice3 = fakeOffice(3L);
@@ -40,6 +49,17 @@ public class PostalNetworkCreator {
         PostOffice postOffice8 = fakeOffice(8L);
         PostOffice postOffice9 = fakeOffice(9L);
         PostOffice postOffice10 = fakeOffice(10L);
+
+        postOffice1.setStates(states);
+        postOffice2.setStates(states);
+        postOffice3.setStates(states);
+        postOffice4.setStates(states);
+        postOffice5.setStates(states);
+        postOffice6.setStates(states);
+        postOffice7.setStates(states);
+        postOffice8.setStates(states);
+        postOffice9.setStates(states);
+        postOffice10.setStates(states);
 
         final PostNetwork postNetwork = PostNetwork.instance();
 
