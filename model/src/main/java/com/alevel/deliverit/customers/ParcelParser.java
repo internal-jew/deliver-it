@@ -24,8 +24,8 @@ class ParcelParser extends Parser<Parcel> {
         PostalAddress postalAddress = PostalAddressParser.parser().parse(postalAddressJson);
         String startPostOfficeJson = jsonObject.get("StartPostOffice").toString();
         String finishPostOfficeJson = jsonObject.get("FinishPostOffice").toString();
-        PostOffice startPostOffice = PostOfficeParser.parser().parse(startPostOfficeJson);
-        PostOffice finishPostOffice = PostOfficeParser.parser().parse(finishPostOfficeJson);
+        long startPostOffice = PostOfficeParser.parser().parse(startPostOfficeJson);
+        long finishPostOffice = PostOfficeParser.parser().parse(finishPostOfficeJson);
         return new Parcel(parcelId, weight, postalAddress, startPostOffice, finishPostOffice);
     }
 }

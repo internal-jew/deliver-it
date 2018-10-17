@@ -3,8 +3,6 @@ package com.alevel.deliverit.customers;
 import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
 import com.alevel.deliverit.logistics.PostalAddress;
-import com.alevel.deliverit.logistics.TrackNumber;
-import com.alevel.deliverit.logistics.TrackNumberRepository;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 
@@ -14,15 +12,15 @@ import com.alevel.deliverit.logistics.postal.network.PostOffice;
 public class Parcel extends Entity<ParcelId> {
     private final Weight weight;
     private final PostalAddress deliveryAddress;
-    private final PostOffice startPostOffice;
-    private final PostOffice finishPostOffice;
+    private final long startPostOfficeId;
+    private final long finishPostOfficeId;
 
-    public Parcel(ParcelId id, Weight weight, PostalAddress deliveryAddress, PostOffice startPostOffice, PostOffice finishPostOffice) {
+    public Parcel(ParcelId id, Weight weight, PostalAddress deliveryAddress, long startPostOfficeId, long finishPostOfficeId) {
         super(id);
         this.weight = weight;
         this.deliveryAddress = deliveryAddress;
-        this.startPostOffice = startPostOffice;
-        this.finishPostOffice = finishPostOffice;
+        this.startPostOfficeId = startPostOfficeId;
+        this.finishPostOfficeId = finishPostOfficeId;
     }
 
     public Weight getWeight() {
@@ -33,11 +31,11 @@ public class Parcel extends Entity<ParcelId> {
         return new ParcelParser();
     }
 
-    public PostOffice getStartPostOffice() {
-        return startPostOffice;
+    public long getStartPostOfficeId() {
+        return startPostOfficeId;
     }
 
-    public PostOffice getFinishPostOffice() {
-        return finishPostOffice;
+    public long getFinishPostOfficeId() {
+        return finishPostOfficeId;
     }
 }

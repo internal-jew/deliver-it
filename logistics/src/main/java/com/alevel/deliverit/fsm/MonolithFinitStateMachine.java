@@ -1,4 +1,4 @@
-package com.alevel.deliverit.logistics.fsm;
+package com.alevel.deliverit.fsm;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -6,17 +6,19 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.alevel.deliverit.logistics.fsm.State.*;
+import static com.alevel.deliverit.fsm.State.DEPARTED;
+import static com.alevel.deliverit.fsm.State.LOST;
+import static com.alevel.deliverit.fsm.State.TERMINAL;
 
 /**
- * @author Vitalii Usatyi
+ * @author Vadym Mitin
  */
-public class FiniteStateMachine {
+public class MonolithFinitStateMachine {
     private State currentState;
     private final ImmutableMap<State, Set<State>> routeMap;
     private final CommandFactory commandFactory;
 
-    public FiniteStateMachine(CommandFactory commandFactory, Map<State, Set<State>> routeMap, State startState) {
+    public MonolithFinitStateMachine(CommandFactory commandFactory, Map<State, Set<State>> routeMap, State startState) {
         this.commandFactory = commandFactory;
         this.routeMap = ImmutableMap.copyOf(routeMap);
         this.currentState = startState;

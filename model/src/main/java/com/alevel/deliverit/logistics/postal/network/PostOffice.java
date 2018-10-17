@@ -2,7 +2,7 @@ package com.alevel.deliverit.logistics.postal.network;
 
 import com.alevel.deliverit.Parser;
 import com.alevel.deliverit.entity.Entity;
-import com.alevel.deliverit.logistics.fsm.State;
+import com.alevel.deliverit.fsm.State;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.HashSet;
@@ -93,9 +93,9 @@ public class PostOffice extends Entity<PostOfficeId> {
                 '}';
     }
 
-    public static Parser<PostOffice> parser() {
-        return new PostOfficeParser();
-    }
+//    public static Parser<PostOffice> parser() {
+//        return new PostOfficeParser();
+//    }
 
     public static class Builder {
         private PostOfficeId id;

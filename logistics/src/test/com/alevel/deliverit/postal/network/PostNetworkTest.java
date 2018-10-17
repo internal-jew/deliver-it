@@ -1,6 +1,5 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.logistics.postal.network.PostNetwork;
 import com.alevel.deliverit.postal.network.dijkstra.DijkstraAlgorithm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

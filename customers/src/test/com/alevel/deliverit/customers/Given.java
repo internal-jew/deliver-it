@@ -8,7 +8,7 @@ import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.Weight;
 import com.alevel.deliverit.logistics.WeightUnit;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
-import com.alevel.deliverit.logistics.postal.network.PostNetwork;
+import com.alevel.deliverit.postal.network.PostNetwork;
 
 import static org.mockito.Mockito.mock;
 
@@ -41,12 +41,12 @@ public class Given {
         return new SenderProfile(givenName(), givenPostalAddress(), givenCountry());
     }
 
-    public static PostOffice givenStartPostOffice() {
-        return PostNetwork.instance().find(1L).get();
+    public static long givenStartPostOffice() {
+        return 1L;
     }
 
-    public static PostOffice givenFinishPostOffice() {
-        return PostNetwork.instance().find(9L).get();
+    public static long givenFinishPostOffice() {
+        return 9L;
     }
 
     public static PostalAddress givenPostalAddress() {

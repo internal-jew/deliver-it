@@ -4,7 +4,7 @@ import com.alevel.deliverit.logistics.postal.network.Connection;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import com.alevel.deliverit.logistics.postal.network.context.Context;
-import com.alevel.deliverit.logistics.postal.network.PostNetwork;
+import com.alevel.deliverit.postal.network.PostNetwork;
 
 import java.util.*;
 
