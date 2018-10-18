@@ -5,7 +5,7 @@ import com.google.common.base.Optional;
 /**
  * @author Vitalii Usatyi
  */
-abstract class CommandFactory {
+abstract class CommandFactory<E extends Enum<E>> {
 
-    public abstract Optional<Command> getCommand(State currentState, Context context);
+    public abstract Optional<Command> getCommand(E currentState, Context context);
 }

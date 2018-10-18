@@ -5,7 +5,7 @@ import com.alevel.deliverit.customers.Sender;
 import org.json.simple.JSONObject;
 
 /**
- * Gets {@link Sender} and {@link Parcel} from Json reques and make a {@link ParcelReceptionRequest}
+ * Gets {@link Sender} and {@link Parcel} from Json request and make a {@link ParcelReceptionRequest}
  *
  * @author Vitalii Usatyi
  */

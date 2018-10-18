@@ -4,7 +4,7 @@ import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.customers.Sender;
 
 /**
- * The value objects that recept {@link Sender} and {@link Parcel} from JSON request.
+ * The value objects that receives {@link Sender} and {@link Parcel} from JSON request.
  *
  * @author Vitalii Usatyi
  */

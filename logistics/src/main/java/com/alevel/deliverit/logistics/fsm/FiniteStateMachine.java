@@ -10,17 +10,15 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.alevel.deliverit.logistics.fsm.State.*;
-
 /**
  * @author Vitalii Usatyi
  */
-public class FiniteStateMachine {
-    private State currentState;
-    private final ImmutableMap<State, Set<State>> routeMap;
+public class FiniteStateMachine<E extends Enum<E>> {
+    private E currentState;
+    private final ImmutableMap<E, Set<E>> routeMap;
     private final CommandFactory commandFactory;
 
-    public FiniteStateMachine(CommandFactory commandFactory, Map<State, Set<State>> routeMap, State startState) {
+    public FiniteStateMachine(CommandFactory commandFactory, Map<E, Set<E>> routeMap, E startState) {
         this.commandFactory = commandFactory;
         this.routeMap = ImmutableMap.copyOf(routeMap);
         this.currentState = startState;
@@ -28,8 +26,8 @@ public class FiniteStateMachine {
 
     public void start(Context context) {
         while (!isTerminalState()) {
-            Set<State> transitionStates = routeMap.get(currentState);
-            for (State state : transitionStates) {
+            Set<E> transitionStates = routeMap.get(currentState);
+            for (E state : transitionStates) {
                 Optional<Command> command = commandFactory.getCommand(state, context);
                 if (command.isPresent()) {
                     CommandExecutor.execute(command.get(), context);
@@ -39,11 +37,11 @@ public class FiniteStateMachine {
         }
     }
 
-    private void switchState(State state) {
-        currentState = state;
+    private boolean isTerminalState() {
+        return !routeMap.containsKey(currentState);
     }
 
-    private boolean isTerminalState() {
-        return (currentState == TERMINAL) || (currentState == DEPARTED) || (currentState == LOST);
+    private void switchState(E state) {
+        currentState = state;
     }
 }
