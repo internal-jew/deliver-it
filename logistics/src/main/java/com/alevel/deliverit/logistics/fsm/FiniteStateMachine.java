@@ -25,7 +25,7 @@ public class FiniteStateMachine<E extends Enum<E>> {
     }
 
     public void start(Context context) {
-        while (routeMap.containsKey(currentState)) {
+        while (isTerminalState()) {
             Set<E> transitionStates = routeMap.get(currentState);
             for (E state : transitionStates) {
                 Optional<Command> command = commandFactory.getCommand(state, context);
@@ -35,6 +35,10 @@ public class FiniteStateMachine<E extends Enum<E>> {
                 }
             }
         }
+    }
+
+    private boolean isTerminalState() {
+        return routeMap.containsKey(currentState);
     }
 
     private void switchState(E state) {
