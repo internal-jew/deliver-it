@@ -48,6 +48,12 @@ public class PostNetwork {
                 .findFirst();
     }
 
+    public Optional<PostOffice> find(String postCode) {
+        return postOffices.stream()
+                .filter(office -> office.getPostCode().equals(postCode))
+                .findFirst();
+    }
+
     public boolean contains(PostOffice postOffice) {
         return postOffices.contains(postOffice);
     }

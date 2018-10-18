@@ -1,5 +1,6 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.gateway.LogisticsVerticle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +29,20 @@ class ParcelReceptionTest {
                 .setEstimatedPriceCalculator(getEstimatedPriceCalculator())
                 .setTrackNumbers(getTrackNumbers())
                 .build();
+
+        CustomersVerticle customersVerticle = new CustomersVerticle();
+        try {
+            customersVerticle.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        LogisticsVerticle logisticsVerticle = new LogisticsVerticle(customersVerticle.getEventsBus());
+        try {
+            logisticsVerticle.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         ParcelReceipt parcelReceipt = packageReception.accept();
 

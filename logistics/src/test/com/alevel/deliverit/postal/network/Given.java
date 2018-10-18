@@ -14,7 +14,7 @@ public class Given {
     public static PostOffice givenPostOffice(Long id) {
         return PostOffice.builder()
                 .setId(new PostOfficeId(id))
-                .setName("Post unit " + id)
+                .setPostCode("Post unit " + id)
                 .build();
     }
 

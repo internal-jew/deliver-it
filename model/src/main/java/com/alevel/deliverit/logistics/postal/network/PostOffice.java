@@ -16,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Sergey Bogovesov
  */
 public class PostOffice extends Entity<PostOfficeId> {
-    private String postalCode;
+    private String postCode;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
 
@@ -32,13 +32,13 @@ public class PostOffice extends Entity<PostOfficeId> {
         outputs.add(connection);
     }
 
-    private PostOffice(PostOfficeId id, String postalCode) {
+    private PostOffice(PostOfficeId id, String postCode) {
         super(id);
-        this.postalCode = postalCode;
+        this.postCode = postCode;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPostCode() {
+        return postCode;
     }
 
     public ImmutableSet<Connection> getInputs() {
@@ -51,23 +51,23 @@ public class PostOffice extends Entity<PostOfficeId> {
 
     public static class Builder {
         private PostOfficeId id;
-        private String name;
+        private String postCode;
 
         public Builder setId(PostOfficeId id) {
             this.id = id;
             return this;
         }
 
-        public Builder setName(String name) {
-            this.name = name;
+        public Builder setPostCode(String name) {
+            this.postCode = name;
             return this;
         }
 
         public PostOffice build() {
             checkNotNull(id);
-            checkNotNull(name);
+            checkNotNull(postCode);
 
-            return new PostOffice(id, name);
+            return new PostOffice(id, postCode);
         }
     }
 
@@ -85,13 +85,13 @@ public class PostOffice extends Entity<PostOfficeId> {
         if (!(o instanceof PostOffice)) return false;
         PostOffice that = (PostOffice) o;
         return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getPostalCode(), that.getPostalCode());
+                Objects.equals(getPostCode(), that.getPostCode());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getId(), getPostalCode());
+        return Objects.hash(getId(), getPostCode());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class PostOffice extends Entity<PostOfficeId> {
 
         return "PostOffice{" +
                 /*"id='" + id + '\'' +*/
-                "  postalCode='" + postalCode + '\'' +
+                "  postCode='" + postCode + '\'' +
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';

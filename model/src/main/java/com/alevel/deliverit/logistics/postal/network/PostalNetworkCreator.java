@@ -14,7 +14,7 @@ public class PostalNetworkCreator {
     private static PostOffice fakeOffice(Long id) {
         return PostOffice.builder()
                 .setId(new PostOfficeId(id))
-                .setName("Post unit " + id)
+                .setPostCode("PU_" + id)
                 .build();
     }
 

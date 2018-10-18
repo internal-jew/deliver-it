@@ -31,9 +31,9 @@ public class Route {
         PostOffice startNode = nodes.get(START_NODE);
         PostOffice endNode = nodes.get(nodes.size() - 1);
 
-        System.out.println("Route from '" + startNode.getPostalCode() + "' to '" + endNode.getPostalCode() + "'");
+        System.out.println("Route from '" + startNode.getPostCode() + "' to '" + endNode.getPostCode() + "'");
         System.out.print("[");
-        nodes.forEach(node -> System.out.print(node.getPostalCode() + " --> "));
+        nodes.forEach(node -> System.out.print(node.getPostCode() + " --> "));
         System.out.print("weight: " + getWeight() + "]");
         System.out.println();
     }
