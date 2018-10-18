@@ -1,6 +1,7 @@
 package com.alevel.deliverit.postal.network;
 
 import com.alevel.deliverit.logistics.fsm.State;
+import com.alevel.deliverit.logistics.fsm.StateMachineImpl;
 import com.alevel.deliverit.logistics.postal.network.Connection;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.PostOfficeId;
@@ -34,14 +35,6 @@ public class PostalNetworkCreator {
     }
 
     public static void buildFakeNetwork() {
-        Set<State> states = new HashSet<>();
-        states.add(State.TERMINAL);
-        states.add(State.ACCEPTING);
-        states.add(State.WEIGHTING);
-        states.add(State.RADIATION_CONTROL);
-        states.add(State.STAMPING);
-        states.add(State.DEPARTED);
-        states.add(State.TRASH);
 
         PostOffice postOffice1 = fakeOffice(1L);
         PostOffice postOffice2 = fakeOffice(2L);
@@ -54,16 +47,16 @@ public class PostalNetworkCreator {
         PostOffice postOffice9 = fakeOffice(9L);
         PostOffice postOffice10 = fakeOffice(10L);
 
-        postOffice1.setStates(states);
-        postOffice2.setStates(states);
-        postOffice3.setStates(states);
-        postOffice4.setStates(states);
-        postOffice5.setStates(states);
-        postOffice6.setStates(states);
-        postOffice7.setStates(states);
-        postOffice8.setStates(states);
-        postOffice9.setStates(states);
-        postOffice10.setStates(states);
+        postOffice1.setStateMachine(new StateMachineImpl());
+        postOffice2.setStateMachine(new StateMachineImpl());
+        postOffice3.setStateMachine(new StateMachineImpl());
+        postOffice4.setStateMachine(new StateMachineImpl());
+        postOffice5.setStateMachine(new StateMachineImpl());
+        postOffice6.setStateMachine(new StateMachineImpl());
+        postOffice7.setStateMachine(new StateMachineImpl());
+        postOffice8.setStateMachine(new StateMachineImpl());
+        postOffice9.setStateMachine(new StateMachineImpl());
+        postOffice10.setStateMachine(new StateMachineImpl());
 
         final PostNetwork postNetwork = PostNetwork.instance();
 

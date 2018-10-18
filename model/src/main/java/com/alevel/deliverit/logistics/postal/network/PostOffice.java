@@ -4,7 +4,7 @@ import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.entity.Entity;
 import com.alevel.deliverit.logistics.clock.generator.ClockSignal;
 import com.alevel.deliverit.logistics.fsm.State;
-import com.google.common.collect.ImmutableMap;
+import com.alevel.deliverit.logistics.fsm.StateMachine;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.*;
@@ -15,16 +15,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * A post office.
  *
  * @author Sergey Bogovesov
+ * @author Vadym Mitin
  */
 public class PostOffice extends Entity<PostOfficeId> {
     private final String postalCode;
+    private Parcel currentParcel;
+    private Route currentRoute;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
-    private Set<State> states;
-    private final Map<Parcel, State> parcelsInProcessing = new HashMap<>();
-    private final Map<Parcel, Route> parcelRouteMap = new HashMap<>();
     private final Queue<Parcel> sendingTray = new PriorityQueue<>();
     private final Queue<Parcel> receivingTray = new PriorityQueue<>();
+    private StateMachine stateMachine;
 
     private PostOffice(PostOfficeId id, String postalCode) {
         super(id);
@@ -39,20 +40,12 @@ public class PostOffice extends Entity<PostOfficeId> {
         receivingTray.add(parcel);
     }
 
-    public void departureParcel(Parcel parcel) {
+    public void sendingParcel(Parcel parcel) {
         sendingTray.add(parcel);
-        parcelsInProcessing.remove(parcel);
     }
 
-    public void setParcelState(Parcel parcel, State nextState) {
-        if (parcelsInProcessing.containsKey(parcel)) {
-            parcelsInProcessing.put(parcel, nextState);
-        } else
-            throw new IllegalArgumentException("The post office does not contain the parcel: " + parcel.getId().toString());
-    }
-
-    public ImmutableMap<Parcel, State> getParcelsInProcessing() {
-        return ImmutableMap.copyOf(parcelsInProcessing);
+    public void setStateMachine(StateMachine stateMachine) {
+        this.stateMachine = stateMachine;
     }
 
     public void addInputConnection(Connection connection) {
@@ -61,14 +54,6 @@ public class PostOffice extends Entity<PostOfficeId> {
 
     public void addOutputConnection(Connection connection) {
         outputs.add(connection);
-    }
-
-    public void setStates(Set<State> states) {
-        this.states = states;
-    }
-
-    public ImmutableSet<State> getStates() {
-        return ImmutableSet.copyOf(states);
     }
 
     public String getPostalCode() {
@@ -108,7 +93,6 @@ public class PostOffice extends Entity<PostOfficeId> {
 
     @Override
     public String toString() {
-
         return "PostOffice{" +
                 /*"id='" + id + '\'' +*/
                 "  postalCode='" + postalCode + '\'' +
@@ -120,10 +104,6 @@ public class PostOffice extends Entity<PostOfficeId> {
     public void activate(ClockSignal signal) {
 
     }
-
-//    public static Parser<PostOffice> parser() {
-//        return new PostOfficeParser();
-//    }
 
     public static class Builder {
         private PostOfficeId id;
