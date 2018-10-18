@@ -23,6 +23,10 @@ public class Parcel extends Entity<ParcelId> {
         this.finishPostOfficeId = finishPostOfficeId;
     }
 
+    public PostalAddress getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
     public Weight getWeight() {
         return weight;
     }

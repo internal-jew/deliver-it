@@ -1,4 +1,4 @@
-package com.alevel.deliverit.fsm;
+package com.alevel.deliverit.logistics.fsm;
 /**
  * @author Vitalii Usatyi
  */

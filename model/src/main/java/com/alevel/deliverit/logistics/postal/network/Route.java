@@ -27,6 +27,13 @@ public class Route {
         return weight;
     }
 
+    public PostOffice findNext(PostOffice previous) {
+        int i = nodes.indexOf(previous);
+        if (i == nodes.size()) {
+            return previous;
+        } else return nodes.get(i + 1);
+    }
+
     public void print() {
         PostOffice startNode = nodes.get(START_NODE);
         PostOffice endNode = nodes.get(nodes.size() - 1);

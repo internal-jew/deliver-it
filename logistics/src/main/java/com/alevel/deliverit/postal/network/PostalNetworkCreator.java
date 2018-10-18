@@ -1,6 +1,6 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.fsm.State;
+import com.alevel.deliverit.logistics.fsm.State;
 import com.alevel.deliverit.logistics.postal.network.Connection;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.PostOfficeId;
@@ -35,6 +35,7 @@ public class PostalNetworkCreator {
 
     public static void buildFakeNetwork() {
         Set<State> states = new HashSet<>();
+        states.add(State.TERMINAL);
         states.add(State.ACCEPTING);
         states.add(State.WEIGHTING);
         states.add(State.RADIATION_CONTROL);
