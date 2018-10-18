@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * http://smc.sourceforge.net/
  * https://habr.com/post/160105/
  *
  * @author Vadym Mitin
