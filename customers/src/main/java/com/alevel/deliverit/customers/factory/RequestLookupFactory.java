@@ -1,8 +1,12 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit.customers.factory;
 
+import com.alevel.deliverit.customers.Parcel;
+import com.alevel.deliverit.customers.Sender;
+import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.PostalAddress;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
+import com.alevel.deliverit.logistics.postal.network.Route;
 
 import java.util.Optional;
 
@@ -11,13 +15,17 @@ import static com.alevel.deliverit.logistics.postal.network.PostNetwork.instance
 /**
  * @author Sergey Bogovesov
  */
-public class RouteLookupFactory {
-    public static RouteLookupRequest newRequest(Parcel parcel, Sender sender) {
+public class RequestLookupFactory {
+    public static RouteLookupRequest newRouteRequest(Parcel parcel, Sender sender) {
 
         Long startPostOfficeId = getPostOffice(parcel.getDeliveryAddress());
         Long finishPostOfficeId = getPostOffice(sender.getSenderProfile().getAddress());
 
         return new RouteLookupRequest(startPostOfficeId, finishPostOfficeId);
+    }
+
+    public static PriceLookupRequest newPriceRequest(Parcel parcel, Route route) {
+        return new PriceLookupRequest(parcel.getWeight(), route);
     }
 
     private static Long getPostOffice(PostalAddress postalAddress) {

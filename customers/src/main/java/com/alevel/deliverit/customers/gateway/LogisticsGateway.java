@@ -1,11 +1,15 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit.customers.gateway;
 
+import com.alevel.deliverit.customers.request.RouteLookupCodec;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
+import com.alevel.deliverit.customers.verticle.VertxContext;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.DeliveryOptions;
 
 import java.util.concurrent.CountDownLatch;
+
+import static com.alevel.deliverit.SubscribeAddress.LOGISTICS_CALCULATE_DISTANCE;
 
 /**
  * @author Sergey Bogovesov
@@ -19,7 +23,7 @@ public class LogisticsGateway {
 
         Future<Route> route = Future.future();
         final CountDownLatch latch = new CountDownLatch(1);
-        VertxContext.instance().eventBus().send("logistics.calculate.distance", request, options, reply -> {
+        VertxContext.instance().eventBus().send(LOGISTICS_CALCULATE_DISTANCE, request, options, reply -> {
             if (reply.succeeded()) {
                 route.complete((Route) reply.result().body());
             } else {

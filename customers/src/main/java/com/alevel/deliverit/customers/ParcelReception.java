@@ -2,13 +2,16 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.logistics.TrackNumberRepository;
 import com.alevel.deliverit.billing.Money;
+import com.alevel.deliverit.customers.factory.RequestLookupFactory;
+import com.alevel.deliverit.customers.gateway.BillingGateway;
+import com.alevel.deliverit.customers.gateway.LogisticsGateway;
+import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.TrackNumber;
+import com.alevel.deliverit.logistics.TrackNumberRepository;
 import com.alevel.deliverit.logistics.postal.network.Route;
-import com.google.common.annotations.VisibleForTesting;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,10 +38,13 @@ public class ParcelReception {
      * @return {@link ParcelReceipt package receipt}
      */
     public ParcelReceipt accept() {
-        RouteLookupRequest request = RouteLookupFactory.newRequest(parcel, sender);
+        RouteLookupRequest request = RequestLookupFactory.newRouteRequest(parcel, sender);
         Route route = LogisticsGateway.find(request);
 
-        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
+        PriceLookupRequest priceLookupRequest = RequestLookupFactory.newPriceRequest(parcel, route);
+        Money price = BillingGateway.estimatedPrice(priceLookupRequest);
+
+//        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
         EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
         TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
 

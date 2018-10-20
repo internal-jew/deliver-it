@@ -3,19 +3,21 @@ package com.alevel.deliverit.gateway;
 import com.alevel.deliverit.BusinessLogicService;
 import com.alevel.deliverit.Subscribe;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
+import com.alevel.deliverit.logistics.postal.network.PostNetwork;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
-import com.alevel.deliverit.logistics.postal.network.PostNetwork;
 import com.alevel.deliverit.postal.network.dijkstra.DijkstraAlgorithm;
 
 import java.util.Optional;
+
+import static com.alevel.deliverit.SubscribeAddress.LOGISTICS_CALCULATE_DISTANCE;
 
 /**
  * @author Sergey Bogovesov
  */
 public class RouteLookup implements BusinessLogicService {
 
-    @Subscribe("logistics.calculate.distance")
+    @Subscribe(LOGISTICS_CALCULATE_DISTANCE)
     public static Route find(RouteLookupRequest request) {
         PostOffice startOffice = getPostOffice(request.getStart());
         PostOffice endOffice = getPostOffice(request.getFinish());

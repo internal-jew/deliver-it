@@ -1,8 +1,6 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit.customers.verticle;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
 
 /**
@@ -13,10 +11,6 @@ public class CustomersVerticle extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        VertxOptions vertxOptions = new VertxOptions();
-        vertxOptions.setMaxEventLoopExecuteTime(Long.MAX_VALUE);
-
-        Vertx vertx = Vertx.vertx(vertxOptions);
         VertxContext.instance().setEventBus(vertx.eventBus());
     }
 

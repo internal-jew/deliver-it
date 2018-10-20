@@ -1,11 +1,17 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.customers.verticle.CustomersVerticle;
+import com.alevel.deliverit.gateway.BillingVerticle;
 import com.alevel.deliverit.gateway.LogisticsVerticle;
+import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static com.alevel.deliverit.SubscribeAddress.BILLING_CALCULATE_PRICE;
+import static com.alevel.deliverit.SubscribeAddress.LOGISTICS_CALCULATE_DISTANCE;
 import static com.alevel.deliverit.customers.Given.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,19 +36,14 @@ class ParcelReceptionTest {
                 .setTrackNumbers(getTrackNumbers())
                 .build();
 
-        CustomersVerticle customersVerticle = new CustomersVerticle();
-        try {
-            customersVerticle.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        LogisticsVerticle logisticsVerticle = new LogisticsVerticle(customersVerticle.getEventsBus());
-        try {
-            logisticsVerticle.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        VertxOptions vertxOptions = new VertxOptions();
+        vertxOptions.setMaxEventLoopExecuteTime(Long.MAX_VALUE);
+
+        Vertx vertx = Vertx.vertx(vertxOptions);
+        vertx.deployVerticle(new LogisticsVerticle(LOGISTICS_CALCULATE_DISTANCE));
+        vertx.deployVerticle(new BillingVerticle(BILLING_CALCULATE_PRICE));
+        vertx.deployVerticle(new CustomersVerticle());
 
         ParcelReceipt parcelReceipt = packageReception.accept();
 

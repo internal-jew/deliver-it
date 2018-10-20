@@ -40,7 +40,6 @@ public class EstimatedPriceCalculator {
 
     private double estimateDistanceCost(int distanceKilometers) {
         //TODO implement the calculate the cost with increasing depending on the weight
-//        System.out.println();
         return distanceKilometers * DISTANCE_COEFFICIENT;
     }
 

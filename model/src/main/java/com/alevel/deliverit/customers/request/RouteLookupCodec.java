@@ -1,11 +1,11 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit.customers.request;
 
-import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 
 /**
  * Sergey Bogovesov
+ * Allows you to send an object on the event bus.
  */
 public class RouteLookupCodec implements MessageCodec<RouteLookupRequest, RouteLookupRequest> {
 

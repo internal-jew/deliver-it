@@ -2,12 +2,15 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
+import com.alevel.deliverit.PostCodeConst;
 import com.alevel.deliverit.logistics.*;
 
 /**
  * @author Sergey Bogovesov
  */
 public class Given {
+    private static final long parcelPostCode = 1L;
+    private static final long senderPostCode = 9L;
 
     public static Country givenCountry() {
         return new Country("Ukraine", "UA");
@@ -30,7 +33,7 @@ public class Given {
     }
 
     public static SenderProfile givenSenderProfile() {
-        return new SenderProfile(givenName(), givenPostalAddress("pu_9" ), givenCountry());
+        return new SenderProfile(givenName(), givenPostalAddress(givenPostCode(senderPostCode)), givenCountry());
     }
 
     public static PostalAddress givenPostalAddress(String postCode) {
@@ -47,7 +50,11 @@ public class Given {
     }
 
     public static Parcel givenParcel() {
-        return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress("PU_1"));
+        return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(givenPostCode(parcelPostCode)));
+    }
+
+    public static String givenPostCode(Long idPostCode) {
+        return PostCodeConst.VALUE + idPostCode;
     }
 
     public static Sender givenSender() {

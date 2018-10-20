@@ -1,4 +1,4 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit.customers.verticle;
 
 import io.vertx.core.eventbus.EventBus;
 

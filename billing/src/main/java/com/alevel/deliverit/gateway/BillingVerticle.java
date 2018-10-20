@@ -3,7 +3,7 @@ package com.alevel.deliverit.gateway;
 import com.alevel.deliverit.DeliveryVerticleContext;
 import com.alevel.deliverit.ModuleAPI;
 import com.alevel.deliverit.ServiceMethod;
-import com.alevel.deliverit.logistics.postal.network.RouteCodec;
+import com.alevel.deliverit.billing.MoneyCodec;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
@@ -14,12 +14,12 @@ import java.util.Optional;
 /**
  * @author Sergey Bogovesov
  */
-public class LogisticsVerticle extends AbstractVerticle {
-    private RouteCodec routeCodec = new RouteCodec();
+public class BillingVerticle extends AbstractVerticle {
+    private MoneyCodec moneyCodec = new MoneyCodec();
 
-    public LogisticsVerticle(String address) {
-        ModuleAPI.getInstance().registerConsumers(new RouteLookup());
-        DeliveryOptions options = new DeliveryOptions().setCodecName(routeCodec.name());
+    public BillingVerticle(String address) {
+        ModuleAPI.getInstance().registerConsumers(new PriceLookup());
+        DeliveryOptions options = new DeliveryOptions().setCodecName(moneyCodec.name());
         DeliveryVerticleContext.getInstance().add(address, options);
     }
 
@@ -28,9 +28,10 @@ public class LogisticsVerticle extends AbstractVerticle {
         Map<String, ServiceMethod> consumersContainer = ModuleAPI.getInstance().getConsumersContainer();
 
         EventBus eb = vertx.eventBus();
-        eb.registerCodec(routeCodec);
+        eb.registerCodec(moneyCodec);
 
         for (Map.Entry<String, ServiceMethod> e : consumersContainer.entrySet()) {
+
             String address = e.getKey();
             ServiceMethod value = e.getValue();
 

@@ -1,26 +1,26 @@
-package com.alevel.deliverit.logistics.postal.network;
+package com.alevel.deliverit.billing;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 
 /**
- * Sergey Bogovesov
+ * @author Sergey Bogovesov
  * Allows you to send an object on the event bus.
  */
-public class RouteCodec implements MessageCodec<Route, Route> {
+public class MoneyCodec implements MessageCodec<Money, Money> {
     @Override
-    public void encodeToWire(Buffer buffer, Route route) {
+    public void encodeToWire(Buffer buffer, Money money) {
 
     }
 
     @Override
-    public Route decodeFromWire(int i, Buffer buffer) {
+    public Money decodeFromWire(int i, Buffer buffer) {
         return null;
     }
 
     @Override
-    public Route transform(Route route) {
-        return route;
+    public Money transform(Money money) {
+        return money;
     }
 
     @Override
