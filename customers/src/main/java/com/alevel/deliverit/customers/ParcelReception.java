@@ -8,10 +8,7 @@ import com.alevel.deliverit.customers.gateway.BillingGateway;
 import com.alevel.deliverit.customers.gateway.LogisticsGateway;
 import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
-import com.alevel.deliverit.logistics.DeliveryTimeRequest;
-import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
-import com.alevel.deliverit.logistics.TrackNumber;
-import com.alevel.deliverit.logistics.TrackNumberRepository;
+import com.alevel.deliverit.logistics.*;
 import com.alevel.deliverit.logistics.postal.network.Route;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -42,9 +39,10 @@ public class ParcelReception {
         Route route = getRoute();
 
         Money price = getMoney(route);
+
         EstimatedDeliveryTime estimatedDeliveryTime = getDeliveryTime(route);
 
-        TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
+        TrackNumber trackNumber = getTrackNumber();
 
         return ParcelReceipt
                 .builder()
@@ -53,6 +51,12 @@ public class ParcelReception {
                 .setPrice(price)
                 .setTrackNumber(trackNumber)
                 .build();
+    }
+
+    private TrackNumber getTrackNumber() {
+        //        TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
+        TrackNumberRequest trackNumberRequest = RequestLookupFactory.newTrackNumberRequest(parcel);
+        return LogisticsGateway.registerParcel(trackNumberRequest);
     }
 
     private EstimatedDeliveryTime getDeliveryTime(Route route) {

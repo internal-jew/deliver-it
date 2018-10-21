@@ -6,6 +6,7 @@ import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.DeliveryTimeRequest;
 import com.alevel.deliverit.logistics.PostalAddress;
+import com.alevel.deliverit.logistics.TrackNumberRequest;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
 
@@ -31,6 +32,10 @@ public class RequestLookupFactory {
 
     public static DeliveryTimeRequest newDeliveryTimeRequest(Parcel parcel, Route route) {
         return new DeliveryTimeRequest(parcel, route);
+    }
+
+    public static TrackNumberRequest newTrackNumberRequest(Parcel parcel) {
+        return new TrackNumberRequest(parcel);
     }
 
     private static Long getPostOffice(PostalAddress postalAddress) {

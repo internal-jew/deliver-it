@@ -8,10 +8,14 @@ import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 
 import static com.alevel.deliverit.SubscribeAddress.LOGISTICS_ESTIMATE_DELIVERY_TIME;
 
+/**
+ * @author Sergey Bogovesov
+ */
 public class DeliveryTimeLookup implements BusinessLogicService {
 
     @Subscribe(LOGISTICS_ESTIMATE_DELIVERY_TIME)
     public static EstimatedDeliveryTime estimate(DeliveryTimeRequest request) {
+        System.out.println("Estimate delivery time " + request.getParcel().getName());
         return new DeliveryTime().estimate(request.getParcel(), request.getRoute());
     }
 }

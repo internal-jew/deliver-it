@@ -6,6 +6,7 @@ import io.vertx.core.eventbus.EventBus;
 
 /**
  * @author Eugene Mitrofanov
+ * @author Sergey Bogovesov
  */
 
 public class VertxContext {
