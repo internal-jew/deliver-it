@@ -1,7 +1,6 @@
 package com.alevel.deliverit.customers.gateway;
 
 import com.alevel.deliverit.billing.Money;
-import com.alevel.deliverit.customers.request.PriceLookupCodec;
 import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.verticle.VertxContext;
 import io.vertx.core.Future;
@@ -17,12 +16,11 @@ import static com.alevel.deliverit.SubscribeAddress.BILLING_CALCULATE_PRICE;
 public class BillingGateway {
 
     public static Money estimatedPrice(PriceLookupRequest request) {
-        PriceLookupCodec priceLookupCodec = new PriceLookupCodec();
-        VertxContext.instance().eventBus().registerCodec(priceLookupCodec);
-        DeliveryOptions options = new DeliveryOptions().setCodecName(priceLookupCodec.name());
+        DeliveryOptions options = VertxContext.instance().getOptions();
 
         Future<Money> money = Future.future();
         final CountDownLatch latch = new CountDownLatch(1);
+
         VertxContext.instance().eventBus().send(BILLING_CALCULATE_PRICE, request, options, reply -> {
             if (reply.succeeded()) {
                 money.complete((Money) reply.result().body());

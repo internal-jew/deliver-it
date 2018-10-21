@@ -8,6 +8,7 @@ import com.alevel.deliverit.customers.gateway.BillingGateway;
 import com.alevel.deliverit.customers.gateway.LogisticsGateway;
 import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
+import com.alevel.deliverit.logistics.DeliveryTimeRequest;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.TrackNumber;
 import com.alevel.deliverit.logistics.TrackNumberRepository;
@@ -38,14 +39,11 @@ public class ParcelReception {
      * @return {@link ParcelReceipt package receipt}
      */
     public ParcelReceipt accept() {
-        RouteLookupRequest request = RequestLookupFactory.newRouteRequest(parcel, sender);
-        Route route = LogisticsGateway.find(request);
+        Route route = getRoute();
 
-        PriceLookupRequest priceLookupRequest = RequestLookupFactory.newPriceRequest(parcel, route);
-        Money price = BillingGateway.estimatedPrice(priceLookupRequest);
+        Money price = getMoney(route);
+        EstimatedDeliveryTime estimatedDeliveryTime = getDeliveryTime(route);
 
-//        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
-        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
         TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
 
         return ParcelReceipt
@@ -55,6 +53,23 @@ public class ParcelReception {
                 .setPrice(price)
                 .setTrackNumber(trackNumber)
                 .build();
+    }
+
+    private EstimatedDeliveryTime getDeliveryTime(Route route) {
+        //        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
+        DeliveryTimeRequest deliveryTimeRequest = RequestLookupFactory.newDeliveryTimeRequest(parcel, route);
+        return LogisticsGateway.estimate(deliveryTimeRequest);
+    }
+
+    private Money getMoney(Route route) {
+        //        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
+        PriceLookupRequest priceLookupRequest = RequestLookupFactory.newPriceRequest(parcel, route);
+        return BillingGateway.estimatedPrice(priceLookupRequest);
+    }
+
+    private Route getRoute() {
+        RouteLookupRequest request = RequestLookupFactory.newRouteRequest(parcel, sender);
+        return LogisticsGateway.find(request);
     }
 
     private ParcelReception(Parcel parcel,

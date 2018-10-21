@@ -22,7 +22,6 @@ public class DeliveryTime {
         double postOfficeDelay = estimatePostOfficeDelay(route);
         double distance = estimateDistanceDelay(route);
 
-
         long delay = Double.valueOf(postOfficeDelay + distance).longValue();
         LocalDate estimatedData = LocalDate.now().plusDays(delay);
 

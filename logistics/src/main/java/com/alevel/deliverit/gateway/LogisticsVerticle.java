@@ -1,9 +1,8 @@
 package com.alevel.deliverit.gateway;
 
-import com.alevel.deliverit.DeliveryVerticleContext;
 import com.alevel.deliverit.ModuleAPI;
 import com.alevel.deliverit.ServiceMethod;
-import com.alevel.deliverit.logistics.postal.network.RouteCodec;
+import com.alevel.deliverit.codecs.DefaultCodec;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
@@ -15,12 +14,11 @@ import java.util.Optional;
  * @author Sergey Bogovesov
  */
 public class LogisticsVerticle extends AbstractVerticle {
-    private RouteCodec routeCodec = new RouteCodec();
+    private DefaultCodec defaultCodec = new DefaultCodec();
+    private DeliveryOptions options;
 
-    public LogisticsVerticle(String address) {
-        ModuleAPI.getInstance().registerConsumers(new RouteLookup());
-        DeliveryOptions options = new DeliveryOptions().setCodecName(routeCodec.name());
-        DeliveryVerticleContext.getInstance().add(address, options);
+    public LogisticsVerticle() {
+        options = new DeliveryOptions().setCodecName(defaultCodec.name());
     }
 
     @Override
@@ -28,21 +26,16 @@ public class LogisticsVerticle extends AbstractVerticle {
         Map<String, ServiceMethod> consumersContainer = ModuleAPI.getInstance().getConsumersContainer();
 
         EventBus eb = vertx.eventBus();
-        eb.registerCodec(routeCodec);
 
         for (Map.Entry<String, ServiceMethod> e : consumersContainer.entrySet()) {
+
             String address = e.getKey();
             ServiceMethod value = e.getValue();
 
             eb.consumer(address, message -> {
                 Optional optional = value.invokeConsumer(message.body());
                 if (optional.isPresent() && !optional.equals(Optional.empty())) {
-                    final Optional<DeliveryOptions> options = DeliveryVerticleContext.getInstance().get(address);
-                    if (optional.isPresent()) {
-                        message.reply(optional.get(), options.get());
-                    } else {
-                        throw new IllegalArgumentException("DeliveryOptions is not valid");
-                    }
+                    message.reply(optional.get(), options);
                 }
             });
         }

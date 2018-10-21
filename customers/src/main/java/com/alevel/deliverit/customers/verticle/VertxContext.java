@@ -1,5 +1,7 @@
 package com.alevel.deliverit.customers.verticle;
 
+import com.alevel.deliverit.codecs.DefaultCodec;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 
 /**
@@ -8,13 +10,19 @@ import io.vertx.core.eventbus.EventBus;
 
 public class VertxContext {
     private EventBus eb;
+    private DeliveryOptions options;
 
-    private VertxContext(){
-
+    private VertxContext() {
+        DefaultCodec defaultCodec = new DefaultCodec();
+        options = new DeliveryOptions().setCodecName(defaultCodec.name());
     }
 
     public EventBus eventBus() {
         return eb;
+    }
+
+    public DeliveryOptions getOptions() {
+        return options;
     }
 
     public void setEventBus(EventBus eventBus) {

@@ -1,25 +1,25 @@
-package com.alevel.deliverit.billing;
+package com.alevel.deliverit.codecs;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 
 /**
  * @author Sergey Bogovesov
- * Allows you to send an object on the event bus.
+ * Allows to send an object on the event bus.
  */
-public class MoneyCodec implements MessageCodec<Money, Money> {
+public class DefaultCodec implements MessageCodec<Object, Object> {
     @Override
-    public void encodeToWire(Buffer buffer, Money money) {
+    public void encodeToWire(Buffer buffer, Object money) {
 
     }
 
     @Override
-    public Money decodeFromWire(int i, Buffer buffer) {
+    public Object decodeFromWire(int i, Buffer buffer) {
         return null;
     }
 
     @Override
-    public Money transform(Money money) {
+    public Object transform(Object money) {
         return money;
     }
 
