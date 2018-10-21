@@ -1,13 +1,12 @@
 package com.alevel.deliverit.fsm;
 
 import com.google.common.collect.ImmutableSet;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.alevel.deliverit.fsm.State.*;
 
-public class RouteMap {
+class RouteMap {
 
     static Map<State, ImmutableSet<State>> routeMap = new HashMap<>();
 

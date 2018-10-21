@@ -1,9 +1,13 @@
 package com.alevel.deliverit.logistics.fsm;
 
+
+import com.google.common.annotations.VisibleForTesting;
+
 /**
  * @author Vitalii Usatyi
  */
-public  class Context {
+@VisibleForTesting
+  public class Context {
     public  boolean isProcessed;
     public  boolean isCheckedAddress;
     public  boolean isRadioControl;
