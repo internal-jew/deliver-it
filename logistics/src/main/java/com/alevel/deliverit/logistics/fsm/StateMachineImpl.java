@@ -23,7 +23,7 @@ public class StateMachineImpl extends StateMachine {
     }
 
     @Override
-    void switchState(State nextState) {
+    public void switchState(State nextState) {
         currentState = nextState;
     }
 
@@ -56,15 +56,17 @@ public class StateMachineImpl extends StateMachine {
     }
 
     private void stateDeparted() {
-
+        switchState(TERMINAL);
     }
 
+    //TODO
     private void stateTrash() {
-        // exit
+        // TODO
     }
 
+    //TODO
     private void stateLost() {
-        // exit
+        // TODO
     }
 
     @Override

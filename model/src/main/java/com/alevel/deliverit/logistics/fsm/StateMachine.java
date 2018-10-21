@@ -10,11 +10,11 @@ import java.util.Set;
  */
 public abstract class StateMachine {
 
-    abstract void switchState(State state);
+    public abstract void switchState(State state);
 
     public abstract State getCurrentState();
 
-    abstract void restart();
+    public abstract void restart();
 
-    abstract void handle();
+    public abstract void handle();
 }

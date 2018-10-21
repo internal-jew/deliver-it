@@ -3,7 +3,11 @@ package com.alevel.deliverit.fsm;
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
 import com.alevel.deliverit.customers.*;
+import com.alevel.deliverit.customers.request.RouteLookupRequest;
+import com.alevel.deliverit.gateway.RouteLookup;
 import com.alevel.deliverit.logistics.*;
+import com.alevel.deliverit.logistics.postal.network.Pair;
+import com.alevel.deliverit.logistics.postal.network.Route;
 
 /**
  * @author Vadym Mitin
@@ -62,12 +66,30 @@ public class FSMGiven {
                 .build();
     }
 
-    static Parcel givenParcel() {
+    public static Parcel givenParcel() {
         return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(), givenStartPostOffice(), givenFinishPostOffice());
     }
 
-    static Parcel givenParcel2() {
+    public static Parcel givenParcel2() {
         return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(), givenStartPostOffice2(), givenFinishPostOffice2());
+    }
+
+    public static Route givenRoute1() {
+        RouteLookupRequest request = new RouteLookupRequest(givenStartPostOffice(), givenFinishPostOffice());
+        return RouteLookup.find(request);
+    }
+
+    public static Route givenRoute2() {
+        RouteLookupRequest request = new RouteLookupRequest(givenStartPostOffice2(), givenFinishPostOffice2());
+        return RouteLookup.find(request);
+    }
+
+    public static Pair<Parcel, Route> givenPair1() {
+        return new Pair<>(givenParcel(), givenRoute1());
+    }
+
+    public static Pair<Parcel, Route> givenPair2() {
+        return new Pair<>(givenParcel2(), givenRoute2());
     }
 
     private static Sender givenSender() {

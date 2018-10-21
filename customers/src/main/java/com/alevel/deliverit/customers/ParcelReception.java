@@ -48,6 +48,7 @@ public class ParcelReception {
                 .setDeliveryTime(estimatedDeliveryTime)
                 .setPrice(price)
                 .setTrackNumber(trackNumber)
+                .setRoute(route)
                 .build();
     }
 

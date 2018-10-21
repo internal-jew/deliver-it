@@ -4,14 +4,10 @@ package com.alevel.deliverit.logistics.clock.generator;
  * @author Vadym Mitin
  */
 public class ClockSignal {
-    private String signal = "signal";
+    private final Long count;
 
-    public String getSignal() {
-        return signal;
+    public ClockSignal(Long count) {
+        this.count = count;
     }
 
-    public ClockSignal setSignal(String signal) {
-        this.signal = signal;
-        return this;
-    }
 }

@@ -19,12 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class PostOffice extends Entity<PostOfficeId> {
     private final String postalCode;
-    private Parcel currentParcel;
+    private Parcel parcelInProcessing;
     private Route currentRoute;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
-    private final Queue<Parcel> sendingTray = new PriorityQueue<>();
-    private final Queue<Parcel> receivingTray = new PriorityQueue<>();
+    private final Queue<Pair<Parcel, Route>> incomingParcels = new PriorityQueue<>();
+    private final Queue<Pair<Parcel, Route>> outgoingParcels = new PriorityQueue<>();
     private StateMachine stateMachine;
 
     private PostOffice(PostOfficeId id, String postalCode) {
@@ -36,12 +36,45 @@ public class PostOffice extends Entity<PostOfficeId> {
         return new Builder();
     }
 
-    public void receiveParcel(Parcel parcel) {
-        receivingTray.add(parcel);
+    private void enqueueParcel() {
+        if (!incomingParcels.isEmpty()) {
+            Pair<Parcel, Route> pair = incomingParcels.remove();
+            parcelInProcessing = pair.getKey();
+            currentRoute = pair.getValue();
+        }
     }
 
-    public void sendingParcel(Parcel parcel) {
-        sendingTray.add(parcel);
+    private void departingParcel() {
+        Pair<Parcel, Route> pair = new Pair<>(parcelInProcessing, currentRoute);
+        outgoingParcels.add(pair);
+        parcelInProcessing = null;
+        currentRoute = null;
+    }
+
+    public void addParcel(Parcel parcel, Route route) {
+        Pair<Parcel, Route> pair = new Pair<>(parcel, route);
+        incomingParcels.add(pair);
+    }
+
+    public Queue<Pair<Parcel, Route>> getIncomingParcels() {
+        return incomingParcels;
+    }
+
+    public Queue<Pair<Parcel, Route>> getOutgoingParcels() {
+        return outgoingParcels;
+    }
+
+    public void activate(ClockSignal signal) {
+        if (stateMachine.getCurrentState().equals(State.DEPARTED)) {
+            departingParcel();
+            stateMachine.handle();
+        }
+        if (stateMachine.getCurrentState().equals(State.TERMINAL)) {
+            enqueueParcel();
+        }
+        if (parcelInProcessing != null) {
+            stateMachine.handle();
+        }
     }
 
     public void setStateMachine(StateMachine stateMachine) {
@@ -56,6 +89,15 @@ public class PostOffice extends Entity<PostOfficeId> {
         outputs.add(connection);
     }
 
+    public Optional<Parcel> getParcelInProcessing() {
+        return Optional.ofNullable(parcelInProcessing);
+    }
+
+    public State getCurrentState() {
+        return stateMachine.getCurrentState();
+    }
+
+    @Deprecated
     public String getPostalCode() {
         return postalCode;
     }
@@ -99,10 +141,6 @@ public class PostOffice extends Entity<PostOfficeId> {
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';
-    }
-
-    public void activate(ClockSignal signal) {
-
     }
 
     public static class Builder {
