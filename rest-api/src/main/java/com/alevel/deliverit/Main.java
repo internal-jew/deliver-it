@@ -22,6 +22,7 @@ public class Main {
 
         vertx.deployVerticle(new LogisticsVerticle());
         vertx.deployVerticle(new CustomersVerticle());
+//        vertx.deployVerticle(new RestVerticle());
 
         try {
             Thread.sleep(200);

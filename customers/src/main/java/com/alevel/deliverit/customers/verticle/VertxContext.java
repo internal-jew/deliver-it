@@ -12,10 +12,15 @@ import io.vertx.core.eventbus.EventBus;
 public class VertxContext {
     private EventBus eb;
     private DeliveryOptions options;
+    private DefaultCodec defaultCodec;
 
     private VertxContext() {
-        DefaultCodec defaultCodec = new DefaultCodec();
-        options = new DeliveryOptions().setCodecName(defaultCodec.name());
+        defaultCodec = new DefaultCodec();
+        options = new DeliveryOptions();//.setCodecName(defaultCodec.name());
+    }
+
+    public DefaultCodec getDefaultCodec() {
+        return defaultCodec;
     }
 
     public EventBus eventBus() {

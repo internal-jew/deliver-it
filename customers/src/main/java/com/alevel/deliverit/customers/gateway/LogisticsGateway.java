@@ -20,17 +20,21 @@ import static com.alevel.deliverit.SubscribeAddress.*;
 public class LogisticsGateway {
 
     private static <T, R> T send(R request, String address) {
-        DeliveryOptions options = VertxContext.instance().getOptions();
+        DeliveryOptions options = VertxContext.instance().getOptions().setCodecName("myCodec");
 
         Future<T> route = Future.future();
         final CountDownLatch latch = new CountDownLatch(1);
 
         VertxContext.instance().eventBus().send(address, request, options, reply -> {
+            System.out.println("Response came");
             if (reply.succeeded()) {
+                System.out.println("Response succeded");
                 route.complete((T) reply.result().body());
             } else {
+                reply.cause().printStackTrace();
                 throw new IllegalStateException("LogisticsGateway " + address + " error");
             }
+            System.out.println("Count down");
             latch.countDown();
         });
         try {

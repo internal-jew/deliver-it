@@ -34,10 +34,11 @@ class RestTest {
         Vertx vertx = Vertx.vertx(vertxOptions);
         vertx.eventBus().registerCodec(new DefaultCodec());
 
-        ModuleAPI.getInstance().registerConsumers(new RouteLookup());
-        ModuleAPI.getInstance().registerConsumers(new PriceLookup());
-        ModuleAPI.getInstance().registerConsumers(new DeliveryTimeLookup());
-        ModuleAPI.getInstance().registerConsumers(new TrackNumberLookup());
+        final ModuleAPI instance = ModuleAPI.getInstance();
+        instance.registerConsumers(new RouteLookup());
+        instance.registerConsumers(new PriceLookup());
+        instance.registerConsumers(new DeliveryTimeLookup());
+        instance.registerConsumers(new TrackNumberLookup());
 
         vertx.deployVerticle(new LogisticsVerticle());
         vertx.deployVerticle(new CustomersVerticle());
