@@ -3,17 +3,11 @@ package com.alevel.deliverit.customers.tracking.handler;
 import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.customers.ParcelReceipt;
 import com.alevel.deliverit.logistics.clock.generator.ClockSignal;
-import com.alevel.deliverit.logistics.fsm.State;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
-import com.alevel.deliverit.logistics.postal.network.Route;
 import com.alevel.deliverit.postal.network.PostNetwork;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.alevel.deliverit.logistics.fsm.State.ACCEPTING;
-import static com.alevel.deliverit.logistics.fsm.State.TERMINAL;
-import static com.alevel.deliverit.logistics.fsm.State.WEIGHTING;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -78,6 +72,6 @@ class ParcelHandingTest {
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
         assertEquals(parcel1, office9.getOutgoingParcels().peek().getKey());
-        handler.handle(signal); // DEPARTED
+        handler.handle(signal); // TERMINAL
     }
 }

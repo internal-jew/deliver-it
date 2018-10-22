@@ -1,5 +1,7 @@
 package com.alevel.deliverit.customers.tracking.handler;
 
+import com.alevel.deliverit.BusinessLogicService;
+import com.alevel.deliverit.Subscribe;
 import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.customers.ParcelReceipt;
 import com.alevel.deliverit.logistics.clock.generator.ClockSignal;
@@ -14,7 +16,7 @@ import java.util.*;
 /**
  * @author Vadym Mitin
  */
-public class ParcelTrackingHandler {
+public class ParcelTrackingHandler implements BusinessLogicService {
 
     private final Set<ParcelReceipt> parcelReceipts = new HashSet<>();
     private final Set<PostOffice> postOffices = PostNetwork.instance().getPostOffices();
@@ -27,6 +29,7 @@ public class ParcelTrackingHandler {
         return Singleton.INSTANCE.instance;
     }
 
+    @Subscribe("parcel.tracking.service")
     public void handle(ClockSignal signal) throws IllegalStateException {
         for (PostOffice office : postOffices) {
             Queue<Pair<Parcel, Route>> outgoingParcels = office.getOutgoingParcels();
@@ -35,6 +38,7 @@ public class ParcelTrackingHandler {
                 if (!nextOffice.equals(office)) {
                     Pair<Parcel, Route> remove = outgoingParcels.remove();
                     nextOffice.addParcel(remove.getKey(), remove.getValue());
+                    parcelRepository.put(remove.getKey(), office);
                 } else delivered(outgoingParcels.peek().getKey(), office);
             }
             office.activate(signal);
@@ -48,6 +52,7 @@ public class ParcelTrackingHandler {
     }
 
     public State getcurrentState(Parcel parcel) {
+//        if  (){}
         return parcelRepository.get(parcel).getCurrentState();
     }
 
@@ -59,7 +64,6 @@ public class ParcelTrackingHandler {
         postOffice.addParcel(parcel, route);
         parcelRepository.put(parcel, postOffice);
     }
-
 
     private enum Singleton {
         INSTANCE;

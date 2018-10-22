@@ -21,7 +21,7 @@ public class ModuleAPI {
     }
 
     public static ModuleAPI getInstance() {
-        return Singletone.INSTANCE.instance;
+        return Singleton.INSTANCE.instance;
     }
 
     /**
@@ -66,7 +66,7 @@ public class ModuleAPI {
         }
     }
 
-    private enum Singletone {
+    private enum Singleton {
         INSTANCE;
         private final ModuleAPI instance = new ModuleAPI();
     }
