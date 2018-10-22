@@ -1,4 +1,4 @@
-package com.alevel.deliverit.tracking.handler;
+package com.alevel.deliverit.customers.tracking.handler;
 
 import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.customers.ParcelReceipt;
@@ -17,7 +17,6 @@ import java.util.*;
 public class ParcelTrackingHandler {
 
     private final Set<ParcelReceipt> parcelReceipts = new HashSet<>();
-    //    private final Map<TrackNumber, Parcel> trackNumbers = TrackNumberRepository.getInstance().getTrackNumbersMap();
     private final Set<PostOffice> postOffices = PostNetwork.instance().getPostOffices();
     private final Map<Parcel, PostOffice> parcelRepository = new HashMap<>();
 
@@ -32,10 +31,10 @@ public class ParcelTrackingHandler {
         for (PostOffice office : postOffices) {
             Queue<Pair<Parcel, Route>> outgoingParcels = office.getOutgoingParcels();
             if (!outgoingParcels.isEmpty()) {
-                PostOffice next = outgoingParcels.peek().getValue().findNext(office);
-                if (!next.equals(office)) {
+                PostOffice nextOffice = outgoingParcels.peek().getValue().findNext(office);
+                if (!nextOffice.equals(office)) {
                     Pair<Parcel, Route> remove = outgoingParcels.remove();
-                    next.addParcel(remove.getKey(), remove.getValue());
+                    nextOffice.addParcel(remove.getKey(), remove.getValue());
                 } else throw new IllegalStateException("Parcel wait for consumer");
             }
             office.activate(signal);

@@ -24,7 +24,7 @@ public class FSMTest {
     @Test
     @DisplayName("take the parcel from the inbox, process it and throw it into the outgoing box")
     void test() {
-        ClockSignal signal = new ClockSignal();
+        ClockSignal signal = new ClockSignal(0L);
         PostOffice postOffice = PostNetwork.instance().find(1L).get();
 
 //        State[] states = {TERMINAL, ACCEPTING, WEIGHTING, RADIATION_CONTROL, STAMPING, DEPARTED};

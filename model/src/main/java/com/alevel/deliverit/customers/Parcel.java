@@ -42,4 +42,22 @@ public class Parcel extends Entity<ParcelId> {
     public long getFinishPostOfficeId() {
         return finishPostOfficeId;
     }
+
+//      __With this implementation it will be possible to create only unique parcels__
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj instanceof Parcel) {
+//            Parcel parcel = (Parcel) obj;
+//            if (obj == this) {
+//                return true;
+//            }
+//            return parcel.getWeight().getUnit().equals(this.weight.getUnit())
+//                    && parcel.getWeight().getValue().equals(this.getWeight().getValue())
+//                    && parcel.getDeliveryAddress().getPostalCode().equals(this.deliveryAddress.getPostalCode())
+//                    && parcel.getStartPostOfficeId() == this.startPostOfficeId
+//                    && parcel.getFinishPostOfficeId() == this.finishPostOfficeId;
+//        }
+//        return false;
+//    }
 }

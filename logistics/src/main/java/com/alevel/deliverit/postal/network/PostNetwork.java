@@ -4,6 +4,7 @@ import com.alevel.deliverit.logistics.postal.network.Connection;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class PostNetwork {
     }
     //ToDo  Create real postal network
 
-    private Set<PostOffice> postOffices = new HashSet<>();
+    private Set<PostOffice> postOffices = new LinkedHashSet<>();
     private Set<Connection> connections = new HashSet<>();
 
     private void addPostOffice(PostOffice postOffice) {

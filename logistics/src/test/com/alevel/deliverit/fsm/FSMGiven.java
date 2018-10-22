@@ -92,7 +92,7 @@ public class FSMGiven {
         return new Pair<>(givenParcel2(), givenRoute2());
     }
 
-    private static Sender givenSender() {
+    public static Sender givenSender() {
         return new Sender(givenSenderId(), givenSenderProfile());
     }
 
