@@ -23,9 +23,9 @@ public class FsmTest {
     void testSwitchState() {
         LogisticCommandFactory logisticCommandFactory = new LogisticCommandFactory();
         Map routeMap = RouteMap.routeMap;
-        Context context = new Context();
-        FiniteStateMachine<State> finiteStateMachine
-                = new FiniteStateMachine<State>(logisticCommandFactory, routeMap, START);
+        LogisticContext context = new LogisticContext();
+        FiniteStateMachine<State, LogisticContext> finiteStateMachine
+                = new FiniteStateMachine<>(logisticCommandFactory, routeMap, START);
         finiteStateMachine.start(context);
     }
 }
