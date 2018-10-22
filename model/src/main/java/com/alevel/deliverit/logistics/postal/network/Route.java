@@ -29,7 +29,7 @@ public class Route {
 
     public PostOffice findNext(PostOffice previous) {
         int i = nodes.indexOf(previous);
-        if (i == nodes.size()) {
+        if (i == nodes.size() - 1) {
             return previous;
         } else return nodes.get(i + 1);
     }

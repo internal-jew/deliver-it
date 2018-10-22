@@ -45,8 +45,16 @@ public class Given {
         return 1L;
     }
 
+    public static long givenStartPostOffice2() {
+        return 8L;
+    }
+
     public static long givenFinishPostOffice() {
         return 9L;
+    }
+
+    public static long givenFinishPostOffice2() {
+        return 7L;
     }
 
     public static PostalAddress givenPostalAddress() {
@@ -64,6 +72,10 @@ public class Given {
 
     public static Parcel givenParcel() {
         return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(), givenStartPostOffice(), givenFinishPostOffice());
+    }
+
+    public static Parcel givenParcel2() {
+        return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(), givenStartPostOffice2(), givenFinishPostOffice2());
     }
 
     public static Sender givenSender() {

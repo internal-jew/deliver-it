@@ -10,9 +10,20 @@ import com.alevel.deliverit.logistics.TrackNumberRepository;
  */
 public class ParcelHandingGiven {
     public static ParcelReceipt createReceipt() {
-
-
         Parcel parcel = Given.givenParcel();
+        Sender sender = Given.givenSender();
+        return ParcelReception.builder()
+                .setParcel(parcel)
+                .setSender(sender)
+                .setTrackNumbers(TrackNumberRepository.getInstance())
+                .setDeliveryTime(new DeliveryTime())
+                .setEstimatedPriceCalculator(new EstimatedPriceCalculator())
+                .build()
+                .accept();
+    }
+
+    public static ParcelReceipt createReverseReceipt() {
+        Parcel parcel = Given.givenParcel2();
         Sender sender = Given.givenSender();
         return ParcelReception.builder()
                 .setParcel(parcel)
