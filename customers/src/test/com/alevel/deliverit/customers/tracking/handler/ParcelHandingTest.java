@@ -72,7 +72,6 @@ class ParcelHandingTest {
         handler.handle(signal); // DEPARTED
         assertEquals(parcel1, office9.getOutgoingParcels().peek().getKey());
 
-        assertThrows(IllegalStateException.class, () -> handler.handle(signal));
     }
 
     @Test
@@ -116,11 +115,10 @@ class ParcelHandingTest {
         handler.handle(signal); // DEPARTED
         assertEquals(parcel1, office3.getOutgoingParcels().peek().getKey());
 
-        assertThrows(IllegalStateException.class, () -> handler.handle(signal));
     }
 
     @Test
-    @DisplayName("receive parcels in reverse order")
+    @DisplayName("receive 2 parcels in both order")
     void doubleTest() {
         ParcelTrackingHandler handler = ParcelTrackingHandler.instance();
         ClockSignal signal = new ClockSignal(1L);
@@ -137,34 +135,44 @@ class ParcelHandingTest {
         Parcel parcel1 = receipt1.getParcel();
         Parcel parcel2 = receipt2.getParcel();
 
-        assertEquals(parcel1, office1.getIncomingParcels().peek().getKey());
-
         handler.handle(signal); // ACCEPTING
         assertEquals(parcel1, office1.getParcelInProcessing().get());
-        assertEquals(ACCEPTING, office1.getCurrentState());
+        assertEquals(parcel2, office8.getParcelInProcessing().get());
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
         handler.handle(signal); // throw the parcel1 to the outgoing queue and receive the next parcel1 for processing
         assertEquals(parcel1, office1.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel2, office8.getOutgoingParcels().peek().getKey());
         handler.handle(signal); // deliver the parcel1 to the next post office
         assertEquals(parcel1, office2.getParcelInProcessing().get());
+        assertEquals(parcel2, office5.getParcelInProcessing().get());
         handler.handle(signal); // ACCEPTING
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
         assertEquals(parcel1, office2.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel2, office5.getOutgoingParcels().peek().getKey());
         handler.handle(signal); // throw to outgoing queue
-        assertEquals(parcel1, office3.getParcelInProcessing().get());
+        assertEquals(parcel1, office8.getParcelInProcessing().get());
+        assertEquals(parcel2, office7.getParcelInProcessing().get());
         handler.handle(signal); // ACCEPTING
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
-        assertEquals(parcel1, office3.getOutgoingParcels().peek().getKey());
-
-        assertThrows(IllegalStateException.class, () -> handler.handle(signal));
+        assertEquals(parcel1, office8.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel2, office7.getOutgoingParcels().peek().getKey());
+        handler.handle(signal); // throw to outgoing queue
+        assertEquals(parcel1, office9.getParcelInProcessing().get());
+        handler.handle(signal); // ACCEPTING
+        handler.handle(signal); // WEIGHTING
+        handler.handle(signal); // RADIATION_CONTROL
+        handler.handle(signal); // STAMPING
+        handler.handle(signal); // DEPARTED
+        assertEquals(parcel1, office9.getOutgoingParcels().peek().getKey());
+        handler.handle(signal); // DEPARTED
     }
 }

@@ -35,10 +35,16 @@ public class ParcelTrackingHandler {
                 if (!nextOffice.equals(office)) {
                     Pair<Parcel, Route> remove = outgoingParcels.remove();
                     nextOffice.addParcel(remove.getKey(), remove.getValue());
-                } else throw new IllegalStateException("Parcel wait for consumer");
+                } else delivered(outgoingParcels.peek().getKey(), office);
             }
             office.activate(signal);
         }
+    }
+
+    private void delivered(Parcel key, PostOffice office) {
+        System.out.println("The Parcel: " + key.getId().getValue()
+                + " wait for consumer on the postal office: "
+                + office.getId().getValue());
     }
 
     public State getcurrentState(Parcel parcel) {
