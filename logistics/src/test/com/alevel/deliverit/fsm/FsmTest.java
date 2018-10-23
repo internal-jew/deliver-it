@@ -18,7 +18,7 @@ import static com.alevel.deliverit.fsm.State.START;
 @DisplayName("Finite state machine should:")
 public class FsmTest {
     @Test
-    @DisplayName("Switch states")
+    @DisplayName("Switch states and perform commands")
     void testSwitchState() {
         LogisticCommandFactory logisticCommandFactory = new LogisticCommandFactory();
         Map routeMap = RouteMap.routeMap;
