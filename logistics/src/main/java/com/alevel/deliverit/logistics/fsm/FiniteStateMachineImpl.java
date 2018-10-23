@@ -1,6 +1,7 @@
 package com.alevel.deliverit.logistics.fsm;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Map;
 import java.util.Optional;
@@ -9,12 +10,12 @@ import java.util.Set;
 /**
  * @author Vitalii Usatyi
  */
-public class FiniteStateMachine<E extends Enum<E>, C extends Context> {
+public class FiniteStateMachineImpl<E extends Enum<E>, C extends Context> implements FiniteStateMachine<E, C> {
     private E currentState;
     private final ImmutableMap<E, Set<E>> routeMap;
     private final CommandFactory<E, C> commandFactory;
 
-    public FiniteStateMachine(CommandFactory<E, C> commandFactory, Map<E, Set<E>> routeMap, E startState) {
+    public FiniteStateMachineImpl(CommandFactory<E, C> commandFactory, Map<E, ImmutableSet<E>> routeMap, E startState) {
         this.commandFactory = commandFactory;
         this.routeMap = ImmutableMap.copyOf(routeMap);
         this.currentState = startState;
@@ -40,6 +41,11 @@ public class FiniteStateMachine<E extends Enum<E>, C extends Context> {
 
     private void switchState(E state) {
         currentState = state;
+    }
+
+    @Override
+    public E getCurrentState() {
+        return null;
     }
 
 }

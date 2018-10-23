@@ -14,48 +14,43 @@ public class LogisticCommandFactory extends CommandFactory<State, LogisticContex
         switch (currentState) {
             case START:
                 break;
-            case PROCESS:
-                if (!context.isProcessed) {
-                    return of(new ProcessCommand());
+            case TERMINAL:
+                if (!context.isTerminal) {
+                    return of(new TerminalCommand());
                 }
                 break;
-            case NOTIFY:
-                if (!context.isNotified) {
-                    return of(new NotifyCommand());
+            case ACCEPTING:
+                if (!context.isAccepting) {
+                    return of(new AcceptingCommand());
                 }
                 break;
-            case CHECKADDRESS:
-                if (!context.isCheckedAddress) {
-                    return of(new CheckAddressCommand());
+            case WEIGHTING:
+                if (!context.isWeighting) {
+                    return of(new WeightingCommand());
                 }
                 break;
-            case RADRIATIONCONTROL:
-                if (!context.isRadioControl) {
+            case RADIATION_CONTROL:
+                if (!context.isRadiationControl) {
                     return of(new RadiationControlCommand());
                 }
                 break;
-            case CHECKLEGALITY:
-                if (!context.isCheckedLegality) {
-                    return of(new CheckLegalityCommand());
+            case STAMPING:
+                if (!context.isStamping) {
+                    return of(new StampingCommand());
                 }
                 break;
-            case CHECKFORDANGEROUS:
-                if (!context.isCheckedForDangerous) {
-                    return of(new CheckForDangerousCommand());
+            case TRASH:
+                if (!context.isTrash) {
+                    return of(new TrashCommand());
                 }
                 break;
-            case SORTING:
-                if (!context.isSorted) {
-                    return of(new SortingCommand());
-                }
-                break;
-            case SENDING:
-                if (!context.isSent) {
-                    return of(new SendCommand());
+            case LOST:
+                if (!context.isLost) {
+                    return of(new LostCommand());
                 }
                 break;
             case DEPARTED:
-                if (!context.isSent) {
+                if (!context.isDeparted) {
                     return of(new DepartedCommand());
                 }
                 break;

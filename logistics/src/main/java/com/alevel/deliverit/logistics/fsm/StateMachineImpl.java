@@ -18,11 +18,6 @@ public class StateMachineImpl extends StateMachine {
     }
 
     @Override
-    public void restart() {
-        this.currentState = TERMINAL;
-    }
-
-    @Override
     public void switchState(State nextState) {
         currentState = nextState;
     }

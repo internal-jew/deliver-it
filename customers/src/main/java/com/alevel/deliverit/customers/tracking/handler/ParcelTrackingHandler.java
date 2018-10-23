@@ -10,6 +10,7 @@ import com.alevel.deliverit.logistics.postal.network.Pair;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import com.alevel.deliverit.postal.network.PostNetwork;
+import com.alevel.deliverit.postal.network.PostUnit;
 
 import java.util.*;
 
@@ -20,9 +21,12 @@ public class ParcelTrackingHandler implements BusinessLogicService {
 
     private final Set<ParcelReceipt> parcelReceipts = new HashSet<>();
     private final Set<PostOffice> postOffices = PostNetwork.instance().getPostOffices();
+    private final Set<PostUnit> postUnits = PostNetwork.instance().getPostUnits();
     private final Map<Parcel, PostOffice> parcelRepository = new HashMap<>();
+    private final Map<PostUnit, PostOffice> units = PostNetwork.instance().getUnits();
 
     private ParcelTrackingHandler() {
+
     }
 
     public static ParcelTrackingHandler instance() {
@@ -52,11 +56,11 @@ public class ParcelTrackingHandler implements BusinessLogicService {
     }
 
     public State getcurrentState(Parcel parcel) {
-//        if  (){}
         return parcelRepository.get(parcel).getCurrentState();
     }
 
     public void registerReceipt(ParcelReceipt receipt) {
+
         parcelReceipts.add(receipt);
         Parcel parcel = receipt.getParcel();
         Route route = receipt.getRoute();

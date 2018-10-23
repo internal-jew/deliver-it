@@ -3,9 +3,9 @@ package com.alevel.deliverit.logistics.fsm.commands;
 import com.alevel.deliverit.logistics.fsm.Command;
 import com.alevel.deliverit.logistics.fsm.LogisticContext;
 
-public class SendCommand implements Command<LogisticContext> {
+public class WeightingCommand implements Command<LogisticContext> {
     @Override
     public void perform(LogisticContext context) {
-        context.isSent = true;
+        context.isWeighting = true;
     }
 }

@@ -1,18 +1,16 @@
 package com.alevel.deliverit.logistics.fsm;
 
-import com.alevel.deliverit.logistics.fsm.Context;
-
 /**
  * @author Vadym Mitin
  */
 public class LogisticContext extends Context {
-    public boolean isProcessed;
-    public boolean isCheckedAddress;
-    public boolean isRadioControl;
-    public boolean isCheckedLegality = true;
-    public boolean isCheckedForDangerous;
-    public boolean isSorted;
-    public boolean isNotified;
-    public boolean isSent;
+
+    public boolean isTerminal;
+    public boolean isAccepting;
+    public boolean isWeighting;
+    public boolean isRadiationControl;
+    public boolean isStamping;
     public boolean isDeparted;
+    public boolean isTrash;
+    public boolean isLost;
 }

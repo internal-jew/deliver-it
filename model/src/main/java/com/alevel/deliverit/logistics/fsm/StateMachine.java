@@ -14,7 +14,5 @@ public abstract class StateMachine {
 
     public abstract State getCurrentState();
 
-    public abstract void restart();
-
     public abstract void handle();
 }

@@ -2,11 +2,9 @@ package com.alevel.deliverit.postal.network;
 
 import com.alevel.deliverit.logistics.postal.network.Connection;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
+import com.google.common.collect.ImmutableMap;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a network of postal offices and connections between them.
@@ -23,9 +21,17 @@ public class PostNetwork {
 
     private Set<PostOffice> postOffices = new LinkedHashSet<>();
     private Set<Connection> connections = new HashSet<>();
+    private Set<PostUnit> postUnits = new LinkedHashSet<>();
+    private Map<PostUnit, PostOffice> units = new HashMap<>();
 
     private void addPostOffice(PostOffice postOffice) {
         postOffices.add(postOffice);
+        postUnits.add(new PostUnit(postOffice));
+        units.put(new PostUnit(postOffice), postOffice);
+    }
+
+    public Map<PostUnit, PostOffice> getUnits() {
+        return units;
     }
 
     public void addConnection(Connection connection) {
@@ -62,6 +68,10 @@ public class PostNetwork {
 
     public Set<Connection> getConnections() {
         return connections;
+    }
+
+    public Set<PostUnit> getPostUnits() {
+        return postUnits;
     }
 
     public static PostNetwork instance() {

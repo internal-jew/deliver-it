@@ -6,6 +6,6 @@ import com.alevel.deliverit.logistics.fsm.LogisticContext;
 public class RadiationControlCommand implements Command<LogisticContext> {
     @Override
     public void perform(LogisticContext context) {
-        context.isRadioControl = true;
+        context.isRadiationControl = true;
     }
 }

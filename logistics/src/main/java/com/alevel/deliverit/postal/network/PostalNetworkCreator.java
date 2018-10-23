@@ -1,7 +1,6 @@
 package com.alevel.deliverit.postal.network;
 
-import com.alevel.deliverit.logistics.fsm.State;
-import com.alevel.deliverit.logistics.fsm.StateMachineImpl;
+import com.alevel.deliverit.logistics.fsm.*;
 import com.alevel.deliverit.logistics.postal.network.Connection;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.PostOfficeId;
@@ -47,16 +46,16 @@ public class PostalNetworkCreator {
         PostOffice postOffice9 = fakeOffice(9L);
         PostOffice postOffice10 = fakeOffice(10L);
 
-        postOffice1.setStateMachine(new StateMachineImpl());
-        postOffice2.setStateMachine(new StateMachineImpl());
-        postOffice3.setStateMachine(new StateMachineImpl());
-        postOffice4.setStateMachine(new StateMachineImpl());
-        postOffice5.setStateMachine(new StateMachineImpl());
-        postOffice6.setStateMachine(new StateMachineImpl());
-        postOffice7.setStateMachine(new StateMachineImpl());
-        postOffice8.setStateMachine(new StateMachineImpl());
-        postOffice9.setStateMachine(new StateMachineImpl());
-        postOffice10.setStateMachine(new StateMachineImpl());
+        postOffice1.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice2.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice3.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice4.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice5.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice6.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice7.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice8.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice9.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
+        postOffice10.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), RouteMap.routeMap, State.TERMINAL));
 
         final PostNetwork postNetwork = PostNetwork.instance();
 
