@@ -5,7 +5,7 @@ package com.alevel.deliverit.logistics.fsm;
  */
 public enum State {
     START,
-    TERMINAL,
+    EXPECTATION,
     STAMPING,
     ACCEPTING,
     WEIGHTING,
