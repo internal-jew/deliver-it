@@ -6,7 +6,7 @@ import com.alevel.deliverit.customers.verticle.VertxContext;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.DeliveryOptions;
 
-import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
 import static com.alevel.deliverit.SubscribeAddress.BILLING_CALCULATE_PRICE;
 
@@ -15,25 +15,19 @@ import static com.alevel.deliverit.SubscribeAddress.BILLING_CALCULATE_PRICE;
  */
 public class BillingGateway {
 
-    public static Money estimatedPrice(PriceLookupRequest request) {
+    public static Money estimatedPrice(PriceLookupRequest request, Consumer<Money> callback) {
         DeliveryOptions options = VertxContext.instance().getOptions();
 
         Future<Money> money = Future.future();
-        final CountDownLatch latch = new CountDownLatch(1);
 
         VertxContext.instance().eventBus().send(BILLING_CALCULATE_PRICE, request, options, reply -> {
             if (reply.succeeded()) {
-                money.complete((Money) reply.result().body());
+                callback.accept((Money) reply.result().body());
+//                money.complete((Money) reply.result().body());
             } else {
-                throw new IllegalStateException("BillingGateway Error");
+                throw new IllegalStateException("BillingGateway Error " + reply.cause());
             }
-            latch.countDown();
         });
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return money.result();
     }
 }
