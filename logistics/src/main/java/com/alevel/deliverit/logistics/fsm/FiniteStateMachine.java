@@ -1,6 +1,5 @@
 package com.alevel.deliverit.logistics.fsm;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
@@ -42,4 +41,5 @@ public class FiniteStateMachine<E extends Enum<E>, C extends Context> {
     private void switchState(E state) {
         currentState = state;
     }
+
 }

@@ -1,6 +1,7 @@
-package com.alevel.deliverit.fsm;
+package com.alevel.deliverit.logistics.fsm.commands;
 
 import com.alevel.deliverit.logistics.fsm.Command;
+import com.alevel.deliverit.logistics.fsm.LogisticContext;
 
 public class SendCommand implements Command<LogisticContext> {
     @Override

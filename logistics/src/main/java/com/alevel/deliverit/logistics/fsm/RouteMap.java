@@ -1,14 +1,15 @@
-package com.alevel.deliverit.fsm;
+package com.alevel.deliverit.logistics.fsm;
 
 import com.google.common.collect.ImmutableSet;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.alevel.deliverit.fsm.State.*;
+import static com.alevel.deliverit.logistics.fsm.State.*;
 
-class RouteMap {
+public class RouteMap {
 
-    static Map<State, ImmutableSet<State>> routeMap = new HashMap<>();
+    public static Map<State, ImmutableSet<State>> routeMap = new HashMap<>();
 
     private static ImmutableSet<State> transitionsStart = ImmutableSet.of(PROCESS);
     private static ImmutableSet<State> transitionsForProcess = ImmutableSet.of(NOTIFY);

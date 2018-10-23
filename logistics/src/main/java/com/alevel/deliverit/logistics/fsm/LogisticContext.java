@@ -1,4 +1,4 @@
-package com.alevel.deliverit.fsm;
+package com.alevel.deliverit.logistics.fsm;
 
 import com.alevel.deliverit.logistics.fsm.Context;
 
