@@ -36,7 +36,7 @@ class RestTest {
 
         final ModuleAPI instance = ModuleAPI.getInstance();
         instance.registerConsumers(new RouteLookup());
-        instance.registerConsumers(new PriceLookup());
+//        instance.registerConsumers(new PriceLookup());
         instance.registerConsumers(new DeliveryTimeLookup());
         instance.registerConsumers(new TrackNumberLookup());
 
@@ -56,7 +56,7 @@ class RestTest {
             File file = new File(path.toUri());
             JSONObject jsonObject = getJsonObject(file);
             String jsonString = jsonObject.toJSONString();
-            parcelReceptionEndpoint.accept(jsonString);
+//            parcelReceptionEndpoint.accept(jsonString);
         } catch (IOException | ParseException | URISyntaxException e) {
             e.printStackTrace();
         }

@@ -38,7 +38,7 @@ class CustomersVerticleTest {
         TestEventBus eb = new TestEventBus();
         VertxContext.instance().setEventBus(eb);
         RouteLookupRequest request = new RouteLookupRequest(1L, 2L);
-        LogisticsGateway.find(request);
+//        LogisticsGateway.find(request);
         assertEquals(request, eb.request);
     }
 

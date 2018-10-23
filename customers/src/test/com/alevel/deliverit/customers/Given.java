@@ -1,8 +1,8 @@
 package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
-import com.alevel.deliverit.EstimatedPriceCalculator;
 import com.alevel.deliverit.PostCodeConst;
+import com.alevel.deliverit.gateway.EstimatedPriceCalculator;
 import com.alevel.deliverit.logistics.*;
 
 /**
