@@ -2,16 +2,15 @@ package com.alevel.deliverit.fsm;
 
 import com.alevel.deliverit.logistics.fsm.Command;
 import com.alevel.deliverit.logistics.fsm.CommandFactory;
-import com.alevel.deliverit.logistics.fsm.Context;
-import com.google.common.base.Optional;
+
+import java.util.Optional;
 
 import static com.alevel.deliverit.fsm.State.*;
 
-public class LogisticCommandFactory extends CommandFactory<State> {
+public class LogisticCommandFactory extends CommandFactory<State, LogisticContext> {
 
     @Override
-    public Optional<Command> getCommand(State currentState, Context context) {
-
+    public Optional<Command> getCommand(State currentState, LogisticContext context) {
         if (currentState == PROCESS && (!context.isProcessed)) {
             return Optional.of(new ProcessCommand());
         }
@@ -39,6 +38,6 @@ public class LogisticCommandFactory extends CommandFactory<State> {
         if (currentState == DEPARTED && (!context.isSanded)) {
             return Optional.of(new DepartedCommand());
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 }

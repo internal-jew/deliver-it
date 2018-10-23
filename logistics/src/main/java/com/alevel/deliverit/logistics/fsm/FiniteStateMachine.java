@@ -4,16 +4,16 @@ package com.alevel.deliverit.logistics.fsm;
  * @autor Vitalii Usatyi
  */
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
  * @author Vitalii Usatyi
  */
-public class FiniteStateMachine<E extends Enum<E>> {
+public class FiniteStateMachine<E extends Enum<E>, C extends Context> {
     private E currentState;
     private final ImmutableMap<E, Set<E>> routeMap;
     private final CommandFactory commandFactory;
@@ -24,7 +24,7 @@ public class FiniteStateMachine<E extends Enum<E>> {
         this.currentState = startState;
     }
 
-    public void start(Context context) {
+    public void start(C context) {
         while (!isTerminalState()) {
             Set<E> transitionStates = routeMap.get(currentState);
             for (E state : transitionStates) {

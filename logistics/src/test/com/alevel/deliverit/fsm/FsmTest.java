@@ -1,6 +1,5 @@
 package com.alevel.deliverit.fsm;
 
-import com.alevel.deliverit.logistics.fsm.Context;
 import com.alevel.deliverit.logistics.fsm.FiniteStateMachine;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,9 +22,9 @@ public class FsmTest {
     void testSwitchState() {
         LogisticCommandFactory logisticCommandFactory = new LogisticCommandFactory();
         Map routeMap = RouteMap.routeMap;
-        Context context = new Context();
-        FiniteStateMachine<State> finiteStateMachine
-                = new FiniteStateMachine<State>(logisticCommandFactory, routeMap, START);
+        LogisticContext context = new LogisticContext();
+        FiniteStateMachine<State, LogisticContext> finiteStateMachine
+                = new FiniteStateMachine<State, LogisticContext>(logisticCommandFactory, routeMap, START);
         finiteStateMachine.start(context);
     }
 }

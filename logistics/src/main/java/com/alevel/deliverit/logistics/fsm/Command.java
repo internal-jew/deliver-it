@@ -3,6 +3,6 @@ package com.alevel.deliverit.logistics.fsm;
 /**
  * @author Vitalii Usatyi
  */
-public interface Command {
-    void perform(Context context);
+public interface Command<C extends Context> {
+    void perform(C context);
 }
