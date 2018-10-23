@@ -1,5 +1,6 @@
 package com.alevel.deliverit.logistics.postal.network;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  *
  * @author Sergey Bogovesov
  */
-public class Route {
+public class Route implements Serializable {
     public static final int START_NODE = 0;
 
     private final List<PostOffice> nodes = new ArrayList<>();

@@ -12,7 +12,7 @@ public class WeightParser extends Parser<Weight> {
     public Weight parse(String jsonSting) {
         JSONObject jsonObject = parseToJsonObject(jsonSting);
         WeightUnit weightUnit = getWeightUnit(jsonObject);
-        double weightDouble = (double) jsonObject.get("value");
+        double weightDouble = Double.parseDouble(jsonObject.get("value").toString());
         return new Weight(weightDouble, weightUnit);
     }
 

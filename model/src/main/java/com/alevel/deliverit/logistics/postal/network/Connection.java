@@ -3,6 +3,7 @@ package com.alevel.deliverit.logistics.postal.network;
 import com.alevel.deliverit.logistics.postal.network.constraint.Constraint;
 import com.alevel.deliverit.logistics.postal.network.context.SendingContext;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Sergey Bogovesov
  */
-public class Connection {
+public class Connection implements Serializable {
     private PostOffice startNode;
     private PostOffice endNode;
     private Set<Constraint> constraints;
