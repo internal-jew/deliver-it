@@ -9,7 +9,7 @@ public class StateMachineImpl extends StateMachine {
     private State currentState;
 
     public StateMachineImpl() {
-        this.currentState = TERMINAL;
+        this.currentState = EXPECTATION;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class StateMachineImpl extends StateMachine {
 
 //    ***Possible states***
 //
-//    TERMINAL -> ACCEPTING -> WEIGHING -> RADIATION_CONTROL -> STAMPING -> DEPARTED
+//    EXPECTATION -> ACCEPTING -> WEIGHING -> RADIATION_CONTROL -> STAMPING -> DEPARTED
 //                  \        /                                                  \
 //                   \     /                                                     \
 //                    TRASH                                                      LOST
@@ -51,7 +51,7 @@ public class StateMachineImpl extends StateMachine {
     }
 
     private void stateDeparted() {
-        switchState(TERMINAL);
+        switchState(EXPECTATION);
     }
 
     //TODO
@@ -86,7 +86,7 @@ public class StateMachineImpl extends StateMachine {
                 System.out.println("state stamping");
                 stateStamping();
                 break;
-            case TERMINAL:
+            case EXPECTATION:
                 System.out.println("state terminal");
                 stateTerminal();
                 break;

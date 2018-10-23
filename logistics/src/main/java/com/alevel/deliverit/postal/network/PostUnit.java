@@ -49,7 +49,7 @@ public class PostUnit {
                 stateMachine.start(context);
             }
         }
-        if (stateMachine.getCurrentState().equals(TERMINAL)) {
+        if (stateMachine.getCurrentState().equals(EXPECTATION)) {
             enqueueParcel();
         }
         if (parcelInProcessing != null) {

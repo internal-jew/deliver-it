@@ -6,10 +6,10 @@ import com.alevel.deliverit.logistics.fsm.LogisticContext;
 /**
  * @author Vadym Mitin
  */
-public class TerminalCommand implements Command<LogisticContext> {
+public class ExpectationCommand implements Command<LogisticContext> {
     @Override
     public void perform(LogisticContext context) {
         context.reset();
-        context.isTerminal = true;
+        context.isExpectation = true;
     }
 }

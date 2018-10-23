@@ -5,7 +5,7 @@ package com.alevel.deliverit.logistics.fsm;
  */
 public class LogisticContext extends Context {
 
-    public boolean isTerminal = true;
+    public boolean isExpectation = true;
     public boolean isAccepting;
     public boolean isWeighting;
     public boolean isRadiationControl;
@@ -15,7 +15,7 @@ public class LogisticContext extends Context {
 //    public boolean isLost;
 
     public void reset() {
-        isTerminal = false;
+        isExpectation = false;
         isAccepting = false;
         isWeighting = false;
         isRadiationControl = false;

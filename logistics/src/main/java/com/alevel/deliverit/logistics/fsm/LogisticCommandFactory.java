@@ -14,10 +14,10 @@ public class LogisticCommandFactory extends CommandFactory<State, LogisticContex
         switch (currentState) {
             case START:
                 break;
-            case TERMINAL:
-                if (!context.isTerminal) {
+            case EXPECTATION:
+                if (!context.isExpectation) {
 
-                    return of(new TerminalCommand());
+                    return of(new ExpectationCommand());
                 }
                 break;
             case ACCEPTING:

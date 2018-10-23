@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static com.alevel.deliverit.logistics.fsm.State.ACCEPTING;
-import static com.alevel.deliverit.logistics.fsm.State.TERMINAL;
+import static com.alevel.deliverit.logistics.fsm.State.EXPECTATION;
 
 
 /**
@@ -27,7 +27,7 @@ public class FsmTest {
         Map routeMap = RouteMap.routeMap;
         LogisticContext context = new LogisticContext();
         FiniteStateMachine<State, LogisticContext> finiteStateMachine
-                = new FiniteStateMachineImpl<State, LogisticContext>(logisticCommandFactory, routeMap, TERMINAL);
+                = new FiniteStateMachineImpl<State, LogisticContext>(logisticCommandFactory, routeMap, EXPECTATION);
         finiteStateMachine.start(context);
 
         Assertions.assertEquals(ACCEPTING, finiteStateMachine.getCurrentState());

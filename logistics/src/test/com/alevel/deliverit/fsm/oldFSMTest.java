@@ -2,9 +2,6 @@ package com.alevel.deliverit.fsm;
 
 import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.logistics.clock.generator.ClockSignal;
-import com.alevel.deliverit.logistics.fsm.State;
-import com.alevel.deliverit.logistics.postal.network.Pair;
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import com.alevel.deliverit.postal.network.PostNetwork;
 import com.alevel.deliverit.postal.network.PostUnit;
@@ -29,7 +26,7 @@ public class oldFSMTest {
         ClockSignal signal = new ClockSignal(0L);
         PostUnit postOffice = PostNetwork.instance().findUnit(1L).get();
 
-//        State[] states = {TERMINAL, ACCEPTING, WEIGHTING, RADIATION_CONTROL, STAMPING, DEPARTED};
+//        State[] states = {EXPECTATION, ACCEPTING, WEIGHTING, RADIATION_CONTROL, STAMPING, DEPARTED};
 
         Parcel parcel1 = FSMGiven.givenParcel();
         Route route1 = FSMGiven.givenRoute1();
@@ -41,7 +38,7 @@ public class oldFSMTest {
         assertEquals(parcel1, postOffice.getIncomingParcels().peek().getKey());
 
         assertEquals(Optional.empty(), postOffice.getParcelInProcessing());
-        assertEquals(TERMINAL, postOffice.getCurrentState());
+        assertEquals(EXPECTATION, postOffice.getCurrentState());
 
         postOffice.activate(signal);
         System.out.println("activate: " + i++);
@@ -72,20 +69,20 @@ public class oldFSMTest {
         postOffice.activate(signal);
         System.out.println("activate: " + i++);
         assertEquals(parcel1, postOffice.getOutgoingParcels().peek().getKey());
-        assertEquals(TERMINAL, postOffice.getCurrentState());
+        assertEquals(EXPECTATION, postOffice.getCurrentState());
 
         postOffice.activate(signal);
         System.out.println("activate: " + i++);
         postOffice.activate(signal);
         System.out.println("activate: " + i++);
         postOffice.activate(signal);
-        assertEquals(TERMINAL, postOffice.getCurrentState());
+        assertEquals(EXPECTATION, postOffice.getCurrentState());
         System.out.println("activate: " + i++);
 
 
         postOffice.addParcel(parcel2, route2);
         assertEquals(parcel2, postOffice.getIncomingParcels().peek().getKey());
-        assertEquals(TERMINAL, postOffice.getCurrentState());
+        assertEquals(EXPECTATION, postOffice.getCurrentState());
 
         postOffice.activate(signal);
         System.out.println("activate: " + i++);

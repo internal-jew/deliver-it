@@ -11,7 +11,7 @@ public class RouteMap {
 
 //    ***Possible states***
 //
-//    TERMINAL -> ACCEPTING -> WEIGHING -> RADIATION_CONTROL -> STAMPING -> DEPARTED
+//    EXPECTATION -> ACCEPTING -> WEIGHING -> RADIATION_CONTROL -> STAMPING -> DEPARTED
 //                  \        /                                                  \
 //                   \     /                                                     \
 //                    TRASH                                                      LOST
@@ -24,12 +24,12 @@ public class RouteMap {
     private static ImmutableSet<State> transitionsWeighting = ImmutableSet.of(RADIATION_CONTROL, TRASH);
     private static ImmutableSet<State> transitionsRadiationControl = ImmutableSet.of(STAMPING);
     private static ImmutableSet<State> transitionsStamping = ImmutableSet.of(DEPARTED);
-    private static ImmutableSet<State> transitionsDeparted = ImmutableSet.of(TERMINAL, LOST);
+    private static ImmutableSet<State> transitionsDeparted = ImmutableSet.of(EXPECTATION, LOST);
 //    private static ImmutableSet<State> transitionsTrash = ImmutableSet.of();
 //    private static ImmutableSet<State> transitionsLost = ImmutableSet.of();
 
     static {
-        routeMap.put(TERMINAL, transitionsTerminal);
+        routeMap.put(EXPECTATION, transitionsTerminal);
         routeMap.put(ACCEPTING, transitionsAccepting);
         routeMap.put(WEIGHTING, transitionsWeighting);
         routeMap.put(RADIATION_CONTROL, transitionsRadiationControl);
