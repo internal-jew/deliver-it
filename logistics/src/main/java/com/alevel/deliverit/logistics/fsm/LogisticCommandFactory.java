@@ -16,6 +16,7 @@ public class LogisticCommandFactory extends CommandFactory<State, LogisticContex
                 break;
             case TERMINAL:
                 if (!context.isTerminal) {
+
                     return of(new TerminalCommand());
                 }
                 break;
@@ -39,16 +40,16 @@ public class LogisticCommandFactory extends CommandFactory<State, LogisticContex
                     return of(new StampingCommand());
                 }
                 break;
-            case TRASH:
-                if (!context.isTrash) {
-                    return of(new TrashCommand());
-                }
-                break;
-            case LOST:
-                if (!context.isLost) {
-                    return of(new LostCommand());
-                }
-                break;
+//            case TRASH:
+//                if (!context.isTrash) {
+//                    return of(new TrashCommand());
+//                }
+//                break;
+//            case LOST:
+//                if (!context.isLost) {
+//                    return of(new LostCommand());
+//                }
+//                break;
             case DEPARTED:
                 if (!context.isDeparted) {
                     return of(new DepartedCommand());

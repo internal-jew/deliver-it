@@ -22,12 +22,17 @@ public class PostNetwork {
     private Set<PostOffice> postOffices = new LinkedHashSet<>();
     private Set<Connection> connections = new HashSet<>();
     private Set<PostUnit> postUnits = new LinkedHashSet<>();
-    private Map<PostUnit, PostOffice> units = new HashMap<>();
+    private Map<PostUnit, PostOffice> units = new LinkedHashMap<>();
 
     private void addPostOffice(PostOffice postOffice) {
         postOffices.add(postOffice);
-        postUnits.add(new PostUnit(postOffice));
-        units.put(new PostUnit(postOffice), postOffice);
+
+    }
+
+    public void addUnit(PostOffice office) {
+        PostUnit unit = new PostUnit(office);
+        postUnits.add(unit);
+        units.put(unit, office);
     }
 
     public Map<PostUnit, PostOffice> getUnits() {
@@ -55,6 +60,12 @@ public class PostNetwork {
     public Optional<PostOffice> find(Long id) {
         return postOffices.stream()
                 .filter(office -> office.getId().getValue().equals(id))
+                .findFirst();
+    }
+
+    public Optional<PostUnit> findUnit(Long id) {
+        return postUnits.stream()
+                .filter(office -> office.getPostOffice().getId().getValue().equals(id))
                 .findFirst();
     }
 

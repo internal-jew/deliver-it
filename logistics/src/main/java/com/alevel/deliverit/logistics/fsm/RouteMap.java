@@ -25,8 +25,8 @@ public class RouteMap {
     private static ImmutableSet<State> transitionsRadiationControl = ImmutableSet.of(STAMPING);
     private static ImmutableSet<State> transitionsStamping = ImmutableSet.of(DEPARTED);
     private static ImmutableSet<State> transitionsDeparted = ImmutableSet.of(TERMINAL, LOST);
-    private static ImmutableSet<State> transitionsTrash = ImmutableSet.of();
-    private static ImmutableSet<State> transitionsLost = ImmutableSet.of();
+//    private static ImmutableSet<State> transitionsTrash = ImmutableSet.of();
+//    private static ImmutableSet<State> transitionsLost = ImmutableSet.of();
 
     static {
         routeMap.put(TERMINAL, transitionsTerminal);
@@ -35,7 +35,7 @@ public class RouteMap {
         routeMap.put(RADIATION_CONTROL, transitionsRadiationControl);
         routeMap.put(STAMPING, transitionsStamping);
         routeMap.put(DEPARTED, transitionsDeparted);
-        routeMap.put(TRASH, transitionsTrash);
-        routeMap.put(LOST, transitionsLost);
+//        routeMap.put(TRASH, transitionsTrash);
+//        routeMap.put(LOST, transitionsLost);
     }
 }

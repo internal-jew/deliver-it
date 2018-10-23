@@ -22,7 +22,7 @@ public class FiniteStateMachineImpl<E extends Enum<E>, C extends Context> implem
     }
 
     public void start(C context) {
-        while (!isTerminalState()) {
+        if (isTerminalState()) {
             Set<E> transitionStates = routeMap.get(currentState);
             for (E state : transitionStates) {
                 Optional<Command<C>> command = commandFactory.getCommand(state, context);
@@ -36,16 +36,17 @@ public class FiniteStateMachineImpl<E extends Enum<E>, C extends Context> implem
     }
 
     private boolean isTerminalState() {
-        return !routeMap.containsKey(currentState);
+        return routeMap.containsKey(currentState);
     }
 
     private void switchState(E state) {
         currentState = state;
+        System.out.println(state);
     }
 
     @Override
     public E getCurrentState() {
-        return null;
+        return currentState;
     }
 
 }

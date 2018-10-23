@@ -8,5 +8,6 @@ import com.google.common.annotations.VisibleForTesting;
  */
 @VisibleForTesting
 public abstract class Context {
+    abstract void reset();
 
 }

@@ -5,6 +5,7 @@ import com.alevel.deliverit.customers.ParcelReceipt;
 import com.alevel.deliverit.logistics.clock.generator.ClockSignal;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.postal.network.PostNetwork;
+import com.alevel.deliverit.postal.network.PostUnit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,12 +23,12 @@ class ParcelHandingTest {
         ParcelTrackingHandler handler = ParcelTrackingHandler.instance();
         ClockSignal signal = new ClockSignal(1L);
 
-        PostOffice office1 = PostNetwork.instance().find(1L).get();
-        PostOffice office2 = PostNetwork.instance().find(2L).get();
-        PostOffice office5 = PostNetwork.instance().find(5L).get();
-        PostOffice office7 = PostNetwork.instance().find(7L).get();
-        PostOffice office8 = PostNetwork.instance().find(8L).get();
-        PostOffice office9 = PostNetwork.instance().find(9L).get();
+        PostUnit unit1 = PostNetwork.instance().findUnit(1L).get();
+        PostUnit unit2 = PostNetwork.instance().findUnit(2L).get();
+        PostUnit unit5 = PostNetwork.instance().findUnit(5L).get();
+        PostUnit unit7 = PostNetwork.instance().findUnit(7L).get();
+        PostUnit unit8 = PostNetwork.instance().findUnit(8L).get();
+        PostUnit unit9 = PostNetwork.instance().findUnit(9L).get();
 
         ParcelReceipt receipt1 = ParcelHandingGiven.createReceipt();
         ParcelReceipt receipt2 = ParcelHandingGiven.createReverseReceipt();
@@ -35,43 +36,43 @@ class ParcelHandingTest {
         Parcel parcel2 = receipt2.getParcel();
 
         handler.handle(signal); // ACCEPTING
-        assertEquals(parcel1, office1.getParcelInProcessing().get());
-        assertEquals(parcel2, office8.getParcelInProcessing().get());
+        assertEquals(parcel1, unit1.getParcelInProcessing().get());
+        assertEquals(parcel2, unit8.getParcelInProcessing().get());
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
         handler.handle(signal); // throw the parcel1 to the outgoing queue and receive the next parcel1 for processing
-        assertEquals(parcel1, office1.getOutgoingParcels().peek().getKey());
-        assertEquals(parcel2, office8.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel1, unit1.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel2, unit8.getOutgoingParcels().peek().getKey());
         handler.handle(signal); // deliver the parcel1 to the next post office
-        assertEquals(parcel1, office2.getParcelInProcessing().get());
-        assertEquals(parcel2, office5.getParcelInProcessing().get());
+        assertEquals(parcel1, unit2.getParcelInProcessing().get());
         handler.handle(signal); // ACCEPTING
+        assertEquals(parcel2, unit5.getParcelInProcessing().get()); //Очередь смещается из за того что после 8 юнита идет 5й, а он уже отработан
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
-        assertEquals(parcel1, office2.getOutgoingParcels().peek().getKey());
-        assertEquals(parcel2, office5.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel1, unit2.getOutgoingParcels().peek().getKey());
         handler.handle(signal); // throw to outgoing queue
-        assertEquals(parcel1, office8.getParcelInProcessing().get());
-        assertEquals(parcel2, office7.getParcelInProcessing().get());
+        assertEquals(parcel2, unit5.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel1, unit8.getParcelInProcessing().get());
         handler.handle(signal); // ACCEPTING
+        assertEquals(parcel2, unit7.getParcelInProcessing().get());
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
-        assertEquals(parcel1, office8.getOutgoingParcels().peek().getKey());
-        assertEquals(parcel2, office7.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel1, unit8.getOutgoingParcels().peek().getKey());
         handler.handle(signal); // throw to outgoing queue
-        assertEquals(parcel1, office9.getParcelInProcessing().get());
+        assertEquals(parcel2, unit7.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel1, unit9.getParcelInProcessing().get());
         handler.handle(signal); // ACCEPTING
         handler.handle(signal); // WEIGHTING
         handler.handle(signal); // RADIATION_CONTROL
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
-        assertEquals(parcel1, office9.getOutgoingParcels().peek().getKey());
+        assertEquals(parcel1, unit9.getOutgoingParcels().peek().getKey());
         handler.handle(signal); // TERMINAL
     }
 }

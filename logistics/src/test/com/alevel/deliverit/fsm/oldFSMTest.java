@@ -7,6 +7,7 @@ import com.alevel.deliverit.logistics.postal.network.Pair;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import com.alevel.deliverit.postal.network.PostNetwork;
+import com.alevel.deliverit.postal.network.PostUnit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +25,9 @@ public class oldFSMTest {
     @Test
     @DisplayName("take the parcel from the inbox, process it and throw it into the outgoing box")
     void test() {
+        int i = 0;
         ClockSignal signal = new ClockSignal(0L);
-        PostOffice postOffice = PostNetwork.instance().find(1L).get();
+        PostUnit postOffice = PostNetwork.instance().findUnit(1L).get();
 
 //        State[] states = {TERMINAL, ACCEPTING, WEIGHTING, RADIATION_CONTROL, STAMPING, DEPARTED};
 
@@ -42,28 +44,43 @@ public class oldFSMTest {
         assertEquals(TERMINAL, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(parcel1, postOffice.getParcelInProcessing().get());
         assertEquals(ACCEPTING, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(parcel1, postOffice.getParcelInProcessing().get());
         assertEquals(WEIGHTING, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(parcel1, postOffice.getParcelInProcessing().get());
         assertEquals(RADIATION_CONTROL, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(parcel1, postOffice.getParcelInProcessing().get());
         assertEquals(STAMPING, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
+
         assertEquals(parcel1, postOffice.getParcelInProcessing().get());
         assertEquals(DEPARTED, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(parcel1, postOffice.getOutgoingParcels().peek().getKey());
         assertEquals(TERMINAL, postOffice.getCurrentState());
+
+        postOffice.activate(signal);
+        System.out.println("activate: " + i++);
+        postOffice.activate(signal);
+        System.out.println("activate: " + i++);
+        postOffice.activate(signal);
+        assertEquals(TERMINAL, postOffice.getCurrentState());
+        System.out.println("activate: " + i++);
 
 
         postOffice.addParcel(parcel2, route2);
@@ -71,17 +88,22 @@ public class oldFSMTest {
         assertEquals(TERMINAL, postOffice.getCurrentState());
 
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(parcel2, postOffice.getParcelInProcessing().get());
         assertEquals(ACCEPTING, postOffice.getCurrentState());
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         assertEquals(0, postOffice.getIncomingParcels().size());
         postOffice.addParcel(parcel1, route1);
         postOffice.addParcel(parcel1, route1);
         postOffice.addParcel(parcel1, route1);
         assertEquals(3, postOffice.getIncomingParcels().size());
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
         postOffice.activate(signal);
+        System.out.println("activate: " + i++);
 
     }
 

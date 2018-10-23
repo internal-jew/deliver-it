@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import static com.alevel.deliverit.logistics.fsm.State.*;
+
 /**
  * @author Vadym Mitin
  */
@@ -18,22 +20,36 @@ public class PostUnit {
     private final PostOffice postOffice;
     private final Queue<Pair<Parcel, Route>> incomingParcels = new PriorityQueue<>();
     private final Queue<Pair<Parcel, Route>> outgoingParcels = new PriorityQueue<>();
-    private final FiniteStateMachine stateMachine;
     private Parcel parcelInProcessing;
     private Route currentRoute;
     private final LogisticContext context = new LogisticContext();
 
     public PostUnit(PostOffice postOffice) {
         this.postOffice = postOffice;
-        this.stateMachine = postOffice.getStateMachine();
+    }
+
+    public PostOffice getPostOffice() {
+        return postOffice;
+    }
+
+    public Route getCurrentRoute() {
+        return currentRoute;
+    }
+
+    public LogisticContext getContext() {
+        return context;
     }
 
     public void activate(ClockSignal signal) {
-        if (stateMachine.getCurrentState().equals(State.DEPARTED)) {
+
+        FiniteStateMachine stateMachine = postOffice.getStateMachine();
+        if (stateMachine.getCurrentState().equals(DEPARTED)) {
             departingParcel();
-            stateMachine.start(context);
+            if (parcelInProcessing == null) {
+                stateMachine.start(context);
+            }
         }
-        if (stateMachine.getCurrentState().equals(State.TERMINAL)) {
+        if (stateMachine.getCurrentState().equals(TERMINAL)) {
             enqueueParcel();
         }
         if (parcelInProcessing != null) {
@@ -71,5 +87,9 @@ public class PostUnit {
 
     public Queue<Pair<Parcel, Route>> getOutgoingParcels() {
         return outgoingParcels;
+    }
+
+    public State getCurrentState() {
+        return postOffice.getCurrentState();
     }
 }

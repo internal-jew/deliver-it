@@ -1,8 +1,6 @@
 package com.alevel.deliverit.logistics.postal.network;
 
-import com.alevel.deliverit.customers.Parcel;
 import com.alevel.deliverit.entity.Entity;
-import com.alevel.deliverit.logistics.clock.generator.ClockSignal;
 import com.alevel.deliverit.logistics.fsm.Context;
 import com.alevel.deliverit.logistics.fsm.FiniteStateMachine;
 import com.alevel.deliverit.logistics.fsm.State;
@@ -20,13 +18,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class PostOffice extends Entity<PostOfficeId> {
     private final String postalCode;
-    //    private Parcel parcelInProcessing;
-//    private Route currentRoute;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
-    //    private final Queue<Pair<Parcel, Route>> incomingParcels = new PriorityQueue<>();
-//    private final Queue<Pair<Parcel, Route>> outgoingParcels = new PriorityQueue<>();
-    private FiniteStateMachine<State, Context> stateMachine;
+    private FiniteStateMachine stateMachine;
 
     private PostOffice(PostOfficeId id, String postalCode) {
         super(id);
@@ -37,52 +31,11 @@ public class PostOffice extends Entity<PostOfficeId> {
         return new Builder();
     }
 
-    public FiniteStateMachine<State, Context> getStateMachine() {
+    public FiniteStateMachine getStateMachine() {
         return stateMachine;
     }
 
-    //    private void enqueueParcel() {
-//        if (!incomingParcels.isEmpty()) {
-//            Pair<Parcel, Route> pair = incomingParcels.remove();
-//            parcelInProcessing = pair.getKey();
-//            currentRoute = pair.getValue();
-//        }
-//    }
-//
-//    private void departingParcel() {
-//        Pair<Parcel, Route> pair = new Pair<>(parcelInProcessing, currentRoute);
-//        outgoingParcels.add(pair);
-//        parcelInProcessing = null;
-//        currentRoute = null;
-//    }
-//
-//    public void addParcel(Parcel parcel, Route route) {
-//        Pair<Parcel, Route> pair = new Pair<>(parcel, route);
-//        incomingParcels.add(pair);
-//    }
-
-//    public Queue<Pair<Parcel, Route>> getIncomingParcels() {
-//        return incomingParcels;
-//    }
-//
-//    public Queue<Pair<Parcel, Route>> getOutgoingParcels() {
-//        return outgoingParcels;
-//    }
-
-//    public void activate(ClockSignal signal) {
-//        if (stateMachine.getCurrentState().equals(State.DEPARTED)) {
-//            departingParcel();
-//            stateMachine.handle();
-//        }
-//        if (stateMachine.getCurrentState().equals(State.TERMINAL)) {
-//            enqueueParcel();
-//        }
-//        if (parcelInProcessing != null) {
-//            stateMachine.handle();
-//        }
-//    }
-
-    public void setStateMachine(FiniteStateMachine stateMachine) {
+    public <E extends Enum<E>, C extends Context> void setStateMachine(FiniteStateMachine<E, C> stateMachine) {
         this.stateMachine = stateMachine;
     }
 
@@ -94,12 +47,8 @@ public class PostOffice extends Entity<PostOfficeId> {
         outputs.add(connection);
     }
 
-//    public Optional<Parcel> getParcelInProcessing() {
-//        return Optional.ofNullable(parcelInProcessing);
-//    }
-
-    public State getCurrentState() {
-        return stateMachine.getCurrentState();
+    public <E extends Enum<E>> E getCurrentState() {
+        return (E) stateMachine.getCurrentState();
     }
 
     public String getPostalCode() {

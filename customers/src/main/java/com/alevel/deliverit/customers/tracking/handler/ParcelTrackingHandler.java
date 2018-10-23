@@ -20,10 +20,10 @@ import java.util.*;
 public class ParcelTrackingHandler implements BusinessLogicService {
 
     private final Set<ParcelReceipt> parcelReceipts = new HashSet<>();
-    private final Set<PostOffice> postOffices = PostNetwork.instance().getPostOffices();
+    //    private final Set<PostOffice> postOffices = PostNetwork.instance().getPostOffices();
     private final Set<PostUnit> postUnits = PostNetwork.instance().getPostUnits();
     private final Map<Parcel, PostOffice> parcelRepository = new HashMap<>();
-    private final Map<PostUnit, PostOffice> units = PostNetwork.instance().getUnits();
+//    private final Map<PostUnit, PostOffice> units = PostNetwork.instance().getUnits();
 
     private ParcelTrackingHandler() {
 
@@ -35,17 +35,18 @@ public class ParcelTrackingHandler implements BusinessLogicService {
 
     @Subscribe("parcel.tracking.service")
     public void handle(ClockSignal signal) throws IllegalStateException {
-        for (PostOffice office : postOffices) {
-            Queue<Pair<Parcel, Route>> outgoingParcels = office.getOutgoingParcels();
+        for (PostUnit unit : postUnits) {
+            Queue<Pair<Parcel, Route>> outgoingParcels = unit.getOutgoingParcels();
             if (!outgoingParcels.isEmpty()) {
-                PostOffice nextOffice = outgoingParcels.peek().getValue().findNext(office);
-                if (!nextOffice.equals(office)) {
+                PostOffice nextOffice = outgoingParcels.peek().getValue().findNext(unit.getPostOffice());
+                PostUnit nextUnit = PostNetwork.instance().findUnit(nextOffice.getId().getValue()).get();
+                if (!nextUnit.equals(unit)) {
                     Pair<Parcel, Route> remove = outgoingParcels.remove();
-                    nextOffice.addParcel(remove.getKey(), remove.getValue());
-                    parcelRepository.put(remove.getKey(), office);
-                } else delivered(outgoingParcels.peek().getKey(), office);
+                    nextUnit.addParcel(remove.getKey(), remove.getValue());
+                    parcelRepository.put(remove.getKey(), unit.getPostOffice());
+                } else delivered(outgoingParcels.peek().getKey(), unit.getPostOffice());
             }
-            office.activate(signal);
+            unit.activate(signal);
         }
     }
 
@@ -65,7 +66,8 @@ public class ParcelTrackingHandler implements BusinessLogicService {
         Parcel parcel = receipt.getParcel();
         Route route = receipt.getRoute();
         PostOffice postOffice = route.getUnits().get(0);
-        postOffice.addParcel(parcel, route);
+        PostUnit postUnit = PostNetwork.instance().findUnit(postOffice.getId().getValue()).get();
+        postUnit.addParcel(parcel, route);
         parcelRepository.put(parcel, postOffice);
     }
 
