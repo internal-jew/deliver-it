@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Vadym Mitin
  */
 @DisplayName("FSM should")
-public class FSMTest {
+public class oldFSMTest {
     @Test
     @DisplayName("take the parcel from the inbox, process it and throw it into the outgoing box")
     void test() {
