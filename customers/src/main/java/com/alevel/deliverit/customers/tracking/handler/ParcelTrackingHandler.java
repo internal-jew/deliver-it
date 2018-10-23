@@ -20,10 +20,8 @@ import java.util.*;
 public class ParcelTrackingHandler implements BusinessLogicService {
 
     private final Set<ParcelReceipt> parcelReceipts = new HashSet<>();
-    //    private final Set<PostOffice> postOffices = PostNetwork.instance().getPostOffices();
     private final Set<PostUnit> postUnits = PostNetwork.instance().getPostUnits();
     private final Map<Parcel, PostOffice> parcelRepository = new HashMap<>();
-//    private final Map<PostUnit, PostOffice> units = PostNetwork.instance().getUnits();
 
     private ParcelTrackingHandler() {
 
@@ -38,13 +36,20 @@ public class ParcelTrackingHandler implements BusinessLogicService {
         for (PostUnit unit : postUnits) {
             Queue<Pair<Parcel, Route>> outgoingParcels = unit.getOutgoingParcels();
             if (!outgoingParcels.isEmpty()) {
-                PostOffice nextOffice = outgoingParcels.peek().getValue().findNext(unit.getPostOffice());
-                PostUnit nextUnit = PostNetwork.instance().findUnit(nextOffice.getId().getValue()).get();
+                PostNetwork postNetwork = PostNetwork.instance();
+                Pair<Parcel, Route> pair = outgoingParcels.peek();
+                Route pairRoute = pair.getValue();
+                PostOffice nextOffice = pairRoute.findNext(unit.getPostOffice());
+                Long nextOfficeId = nextOffice.getId().getValue();
+                PostUnit nextUnit = postNetwork.findUnit(nextOfficeId).get();
+
                 if (!nextUnit.equals(unit)) {
                     Pair<Parcel, Route> remove = outgoingParcels.remove();
-                    nextUnit.addParcel(remove.getKey(), remove.getValue());
-                    parcelRepository.put(remove.getKey(), unit.getPostOffice());
-                } else delivered(outgoingParcels.peek().getKey(), unit.getPostOffice());
+                    Parcel parcel = remove.getKey();
+                    Route route = remove.getValue();
+                    nextUnit.addParcel(parcel, route);
+                    parcelRepository.put(parcel, unit.getPostOffice());
+                } else delivered(pair.getKey(), unit.getPostOffice());
             }
             unit.activate(signal);
         }

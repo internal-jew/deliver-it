@@ -17,7 +17,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Vadym Mitin
  */
 public class PostOffice extends Entity<PostOfficeId> {
-    private final String postalCode;
+    private String postalCode;
     private Set<Connection> inputs = new HashSet<>();
     private Set<Connection> outputs = new HashSet<>();
     private FiniteStateMachine stateMachine;
@@ -45,6 +45,35 @@ public class PostOffice extends Entity<PostOfficeId> {
 
     public void addOutputConnection(Connection connection) {
         outputs.add(connection);
+    }
+
+
+    public static class Builder {
+        private PostOfficeId id;
+        private String name;
+        private Set<State> states;
+
+        public Builder setId(PostOfficeId id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setStates(Set<State> states) {
+            this.states = states;
+            return this;
+        }
+
+        public PostOffice build() {
+            checkNotNull(id);
+            checkNotNull(name);
+
+            return new PostOffice(id, name);
+        }
     }
 
     public <E extends Enum<E>> E getCurrentState() {
@@ -94,33 +123,5 @@ public class PostOffice extends Entity<PostOfficeId> {
                 ", inputs=" + getConnectionsAsString(inputs) +
                 ", outputs=" + getConnectionsAsString(outputs) +
                 '}';
-    }
-
-    public static class Builder {
-        private PostOfficeId id;
-        private String name;
-        private Set<State> states;
-
-        public Builder setId(PostOfficeId id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder setStates(Set<State> states) {
-            this.states = states;
-            return this;
-        }
-
-        public PostOffice build() {
-            checkNotNull(id);
-            checkNotNull(name);
-
-            return new PostOffice(id, name);
-        }
     }
 }
