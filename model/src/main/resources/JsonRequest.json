@@ -48,14 +48,10 @@
       }
     },
     "StartPostOffice": {
-      "PostOfficeId": {
-        "value": 1
-      }
+      "id": 1
     },
     "FinishPostOffice": {
-      "PostOfficeId": {
-        "value": 9
-      }
+      "id": 9
     }
   }
 }

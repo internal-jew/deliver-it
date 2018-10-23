@@ -1,8 +1,10 @@
-package com.alevel.deliverit.logistics.postal.network;
+package com.alevel.deliverit.postal.network;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import com.alevel.deliverit.logistics.postal.network.Connection;
+import com.alevel.deliverit.logistics.postal.network.PostOffice;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.*;
 
 /**
  * Represents a network of postal offices and connections between them.
@@ -17,11 +19,24 @@ public class PostNetwork {
     }
     //ToDo  Create real postal network
 
-    private Set<PostOffice> postOffices = new HashSet<>();
+    private Set<PostOffice> postOffices = new LinkedHashSet<>();
     private Set<Connection> connections = new HashSet<>();
+    private Set<PostUnit> postUnits = new LinkedHashSet<>();
+    private Map<PostUnit, PostOffice> units = new LinkedHashMap<>();
 
     private void addPostOffice(PostOffice postOffice) {
         postOffices.add(postOffice);
+
+    }
+
+    public void addUnit(PostOffice office) {
+        PostUnit unit = new PostUnit(office);
+        postUnits.add(unit);
+        units.put(unit, office);
+    }
+
+    public Map<PostUnit, PostOffice> getUnits() {
+        return units;
     }
 
     public void addConnection(Connection connection) {
@@ -48,6 +63,12 @@ public class PostNetwork {
                 .findFirst();
     }
 
+    public Optional<PostUnit> findUnit(Long id) {
+        return postUnits.stream()
+                .filter(office -> office.getPostOffice().getId().getValue().equals(id))
+                .findFirst();
+    }
+
     public boolean contains(PostOffice postOffice) {
         return postOffices.contains(postOffice);
     }
@@ -58,6 +79,10 @@ public class PostNetwork {
 
     public Set<Connection> getConnections() {
         return connections;
+    }
+
+    public Set<PostUnit> getPostUnits() {
+        return postUnits;
     }
 
     public static PostNetwork instance() {

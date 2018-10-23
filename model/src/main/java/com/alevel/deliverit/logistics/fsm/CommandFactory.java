@@ -1,6 +1,5 @@
 package com.alevel.deliverit.logistics.fsm;
 
-
 import java.util.Optional;
 
 /**
@@ -8,5 +7,5 @@ import java.util.Optional;
  */
 public abstract class CommandFactory<E extends Enum<E>, C extends Context> {
 
-    public abstract Optional<Command> getCommand(E currentState, C context);
+    public abstract Optional<Command<C>> getCommand(E currentState, C context);
 }

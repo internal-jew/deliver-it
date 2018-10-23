@@ -1,12 +1,15 @@
 package com.alevel.deliverit.fsm;
 
-import com.alevel.deliverit.logistics.fsm.FiniteStateMachine;
+import com.alevel.deliverit.logistics.fsm.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static com.alevel.deliverit.fsm.State.START;
+import static com.alevel.deliverit.logistics.fsm.State.ACCEPTING;
+import static com.alevel.deliverit.logistics.fsm.State.EXPECTATION;
+
 
 /**
  * Unit test for finite state machine.
@@ -24,7 +27,9 @@ public class FsmTest {
         Map routeMap = RouteMap.routeMap;
         LogisticContext context = new LogisticContext();
         FiniteStateMachine<State, LogisticContext> finiteStateMachine
-                = new FiniteStateMachine<State, LogisticContext>(logisticCommandFactory, routeMap, START);
+                = new FiniteStateMachineImpl<State, LogisticContext>(logisticCommandFactory, routeMap, EXPECTATION);
         finiteStateMachine.start(context);
+
+        Assertions.assertEquals(ACCEPTING, finiteStateMachine.getCurrentState());
     }
 }

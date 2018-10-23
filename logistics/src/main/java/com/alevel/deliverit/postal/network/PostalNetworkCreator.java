@@ -1,10 +1,18 @@
-package com.alevel.deliverit.logistics.postal.network;
+package com.alevel.deliverit.postal.network;
 
+import com.alevel.deliverit.logistics.fsm.*;
+import com.alevel.deliverit.logistics.postal.network.Connection;
+import com.alevel.deliverit.logistics.postal.network.PostOffice;
+import com.alevel.deliverit.logistics.postal.network.PostOfficeId;
 import com.alevel.deliverit.logistics.postal.network.constraint.Constraint;
 import com.alevel.deliverit.logistics.postal.network.constraint.SimpleConstraint;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import static com.alevel.deliverit.logistics.fsm.State.EXPECTATION;
 
 /**
  * @author Vadym Mitin
@@ -30,18 +38,41 @@ public class PostalNetworkCreator {
     }
 
     public static void buildFakeNetwork() {
-        PostOffice postOffice1 = fakeOffice(1L);
-        PostOffice postOffice2 = fakeOffice(2L);
-        PostOffice postOffice3 = fakeOffice(3L);
-        PostOffice postOffice4 = fakeOffice(4L);
-        PostOffice postOffice5 = fakeOffice(5L);
-        PostOffice postOffice6 = fakeOffice(6L);
-        PostOffice postOffice7 = fakeOffice(7L);
-        PostOffice postOffice8 = fakeOffice(8L);
-        PostOffice postOffice9 = fakeOffice(9L);
-        PostOffice postOffice10 = fakeOffice(10L);
-
         final PostNetwork postNetwork = PostNetwork.instance();
+
+        PostOffice postOffice1 = fakeOffice(1L);
+        postNetwork.addUnit(postOffice1);
+        PostOffice postOffice2 = fakeOffice(2L);
+        postNetwork.addUnit(postOffice2);
+        PostOffice postOffice3 = fakeOffice(3L);
+        postNetwork.addUnit(postOffice3);
+        PostOffice postOffice4 = fakeOffice(4L);
+        postNetwork.addUnit(postOffice4);
+        PostOffice postOffice5 = fakeOffice(5L);
+        postNetwork.addUnit(postOffice5);
+        PostOffice postOffice6 = fakeOffice(6L);
+        postNetwork.addUnit(postOffice6);
+        PostOffice postOffice7 = fakeOffice(7L);
+        postNetwork.addUnit(postOffice7);
+        PostOffice postOffice8 = fakeOffice(8L);
+        postNetwork.addUnit(postOffice8);
+        PostOffice postOffice9 = fakeOffice(9L);
+        postNetwork.addUnit(postOffice9);
+        PostOffice postOffice10 = fakeOffice(10L);
+        postNetwork.addUnit(postOffice10);
+
+        Map<State, ImmutableSet<State>> routeMap = RouteMap.routeMap;
+        postOffice1.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice2.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice3.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice4.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice5.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice6.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice7.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice8.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice9.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice10.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+
 
         postNetwork.addConnection(fakeConnection(postOffice1, postOffice2, 5));
         postNetwork.addConnection(fakeConnection(postOffice1, postOffice3, 2));

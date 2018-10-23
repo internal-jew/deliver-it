@@ -1,6 +1,7 @@
 package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
+import com.alevel.deliverit.gateway.RouteLookup;
 import com.alevel.deliverit.logistics.postal.network.Route;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -12,14 +13,15 @@ import io.vertx.core.eventbus.Message;
  */
 public class LogisticsGateway {
     public static Route find(RouteLookupRequest request) {
-        Future<Route> route = Future.future();
-        VertxContext.instance().eventBus().send("logistics.calculate.distance", request, reply -> {
-            if (reply.succeeded()) {
-                route.complete((Route) reply.result().body());
-            } else {
-                throw new IllegalStateException("LogisticsGateway Error");
-            }
-        });
-        return route.result();
+//        Future<Route> route = Future.future();
+//        VertxContext.instance().eventBus().send("logistics.calculate.distance", request, reply -> {
+//            if (reply.succeeded()) {
+//                route.complete((Route) reply.result().body());
+//            } else {
+//                throw new IllegalStateException("LogisticsGateway Error");
+//            }
+//        });
+//        return route.result();
+        return RouteLookup.find(request);
     }
 }

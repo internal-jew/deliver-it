@@ -8,7 +8,7 @@ import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
 import com.alevel.deliverit.logistics.TrackNumber;
 import com.alevel.deliverit.logistics.postal.network.Route;
-import com.google.common.annotations.VisibleForTesting;
+import com.alevel.deliverit.customers.tracking.handler.ParcelTrackingHandler;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -42,13 +42,19 @@ public class ParcelReception {
         EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
         TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
 
-        return ParcelReceipt
+        ParcelReceipt parcelReceipt = ParcelReceipt
                 .builder()
                 .setParcel(parcel)
                 .setDeliveryTime(estimatedDeliveryTime)
                 .setPrice(price)
                 .setTrackNumber(trackNumber)
+                .setRoute(route)
                 .build();
+
+
+        ParcelTrackingHandler.instance().registerReceipt(parcelReceipt);
+
+        return parcelReceipt;
     }
 
     private ParcelReception(Parcel parcel,

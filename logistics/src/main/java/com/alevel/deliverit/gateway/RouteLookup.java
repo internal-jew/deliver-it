@@ -5,7 +5,7 @@ import com.alevel.deliverit.Subscribe;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
 import com.alevel.deliverit.logistics.postal.network.PostOffice;
 import com.alevel.deliverit.logistics.postal.network.Route;
-import com.alevel.deliverit.logistics.postal.network.PostNetwork;
+import com.alevel.deliverit.postal.network.PostNetwork;
 import com.alevel.deliverit.postal.network.dijkstra.DijkstraAlgorithm;
 
 import java.util.Optional;
