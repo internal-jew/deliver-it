@@ -23,6 +23,9 @@ class RestTest {
     @Test
     @DisplayName("Parse json to Object")
     void testParseToObject() {
+
+//        initVertx();
+
         ParcelReceptionEndpoint parcelReceptionEndpoint = new ParcelReceptionEndpoint();
 
         try {
@@ -59,4 +62,26 @@ class RestTest {
             e.printStackTrace();
         }
     }
+
+//    private void initVertx() {
+//        VertxOptions vertxOptions = new VertxOptions();
+//        vertxOptions.setMaxEventLoopExecuteTime(Long.MAX_VALUE);
+//
+//        Vertx vertx = Vertx.vertx(vertxOptions);
+//        vertx.eventBus().registerCodec(new DefaultCodec());
+//
+//        getInstance().registerConsumers(new RouteLookup());
+//        getInstance().registerConsumers(new PriceLookup());
+//        getInstance().registerConsumers(new DeliveryTimeLookup());
+//        getInstance().registerConsumers(new TrackNumberLookup());
+//
+//        vertx.deployVerticle(new LogisticsVerticle());
+//        vertx.deployVerticle(new CustomersVerticle());
+//
+//        try {
+//            Thread.sleep(200);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

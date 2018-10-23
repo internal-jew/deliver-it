@@ -16,6 +16,8 @@ public class PriceLookup implements BusinessLogicService {
     @Subscribe(BILLING_CALCULATE_PRICE)
     public static Money calculate(PriceLookupRequest request) {
         EstimatedPriceCalculator estimatedPriceCalculator = new EstimatedPriceCalculator();
-        return estimatedPriceCalculator.calculate(request.getParcelWeight(), request.getRoute());
+        final Money money = estimatedPriceCalculator.calculate(request.getParcelWeight(), request.getRoute());
+        System.out.println("Price parcel: " + money.getValue());
+        return money;
     }
 }

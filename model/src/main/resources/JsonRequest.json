@@ -14,7 +14,7 @@
         "street": "Lenina",
         "apartmentNumber": "54",
         "city": "jamanja",
-        "postalCode": "977",
+        "postalCode": "PU_1",
         "country": {
           "country": "Russia",
           "countryCode": "RU"
@@ -41,7 +41,7 @@
       "street": "Pushkina",
       "apartmentNumber": "365",
       "city": "herznaetgde",
-      "postalCode": "448",
+      "postalCode": "PU_9",
       "country": {
         "country": "Ukraine",
         "countryCode": "UA"

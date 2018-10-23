@@ -15,7 +15,8 @@ public class DeliveryTimeLookup implements BusinessLogicService {
 
     @Subscribe(LOGISTICS_ESTIMATE_DELIVERY_TIME)
     public static EstimatedDeliveryTime estimate(DeliveryTimeRequest request) {
-        System.out.println("Estimate delivery time " + request.getParcel().getName());
-        return new DeliveryTime().estimate(request.getParcel(), request.getRoute());
+        final EstimatedDeliveryTime deliveryTime = new DeliveryTime().estimate(request.getParcel(), request.getRoute());
+        System.out.println("Delivery time: " + deliveryTime.getEstimatedDeliveryTime().toString());
+        return deliveryTime;
     }
 }

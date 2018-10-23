@@ -19,7 +19,7 @@ public class RouteLookup implements BusinessLogicService {
 
     @Subscribe(LOGISTICS_CALCULATE_DISTANCE)
     public static Route find(RouteLookupRequest request) {
-        System.out.println("Find route");
+        System.out.println("Find route:");
 
         PostOffice startOffice = getPostOffice(request.getStart());
         PostOffice endOffice = getPostOffice(request.getFinish());

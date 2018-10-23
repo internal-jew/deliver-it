@@ -2,7 +2,6 @@ package com.alevel.deliverit;
 
 import com.alevel.deliverit.customers.ParcelReceipt;
 import com.alevel.deliverit.customers.ParcelReception;
-import com.alevel.deliverit.logistics.TrackNumberRepository;
 
 /**
  * @author Vitalii Usatyi
@@ -16,9 +15,6 @@ public class ParcelReceptionEndpoint {
                         .builder()
                         .setSender(request.getSender())
                         .setParcel(request.getParcel())
-                        .setTrackNumbers(TrackNumberRepository.getInstance())
-                        .setEstimatedPriceCalculator(new EstimatedPriceCalculator())
-                        .setDeliveryTime(new DeliveryTime())
                         .build();
         return parcelReception.accept();
     }
