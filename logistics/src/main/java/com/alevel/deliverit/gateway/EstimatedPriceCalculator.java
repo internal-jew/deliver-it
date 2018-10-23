@@ -1,4 +1,4 @@
-package com.alevel.deliverit;
+package com.alevel.deliverit.gateway;
 
 import com.alevel.deliverit.billing.Money;
 import com.alevel.deliverit.logistics.Weight;
