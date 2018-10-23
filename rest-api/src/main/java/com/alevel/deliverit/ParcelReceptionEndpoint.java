@@ -2,14 +2,17 @@ package com.alevel.deliverit;
 
 import com.alevel.deliverit.customers.ParcelReceipt;
 import com.alevel.deliverit.customers.ParcelReception;
+import com.alevel.deliverit.gateway.EstimatedPriceCalculator;
 import com.alevel.deliverit.logistics.TrackNumberRepository;
+
+import java.util.function.Consumer;
 
 /**
  * @author Vitalii Usatyi
  */
 public class ParcelReceptionEndpoint {
 
-    ParcelReceipt accept(String jsonString) {
+    void accept(String jsonString, Consumer<ParcelReceipt> callback) {
         ParcelReceptionRequest request = ParcelReceptionRequest.parser().parse(jsonString);
         ParcelReception parcelReception =
                 ParcelReception
@@ -20,6 +23,6 @@ public class ParcelReceptionEndpoint {
                         .setEstimatedPriceCalculator(new EstimatedPriceCalculator())
                         .setDeliveryTime(new DeliveryTime())
                         .build();
-        return parcelReception.accept();
+        parcelReception.accept(callback);
     }
 }

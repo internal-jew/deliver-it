@@ -1,15 +1,23 @@
 package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
-import com.alevel.deliverit.EstimatedPriceCalculator;
 import com.alevel.deliverit.billing.Money;
 import com.alevel.deliverit.customers.factory.RequestLookupFactory;
 import com.alevel.deliverit.customers.gateway.BillingGateway;
 import com.alevel.deliverit.customers.gateway.LogisticsGateway;
 import com.alevel.deliverit.customers.request.PriceLookupRequest;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
-import com.alevel.deliverit.logistics.*;
+import com.alevel.deliverit.gateway.EstimatedPriceCalculator;
+import com.alevel.deliverit.logistics.EstimatedDeliveryTime;
+import com.alevel.deliverit.logistics.TrackNumber;
+import com.alevel.deliverit.logistics.TrackNumberRepository;
+import com.alevel.deliverit.logistics.TrackNumberRequest;
 import com.alevel.deliverit.logistics.postal.network.Route;
+
+import java.time.LocalDate;
+import java.util.Currency;
+import java.util.Locale;
+import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,56 +34,6 @@ public class ParcelReception {
     private DeliveryTime deliveryTime;
     private TrackNumberRepository trackNumbers;
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    /**
-     * Implements the scenarios of package reception from a sender.
-     *
-     * @return {@link ParcelReceipt package receipt}
-     */
-    public ParcelReceipt accept() {
-        Route route = getRoute();
-
-        Money price = getMoney(route);
-
-        EstimatedDeliveryTime estimatedDeliveryTime = getDeliveryTime(route);
-
-        TrackNumber trackNumber = getTrackNumber();
-
-        return ParcelReceipt
-                .builder()
-                .setParcel(parcel)
-                .setDeliveryTime(estimatedDeliveryTime)
-                .setPrice(price)
-                .setTrackNumber(trackNumber)
-                .build();
-    }
-
-    private TrackNumber getTrackNumber() {
-        //        TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
-        TrackNumberRequest trackNumberRequest = RequestLookupFactory.newTrackNumberRequest(parcel);
-        return LogisticsGateway.registerParcel(trackNumberRequest);
-    }
-
-    private EstimatedDeliveryTime getDeliveryTime(Route route) {
-        //        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
-        DeliveryTimeRequest deliveryTimeRequest = RequestLookupFactory.newDeliveryTimeRequest(parcel, route);
-        return LogisticsGateway.estimate(deliveryTimeRequest);
-    }
-
-    private Money getMoney(Route route) {
-        //        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
-        PriceLookupRequest priceLookupRequest = RequestLookupFactory.newPriceRequest(parcel, route);
-        return BillingGateway.estimatedPrice(priceLookupRequest);
-    }
-
-    private Route getRoute() {
-        RouteLookupRequest request = RequestLookupFactory.newRouteRequest(parcel, sender);
-        return LogisticsGateway.find(request);
-    }
-
     private ParcelReception(Parcel parcel,
                             Sender sender,
                             EstimatedPriceCalculator estimatedPriceCalculator,
@@ -86,6 +44,54 @@ public class ParcelReception {
         this.estimatedPriceCalculator = estimatedPriceCalculator;
         this.deliveryTime = deliveryTime;
         this.trackNumbers = trackNumbers;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Implements the scenarios of package reception from a sender.
+     *
+     * @return {@link ParcelReceipt package receipt}
+     */
+    public void accept(Consumer<ParcelReceipt> result) {
+        getRoute(route -> {
+            getMoney(route, money -> {
+                getTrackNumber(trackNumber -> {
+                    result.accept(ParcelReceipt
+                            .builder()
+                            .setParcel(parcel)
+                            .setDeliveryTime(new EstimatedDeliveryTime(LocalDate.now()))
+                            .setPrice(new Money(123, Currency.getInstance(Locale.CANADA)))
+                            .setTrackNumber(trackNumber)
+                            .build());
+                });
+            });
+        });
+    }
+
+    private TrackNumber getTrackNumber(Consumer<TrackNumber> callback) {
+        //        TrackNumber trackNumber = trackNumbers.registerParcel(parcel);
+        TrackNumberRequest trackNumberRequest = RequestLookupFactory.newTrackNumberRequest(parcel);
+        return LogisticsGateway.registerParcel(trackNumberRequest, callback);
+    }
+
+//    private EstimatedDeliveryTime getDeliveryTime(Route route) {
+//        //        EstimatedDeliveryTime estimatedDeliveryTime = deliveryTime.estimate(parcel, route);
+//        DeliveryTimeRequest deliveryTimeRequest = RequestLookupFactory.newDeliveryTimeRequest(parcel, route);
+//        return LogisticsGateway.estimate(deliveryTimeRequest);
+//    }
+
+    private Money getMoney(Route route, Consumer<Money> callback) {
+        //        Money price = estimatedPriceCalculator.calculate(parcel.getWeight(), route);
+        PriceLookupRequest priceLookupRequest = RequestLookupFactory.newPriceRequest(parcel, route);
+        return BillingGateway.estimatedPrice(priceLookupRequest, callback);
+    }
+
+    private Route getRoute(Consumer<Route> callback) {
+        RouteLookupRequest request = RequestLookupFactory.newRouteRequest(parcel, sender);
+        return LogisticsGateway.find(request, callback);
     }
 
     public static class Builder {
