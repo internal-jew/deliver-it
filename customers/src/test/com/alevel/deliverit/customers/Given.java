@@ -1,21 +1,16 @@
 package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
-import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.logistics.TrackNumberRepository;
-import com.alevel.deliverit.logistics.Country;
-import com.alevel.deliverit.logistics.PostalAddress;
-import com.alevel.deliverit.logistics.Weight;
-import com.alevel.deliverit.logistics.WeightUnit;
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
-import com.alevel.deliverit.logistics.postal.network.PostNetwork;
-
-import static org.mockito.Mockito.mock;
+import com.alevel.deliverit.PostCodeConst;
+import com.alevel.deliverit.gateway.EstimatedPriceCalculator;
+import com.alevel.deliverit.logistics.*;
 
 /**
  * @author Sergey Bogovesov
  */
 public class Given {
+    private static final long parcelPostCode = 1L;
+    private static final long senderPostCode = 9L;
 
     public static Country givenCountry() {
         return new Country("Ukraine", "UA");
@@ -38,18 +33,10 @@ public class Given {
     }
 
     public static SenderProfile givenSenderProfile() {
-        return new SenderProfile(givenName(), givenPostalAddress(), givenCountry());
+        return new SenderProfile(givenName(), givenPostalAddress(givenPostCode(senderPostCode)), givenCountry());
     }
 
-    public static PostOffice givenStartPostOffice() {
-        return PostNetwork.instance().find(1L).get();
-    }
-
-    public static PostOffice givenFinishPostOffice() {
-        return PostNetwork.instance().find(9L).get();
-    }
-
-    public static PostalAddress givenPostalAddress() {
+    public static PostalAddress givenPostalAddress(String postCode) {
         return PostalAddress.builder()
                 .setFirstName("Vasily")
                 .setLastName("Petrovich")
@@ -57,13 +44,17 @@ public class Given {
                 .setCountry(givenCountry())
                 .setCity("Mukhosransk")
                 .setApartmentNumber("999")
-                .setPostalCode("666")
+                .setPostalCode(postCode)
                 .setStreet("Sumskaya")
                 .build();
     }
 
     public static Parcel givenParcel() {
-        return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(), givenStartPostOffice(), givenFinishPostOffice());
+        return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(givenPostCode(parcelPostCode)));
+    }
+
+    public static String givenPostCode(Long idPostCode) {
+        return PostCodeConst.VALUE + idPostCode;
     }
 
     public static Sender givenSender() {

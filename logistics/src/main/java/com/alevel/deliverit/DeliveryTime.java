@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * @author Sergey Bogovesov
+ * @author Vadym Mitin
  */
 public class DeliveryTime {
 
@@ -19,12 +20,8 @@ public class DeliveryTime {
     private static final double DELAY_COEFFICIENT = 0.8;
 
     public EstimatedDeliveryTime estimate(Parcel parcel, Route route) {
-        //TODO https://github.com/internal-jew/deliver-it/issues/12
-//        System.out.println("`DeliveryTime.estimate` is not yet implemented");
-
         double postOfficeDelay = estimatePostOfficeDelay(route);
         double distance = estimateDistanceDelay(route);
-
 
         long delay = Double.valueOf(postOfficeDelay + distance).longValue();
         LocalDate estimatedData = LocalDate.now().plusDays(delay);

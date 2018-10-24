@@ -17,7 +17,7 @@ public class PostalAddress {
     private final String street;
     private final String apartmentNumber;
     private final String city;
-    private final String postalCode;
+    private final String postCode;
     private final Country country;
 
     private PostalAddress(Builder builder) {
@@ -27,7 +27,7 @@ public class PostalAddress {
         this.street = builder.street.toUpperCase();
         this.apartmentNumber = builder.apartmentNumber.toUpperCase();
         this.city = builder.city.toUpperCase();
-        this.postalCode = builder.postalCode.toUpperCase();
+        this.postCode = builder.postalCode.toUpperCase();
         this.country = builder.country;
     }
     public static Parser<PostalAddress> parser() {
@@ -42,8 +42,8 @@ public class PostalAddress {
         return country;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPostCode() {
+        return postCode;
     }
 
     public String getFirstName() {
@@ -85,7 +85,7 @@ public class PostalAddress {
         sb.append("\n");
         sb.append(city);
         sb.append(", ");
-        sb.append(postalCode);
+        sb.append(postCode);
         sb.append("\n");
         sb.append(country);
 

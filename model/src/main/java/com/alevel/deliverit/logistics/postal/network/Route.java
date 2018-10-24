@@ -1,5 +1,6 @@
 package com.alevel.deliverit.logistics.postal.network;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  *
  * @author Sergey Bogovesov
  */
-public class Route {
+public class Route implements Serializable {
     public static final int START_NODE = 0;
 
     private final List<PostOffice> nodes = new ArrayList<>();
@@ -31,9 +32,9 @@ public class Route {
         PostOffice startNode = nodes.get(START_NODE);
         PostOffice endNode = nodes.get(nodes.size() - 1);
 
-        System.out.println("Route from '" + startNode.getPostalCode() + "' to '" + endNode.getPostalCode() + "'");
+        System.out.println("Route from '" + startNode.getPostCode() + "' to '" + endNode.getPostCode() + "'");
         System.out.print("[");
-        nodes.forEach(node -> System.out.print(node.getPostalCode() + " --> "));
+        nodes.forEach(node -> System.out.print(node.getPostCode() + " --> "));
         System.out.print("weight: " + getWeight() + "]");
         System.out.println();
     }

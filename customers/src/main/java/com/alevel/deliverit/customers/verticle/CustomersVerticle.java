@@ -1,8 +1,6 @@
-package com.alevel.deliverit.customers;
+package com.alevel.deliverit.customers.verticle;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
-import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 
 /**
@@ -13,7 +11,10 @@ public class CustomersVerticle extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        Vertx vertx = Vertx.vertx();
         VertxContext.instance().setEventBus(vertx.eventBus());
+    }
+
+    public EventBus getEventsBus() {
+        return VertxContext.instance().eventBus();
     }
 }

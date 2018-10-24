@@ -17,4 +17,8 @@ public class Sender extends Entity<SenderId> {
     public static Parser<Sender> parser() {
         return new SenderParser();
     }
+
+    public SenderProfile getSenderProfile() {
+        return senderProfile;
+    }
 }

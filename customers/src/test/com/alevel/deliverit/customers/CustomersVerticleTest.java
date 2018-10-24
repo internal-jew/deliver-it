@@ -1,6 +1,8 @@
 package com.alevel.deliverit.customers;
 
+import com.alevel.deliverit.customers.gateway.LogisticsGateway;
 import com.alevel.deliverit.customers.request.RouteLookupRequest;
+import com.alevel.deliverit.customers.verticle.VertxContext;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -8,7 +10,8 @@ import io.vertx.core.eventbus.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Eugene Mitrofanov
@@ -35,7 +38,7 @@ class CustomersVerticleTest {
         TestEventBus eb = new TestEventBus();
         VertxContext.instance().setEventBus(eb);
         RouteLookupRequest request = new RouteLookupRequest(1L, 2L);
-        LogisticsGateway.find(request);
+//        LogisticsGateway.find(request);
         assertEquals(request, eb.request);
     }
 

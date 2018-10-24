@@ -1,11 +1,11 @@
 package com.alevel.deliverit.customers.request;
 
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
+import java.io.Serializable;
 
 /**
  * @author Sergey Bogovesov
  */
-public class RouteLookupRequest {
+public class RouteLookupRequest implements Serializable {
     private final Long start;
     private final Long finish;
 
