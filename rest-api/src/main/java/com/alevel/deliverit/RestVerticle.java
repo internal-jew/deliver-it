@@ -1,12 +1,10 @@
 package com.alevel.deliverit;
 
-import com.alevel.deliverit.customers.ParcelReceipt;
 import com.alevel.deliverit.customers.verticle.VertxContext;
 import com.alevel.deliverit.gateway.ByteArrayCodec;
 import com.alevel.deliverit.gateway.LogisticsVerticle;
 import com.google.gson.Gson;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
@@ -48,7 +46,6 @@ public class RestVerticle extends AbstractVerticle {
                 request.bodyHandler(buffer -> {
                     fullRequestBody.appendBuffer(buffer);
                     String jsonRequest = buffer.toString();
-                    System.out.println(jsonRequest.length());
 
                     new ParcelReceptionEndpoint().accept(jsonRequest, parcelReceipt -> {
                         String jsonResponse = new Gson().toJson(parcelReceipt);

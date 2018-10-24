@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * @author Sergey Bogovesov
+ * @author Vadym Mitin
  */
 public class DeliveryTime {
 

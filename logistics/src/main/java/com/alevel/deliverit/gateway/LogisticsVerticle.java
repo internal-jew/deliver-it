@@ -34,9 +34,7 @@ public class LogisticsVerticle extends AbstractVerticle {
             eb.consumer(address, message -> {
                 Optional optional = value.invokeConsumer(message.body());
                 if (optional.isPresent() && !optional.equals(Optional.empty())) {
-                    System.out.println("Sending reply");
                     message.reply(optional.get(), options);
-                    System.out.println("Reply sent");
                 }
             });
         }

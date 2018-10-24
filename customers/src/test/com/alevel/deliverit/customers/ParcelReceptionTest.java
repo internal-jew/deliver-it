@@ -9,10 +9,8 @@ import io.vertx.core.VertxOptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
-import static com.alevel.deliverit.customers.Given.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.alevel.deliverit.customers.Given.givenParcel;
+import static com.alevel.deliverit.customers.Given.givenSender;
 
 /**
  * @author Sergey Bogovesov
@@ -30,9 +28,6 @@ class ParcelReceptionTest {
                 .builder()
                 .setParcel(parcel)
                 .setSender(sender)
-                .setDeliveryTime(getDeliveryTime())
-                .setEstimatedPriceCalculator(getEstimatedPriceCalculator())
-                .setTrackNumbers(getTrackNumbers())
                 .build();
 
 
@@ -43,7 +38,7 @@ class ParcelReceptionTest {
         vertx.eventBus().registerCodec(new DefaultCodec());
 
         ModuleAPI.getInstance().registerConsumers(new RouteLookup());
-//        ModuleAPI.getInstance().registerConsumers(new PriceLookup());
+        ModuleAPI.getInstance().registerConsumers(new PriceLookup());
         ModuleAPI.getInstance().registerConsumers(new DeliveryTimeLookup());
         ModuleAPI.getInstance().registerConsumers(new TrackNumberLookup());
 

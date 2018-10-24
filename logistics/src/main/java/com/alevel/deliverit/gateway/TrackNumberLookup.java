@@ -15,7 +15,8 @@ public class TrackNumberLookup implements BusinessLogicService {
 
     @Subscribe(LOGISTICS_TRACK_NUMBER_REGISTER_PARCEL)
     public static TrackNumber registerParcel(TrackNumberRequest request) {
-        System.out.println("Register parcel " + request.getParcel().getName());
-        return TrackNumberRepository.getInstance().registerParcel(request.getParcel());
+        final TrackNumber trackNumber = TrackNumberRepository.getInstance().registerParcel(request.getParcel());
+        System.out.println("Track number: " + trackNumber.getUuid());
+        return trackNumber;
     }
 }

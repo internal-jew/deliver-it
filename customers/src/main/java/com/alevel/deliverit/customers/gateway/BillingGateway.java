@@ -23,7 +23,6 @@ public class BillingGateway {
         VertxContext.instance().eventBus().send(BILLING_CALCULATE_PRICE, request, options, reply -> {
             if (reply.succeeded()) {
                 callback.accept((Money) reply.result().body());
-//                money.complete((Money) reply.result().body());
             } else {
                 throw new IllegalStateException("BillingGateway Error " + reply.cause());
             }

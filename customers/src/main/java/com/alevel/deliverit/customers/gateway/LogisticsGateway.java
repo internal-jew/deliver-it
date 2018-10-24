@@ -24,11 +24,8 @@ public class LogisticsGateway {
         DeliveryOptions options = VertxContext.instance().getOptions().setCodecName(ByteArrayCodec.CODEC_NAME);
 
         Future<T> route = Future.future();
-        System.out.println("Sending request " + address);
         VertxContext.instance().eventBus().send(address, request, options, reply -> {
-            System.out.println("Response came");
             if (reply.succeeded()) {
-                System.out.println("Response succeed");
                 callback.accept((T) reply.result().body());
             } else {
                 reply.cause().printStackTrace();
