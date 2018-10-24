@@ -14,7 +14,7 @@ public class LogisticCommandFactory extends CommandFactory<State, LogisticContex
         switch (currentState) {
             case START:
                 break;
-            case EXPECTATION:
+            case STANDBY:
                 if (!context.isExpectation) {
 
                     return of(new ExpectationCommand());

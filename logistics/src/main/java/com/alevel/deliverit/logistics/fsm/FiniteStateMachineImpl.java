@@ -41,7 +41,7 @@ public class FiniteStateMachineImpl<E extends Enum<E>, C extends Context> implem
 
     private void switchState(E state) {
         currentState = state;
-        System.out.println(state);
+//        System.out.println(state);
     }
 
     @Override

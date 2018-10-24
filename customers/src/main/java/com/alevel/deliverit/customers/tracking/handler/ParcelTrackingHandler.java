@@ -49,6 +49,7 @@ public class ParcelTrackingHandler implements BusinessLogicService {
                     Route route = remove.getValue();
                     nextUnit.addParcel(parcel, route);
                     parcelRepository.put(parcel, unit.getPostOffice());
+                    System.out.println("Parcel: " + parcel.getId().getValue() + " sent to post office: " + nextOfficeId);
                 } else delivered(pair.getKey(), unit.getPostOffice());
             }
             unit.activate(signal);
@@ -74,6 +75,7 @@ public class ParcelTrackingHandler implements BusinessLogicService {
         PostUnit postUnit = PostNetwork.instance().findUnit(postOffice.getId().getValue()).get();
         postUnit.addParcel(parcel, route);
         parcelRepository.put(parcel, postOffice);
+        System.out.println("parcel: " + parcel.getId().getValue() + " is registered and deliver to post ofiice: " + postOffice.getId().getValue());
     }
 
     private enum Singleton {

@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.alevel.deliverit.logistics.fsm.State.EXPECTATION;
+import static com.alevel.deliverit.logistics.fsm.State.STANDBY;
 
 /**
  * @author Vadym Mitin
@@ -62,16 +62,16 @@ public class PostalNetworkCreator {
         postNetwork.addUnit(postOffice10);
 
         Map<State, ImmutableSet<State>> routeMap = RouteMap.routeMap;
-        postOffice1.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice2.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice3.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice4.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice5.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice6.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice7.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice8.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice9.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
-        postOffice10.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, EXPECTATION));
+        postOffice1.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice2.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice3.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice4.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice5.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice6.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice7.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice8.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice9.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
+        postOffice10.setStateMachine(new FiniteStateMachineImpl<>(new LogisticCommandFactory(), routeMap, STANDBY));
 
 
         postNetwork.addConnection(fakeConnection(postOffice1, postOffice2, 5));

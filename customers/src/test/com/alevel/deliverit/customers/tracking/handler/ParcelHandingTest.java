@@ -73,6 +73,6 @@ class ParcelHandingTest {
         handler.handle(signal); // STAMPING
         handler.handle(signal); // DEPARTED
         assertEquals(parcel1, unit9.getOutgoingParcels().peek().getKey());
-        handler.handle(signal); // EXPECTATION
+        handler.handle(signal); // STANDBY
     }
 }

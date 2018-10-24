@@ -2,15 +2,7 @@ package com.alevel.deliverit.customers;
 
 import com.alevel.deliverit.DeliveryTime;
 import com.alevel.deliverit.EstimatedPriceCalculator;
-import com.alevel.deliverit.logistics.TrackNumberRepository;
-import com.alevel.deliverit.logistics.Country;
-import com.alevel.deliverit.logistics.PostalAddress;
-import com.alevel.deliverit.logistics.Weight;
-import com.alevel.deliverit.logistics.WeightUnit;
-import com.alevel.deliverit.logistics.postal.network.PostOffice;
-import com.alevel.deliverit.postal.network.PostNetwork;
-
-import static org.mockito.Mockito.mock;
+import com.alevel.deliverit.logistics.*;
 
 /**
  * @author Sergey Bogovesov
@@ -26,7 +18,11 @@ public class Given {
     }
 
     public static ParcelId givenParcelId() {
-        return new ParcelId(10L);
+        return new ParcelId(1111L);
+    }
+
+    public static ParcelId givenParcelId2() {
+        return new ParcelId(2222L);
     }
 
     public static SenderId givenSenderId() {
@@ -75,7 +71,7 @@ public class Given {
     }
 
     public static Parcel givenParcel2() {
-        return new Parcel(givenParcelId(), givenWeight(), givenPostalAddress(), givenStartPostOffice2(), givenFinishPostOffice2());
+        return new Parcel(givenParcelId2(), givenWeight(), givenPostalAddress(), givenStartPostOffice2(), givenFinishPostOffice2());
     }
 
     public static Sender givenSender() {
